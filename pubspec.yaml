@@ -29,11 +29,31 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1
 
+  # 屏幕适配
+  flutter_screenutil: ^4.0.3+2
+  # rive(flare)动画
+  rive: ^0.6.8
+  # toast
+  fluttertoast: ^7.1.6
+  # 网络请求
+  dio: ^3.0.10
+  dio_cookie_manager: ^1.0.0
+  cookie_jar: ^1.0.1
+  # 本地存储
+  shared_preferences: ^0.5.12+4
+  # 状态管理
+  provider: ^4.3.3
+
+  # 序列化JSON
+  json_annotation:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
+  build_runner:
+  json_serializable:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -50,6 +70,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+    - assets/rives/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -76,3 +99,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Yinlei
+      fonts:
+        - asset: assets/fonts/hide-seek.ttf
+          weight: 400
+    - family: Iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
