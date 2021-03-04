@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/application/application.dart';
-import 'package:flutter_hide_seek_cat/pages/sign_in/login.dart';
-import 'package:flutter_hide_seek_cat/pages/sign_in/register.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/signin_page.dart';
 import 'package:flutter_hide_seek_cat/pages/welcome/welcome_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

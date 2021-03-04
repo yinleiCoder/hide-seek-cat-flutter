@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
       // onUnknownRoute: ,
       theme: ThemeData(
         // fontFamily: 'Yinlei'
-        primarySwatch: Colors.red,
-        primaryColor: AppColors.primaryColor,
         brightness: Brightness.light,
       ),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
+        primaryColorDark: AppColors.primaryColor,
+        accentColor: AppColors.primaryColor,
         brightness: Brightness.dark,
       ),
       routes: ylRoutes,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
+import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_page.dart';
 import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
 import 'package:flutter_hide_seek_cat/pages/news/news_page.dart';

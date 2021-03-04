@@ -14,7 +14,7 @@
 ### 本项目遵循的Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
 
 - SafeArea —— used
-- Expanded
+- Expanded —— used
 - Wrap
 - AnimatedContainer —— used
 - Opacity —— used
@@ -34,7 +34,7 @@
 - Hero
 - Tooltip
 - FittedBox
-- LayoutBuilder
+- LayoutBuilder —— used
 - AbsorbPointer
 - Transform —— used
 - ImageFilter
@@ -48,7 +48,7 @@
 - Draggable
 - AnimatedList
 - Stack —— used
-- Flexible
+- Flexible —— used
 - MediaQuery
 - Spacer
 - InheritedWidget
@@ -80,7 +80,7 @@
 - CupertinoActionSheet
 - TweenAnimationBuilder
 - Image —— used
-- TabBar
+- TabBar —— used
 - DefaultTabController
 - Drawer
 - SnackBar
@@ -94,7 +94,7 @@
 - Divider
 - IgnorePointer
 - CupertinoActivityIndicator
-- ClipOval
+- ClipOval —— used
 - AnimatedWidget
 - Padding
 - CheckboxListTile
