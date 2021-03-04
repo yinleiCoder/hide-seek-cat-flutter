@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_screenutil/size_extension.dart';
+import 'package:rive/rive.dart' hide LinearGradient;
 
 /**
  * 广场中的动态tab页
@@ -12,11 +14,27 @@ class PostPage extends StatefulWidget {
   _PostPageState createState() => _PostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
+
+  /// animated Icon.
+  AnimationController _animationController;
+  bool isClickCommentBtning = false;
+
+  /// rive.
+  final riveFileName = 'assets/rives/rudolph.riv';
+  Artboard _artboard;
+
+  List<String> tempTopics = [
+    '绵阳',
+    '乐山',
+    '小姐姐',
+    '性感',
+    '2021'
+  ];
 
   Widget _buildRecommendTopics({topicImg, userAvatar, userName}) {
     return AspectRatio(
-      aspectRatio: 2 / 1,
+      aspectRatio: 16 / 9,
       child: Container(
         margin: EdgeInsets.only(right: 10.w),
         decoration: BoxDecoration(
@@ -135,13 +153,26 @@ class _PostPageState extends State<PostPage> {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(publishImage, height: 200.h,width: 1.sw, fit: BoxFit.cover,),
+            child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(publishImage, width: 1.sw, fit: BoxFit.cover,),
+            ),
           ),
           SizedBox(
             height: 20.h,
           ),
+          Wrap(
+            spacing: 5.0,
+            children: tempTopics.map((tag) {
+              return Chip(
+                avatar: ClipOval(child: Image.network('https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', fit: BoxFit.cover,)),
+                label: Text(tag),
+              );
+            }).toList(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -176,9 +207,15 @@ class _PostPageState extends State<PostPage> {
                   ),
                 ],
               ),
-              Text(
-                  '821条评论'
-              ),
+              FlatButton.icon(onPressed: (){
+                setState(() {
+                  isClickCommentBtning = !isClickCommentBtning;
+                  isClickCommentBtning ? _animationController.forward() : _animationController.reverse();
+                });
+              }, icon: AnimatedIcon(
+                icon: AnimatedIcons.view_list,
+                progress: _animationController,
+              ), label: Text('821条评论')),
             ],
           ),
           SizedBox(
@@ -220,13 +257,39 @@ class _PostPageState extends State<PostPage> {
             ),
             moreDetail != null ? FlatButton.icon(
               icon: Icon(Icons.more_horiz),
-              onPressed: (){},
+              onPressed: (){
+              },
               label: Text(moreDetail),
             ) : Container(),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    _loadRiveFile();
+    super.initState();
+    _animationController = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 450),
+    );
+
+  }
+
+  /// load rive file.
+  void _loadRiveFile() async {
+    final bytes = await rootBundle.load(riveFileName);
+    final file = RiveFile();
+
+    if(file.import(bytes)) {
+      /// select an animation by its name
+      setState(() => _artboard = file.mainArtboard
+        ..addController(
+          SimpleAnimation('dance'),
+        ));
+    }
   }
 
   @override
@@ -251,9 +314,33 @@ class _PostPageState extends State<PostPage> {
               ],
             ),
           ),
+          Wrap(
+            spacing: 5.0,
+            children: tempTopics.map((tag) {
+              return Chip(
+                avatar: ClipOval(child: Image.network('https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', fit: BoxFit.cover,)),
+                label: Text(tag),
+                onDeleted: () {
+                  setState(() {
+                    tempTopics.remove(tag);
+                  });
+                },
+              );
+            }).toList(),
+          ),
           SizedBox(
             height: 20.h,
           ),
+          _artboard != null ? Container(
+            height: 200.h,
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              child: Rive(
+                artboard: _artboard,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ) : Text('Loading...'),
           _buildAreaTitle(areaTitle: '广场', isSqure: true),
           ListView.separated(
             itemCount: 20,
@@ -262,11 +349,17 @@ class _PostPageState extends State<PostPage> {
             separatorBuilder: (context, position) => Divider(),
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return   _buildOtherUsersPuslishedPost(userName: '尹哥', userAvatar: 'https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', publishTime: '1小时前', publishText: '美女作为礼物给你🎁，你喜欢吗？', publishImage: 'https://img.zcool.cn/community/01fb0060137f3811013f79281d481f.jpg@1280w_1l_2o_100sh.jpg');
+              return  _buildOtherUsersPuslishedPost(userName: '尹哥', userAvatar: 'https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', publishTime: '1小时前', publishText: '美女作为礼物给你🎁，你喜欢吗？', publishImage: 'https://img.zcool.cn/community/01fb0060137f3811013f79281d481f.jpg@1280w_1l_2o_100sh.jpg');
             },
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

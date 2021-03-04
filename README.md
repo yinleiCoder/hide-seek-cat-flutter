@@ -29,7 +29,7 @@
 - FadeInImage
 - StreamBuilder
 - InheritedModel
-- ClipRRect
+- ClipRRect —— used
 - CustomPaint
 - Hero
 - Tooltip
@@ -49,10 +49,10 @@
 - AnimatedList
 - Stack —— used
 - Flexible —— used
-- MediaQuery
+- MediaQuery —— used
 - Spacer
 - InheritedWidget
-- AnimatedIcon
+- AnimatedIcon —— used
 - AspectRatio —— used
 - Placeholder
 - LimitedBox
@@ -65,9 +65,9 @@
 - Semantics
 - ConstrainedBox
 - AnimatedOpacity
-- FractionallySizedBox
-- ListView
-- ListTitle
+- FractionallySizedBox —— used
+- ListView —— used
+- ListTitle —— used
 - Container —— used
 - SelectableText
 - DataTable
@@ -75,30 +75,30 @@
 - AlertDialog
 - AnimatedCrossFade
 - DraggableScrollableSheet
-- ColorFiltered
+- ColorFiltered —— used
 - ToggleButtons
 - CupertinoActionSheet
 - TweenAnimationBuilder
 - Image —— used
 - TabBar —— used
-- DefaultTabController
-- Drawer
+- DefaultTabController —— used
+- Drawer —— used
 - SnackBar
 - ListWheelScrollView
 - ShaderMask
 - NotificationListener
-- Builder
+- Builder —— used
 - ClipPath
 - CircularProgressIndicator
 - LinearProgressIndicator
-- Divider
+- Divider —— used
 - IgnorePointer
 - CupertinoActivityIndicator
 - ClipOval —— used
-- AnimatedWidget
-- Padding
+- AnimatedWidget —— used
+- Padding —— used
 - CheckboxListTile
-- AboutDialog
+- AboutDialog —— used
 - InteractiveViewer
 - GridView
 - SwitchListTile
