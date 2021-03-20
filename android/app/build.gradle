@@ -70,7 +70,7 @@ android {
             useProguard true
 
             /// 读取代码压缩配置文件
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

@@ -237,6 +237,16 @@ keytool -genkey -v -keystore ./key.jks -keyalg RSA -keysize 2048 -validity 10000
 
 【上述语法需要gradle知识】
 
+## 混淆
+
+android/gradle.properties添加：
+
+```js
+extra-gen-snapshot-options=--obfuscate
+```
+
+修改build相关release配置即可。
+
 ## 编译打包
 
 ```js
@@ -247,7 +257,7 @@ flutter build apk --split-per-abi
 
 
 
-”**躲猫猫“多端源码均可在我的仓库中找到：https://github.com/yinleiCoder**
+
 
 **如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
 
