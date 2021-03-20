@@ -19,14 +19,14 @@
 
 - SafeArea —— used
 - Expanded —— used
-- Wrap
+- Wrap —— used
 - AnimatedContainer —— used
 - Opacity —— used
 - FutureBuilder
 - FadeTransition —— used
 - FloatingActionButton —— used
 - PageView —— used
-- Table
+- Table —— used
 - SliverAppBar
 - SliverList
 - SliverGrid
@@ -54,7 +54,7 @@
 - Stack —— used
 - Flexible —— used
 - MediaQuery —— used
-- Spacer
+- Spacer —— used
 - InheritedWidget
 - AnimatedIcon —— used
 - AspectRatio —— used

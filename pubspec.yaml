@@ -47,6 +47,8 @@ dependencies:
   pk_skeleton: ^0.0.2
   # webview
   webview_flutter: ^2.0.2
+  # 分享
+  share: ^2.0.1
 
   # 序列化JSON
   json_annotation:

@@ -129,7 +129,6 @@ class _LearnPageState extends State<LearnPage> with AutomaticKeepAliveClientMixi
         ''');
   }
 
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -137,6 +136,9 @@ class _LearnPageState extends State<LearnPage> with AutomaticKeepAliveClientMixi
       appBar: AppBar(
         title: Text('祝大家早日进面，早日上岸🖐'),
         centerTitle: true,
+        actions: [
+          IconButton(icon: Icon(Icons.share), onPressed: () => appShareText(text: 'https://m.bilibili.com/space/300722822')),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
