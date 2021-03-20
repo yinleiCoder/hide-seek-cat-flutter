@@ -209,11 +209,15 @@ response = await dio.post("/info", data: formData);
 
 ## 启动图
 
+制作：https://www.canva.cn/design/DAEZRss1im4/MReV8kx4yCpmmJpLMtf9QQ/edit
 
+在线生成不同的图片格式：https://hotpot.ai/icon-resizer?s=sidebar
+
+然后将android/res/下的相关图片覆盖并修改drawable配置即可。
 
 ## 程序名称
 
-
+android下的清单文件下改label
 
 
 

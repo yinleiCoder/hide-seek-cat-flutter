@@ -3,7 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="flutter_hide_seek_cat"
+        android:label="躲猫猫"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity
