@@ -59,24 +59,26 @@ dependencies:
   permission_handler: ^6.1.1
   # 安装apk
   install_plugin: ^2.0.1
-
+  # 错误上报
+  sentry_flutter: ^4.0.6
 
   # 序列化JSON
   json_annotation:
 
+dependency_overrides:
+  http_parser : 3.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test:
+  #   sdk: flutter
   build_runner:
   json_serializable:
-  flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.9.0
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icons/cat.png"
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

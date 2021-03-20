@@ -257,6 +257,9 @@ flutter build apk --split-per-abi
 
 **如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
 
+## 错误上报
+Sentry: https://sentry.io/welcome/
+
 ------
 
 
