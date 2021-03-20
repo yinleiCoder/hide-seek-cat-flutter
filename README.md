@@ -219,7 +219,31 @@ response = await dio.post("/info", data: formData);
 
 android下的清单文件下改label
 
+## 生成证书
 
+AS可GUI操作，
+
+如果命令操作,进入app输入如下命令：
+
+```js
+keytool -genkey -v -keystore ./key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+```
+
+将在android/app/下生成key.jks
+
+然后android下新建key.properties编写配置。
+
+最后修改android/app/build.gradle配置即可。
+
+【上述语法需要gradle知识】
+
+## 编译打包
+
+```js
+flutter build apk --split-per-abi
+```
+
+打出的v8兼容v7,对外发布一般用v7包，x86是模拟器
 
 
 
