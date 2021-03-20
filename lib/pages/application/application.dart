@@ -31,6 +31,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
     super.initState();
     _pageController = PageController(
       initialPage: this._currentPage,
+      keepPage: true,
     );
 
     _loadCurrentAppUserInfo();
@@ -100,7 +101,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
       body: _buildPageView(),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+        },
         child: Icon(Icons.add),
         elevation: 4.0,
       ),
@@ -113,4 +115,5 @@ class _ApplicationPageState extends State<ApplicationPage> {
     _pageController.dispose();
     super.dispose();
   }
+
 }

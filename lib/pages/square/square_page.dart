@@ -17,7 +17,7 @@ class SquarePage extends StatefulWidget {
   _SquarePageState createState() => _SquarePageState();
 }
 
-class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateMixin {
+class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin<SquarePage> {
 
   TabController _tabController;
   static const tabs = [
@@ -172,6 +172,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       drawer: _buildDrawer(),
       body: SafeArea(
@@ -238,5 +239,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
     _tabController.dispose();
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

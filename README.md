@@ -110,7 +110,15 @@
 - ....
 
 ------
+## WebView
+
+- WebView与原生的混合
+- 计算Web页面高度
+- 拦截请求、自定义指令
+- 内存占用(尽量少的DOM元素)
+
 ## JSON序列化
+
 采用了官方给的方式。
 flutter pub run build_runner watch
 ```dart
@@ -194,13 +202,13 @@ response = await dio.post("/info", data: formData);
 
 ------
 
-本项目为前后端分离APP，涉及多个端的开发(Android、iOS、QT、Web、CMS、微信小程序等)
+本项目为前后端分离APP，涉及多个端的开发(Android、iOS、QT、Web、桌面端、CMS、微信小程序等)
 
 其中，采用WebRTC、Tensorflow、Ffmpeg、Docker、CI/CD来强化APP功能。
 
 ”**躲猫猫“多端源码均可在我的仓库中找到：https://github.com/yinleiCoder**
 
-**编码不易，如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
+**如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
 
 ------
 

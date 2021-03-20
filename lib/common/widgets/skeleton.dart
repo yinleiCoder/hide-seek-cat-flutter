@@ -38,7 +38,7 @@ Widget appCardPageLightSkeleton() {
   );
 }
 
-/// 暗黑主题
+/// 暗黑主题------------------------------------------------------
 
 Widget appSingleDarkSkeleton() {
   return PKDarkCardSkeleton(
