@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
+import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
+import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_page.dart';
 import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
 import 'package:flutter_hide_seek_cat/pages/news/news_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/square_page.dart';
+import 'package:provider/provider.dart';
 /**
  * APP 主界面
  * @auhor yinlei
@@ -27,8 +32,17 @@ class _ApplicationPageState extends State<ApplicationPage> {
     _pageController = PageController(
       initialPage: this._currentPage,
     );
+
+    _loadCurrentAppUserInfo();
   }
 
+  /// 获取当前APP用户的个人信息并全局化响应到Provider树上
+  _loadCurrentAppUserInfo() async {
+    User appUser = await UserApi.somebodyUserInfo(context: context, uid: AppGlobal.profile.user.uid);
+    if(appUser != null) {
+      Provider.of<UserModel>(context, listen: false).user = appUser;
+    }
+  }
 
   Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(

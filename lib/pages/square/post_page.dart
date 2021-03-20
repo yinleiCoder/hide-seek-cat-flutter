@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
+import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 import 'package:rive/rive.dart' hide LinearGradient;
 
@@ -23,6 +28,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
   /// rive.
   final riveFileName = 'assets/rives/rudolph.riv';
   Artboard _artboard;
+
+  List<Post> allPosts;
 
   List<String> tempTopics = [
     '绵阳',
@@ -96,7 +103,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
     );
   }
 
-  Widget _buildOtherUsersPuslishedPost({userName, userAvatar, publishTime, publishText, publishImage}) {
+  Widget _buildOtherUsersPuslishedPost({userName, userAvatar, publishTime, publishText, publishImage, List<Topic> topics}) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,10 +170,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
           ),
           Wrap(
             spacing: 5.0,
-            children: tempTopics.map((tag) {
+            children: topics.map((tag) {
               return Chip(
-                avatar: ClipOval(child: Image.network('https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', fit: BoxFit.cover,)),
-                label: Text(tag),
+                avatar: ClipOval(child: Image.network(tag.avatar_url, fit: BoxFit.cover,)),
+                label: Text(tag.name),
               );
             }).toList(),
           ),
@@ -275,7 +282,29 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
         vsync: this,
         duration: Duration(milliseconds: 450),
     );
+    _loadAllData();
+    _loadLatestWithDiskCache();
+  }
 
+  _loadAllData() async {
+    allPosts = await PostApi.allUsersPosts(context: context);
+    setState(() {});
+
+    if(mounted) {
+      setState(() {});
+    }
+  }
+
+  /// 如果有磁盘缓存，延迟3秒拉取更新档案
+  _loadLatestWithDiskCache() {
+    if(CACHE_ENABLE == true) {
+      var cacheData = AppStorage().getJSON(STORAGE_CACHE_KEY);
+      if(cacheData != null) {
+        Timer(Duration(seconds: 1), () {
+          /// controller.callRefresh()
+        });
+      }
+    }
   }
 
   /// load rive file.
@@ -297,7 +326,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
     return SingleChildScrollView(
       child: Column(
         children: [
-          _buildAreaTitle(areaTitle: '每日躲猫猫话题精选', moreDetail: '更多话题'),
+          _buildAreaTitle(areaTitle: '每日话题精选', moreDetail: '更多话题'),
           Container(
             height: 180.h,
             width: 1.sw,
@@ -331,7 +360,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
           SizedBox(
             height: 20.h,
           ),
-          _artboard != null ? Container(
+          _artboard != null ? SizedBox(
             height: 200.h,
             child: FractionallySizedBox(
               widthFactor: 1.0,
@@ -340,16 +369,23 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                 fit: BoxFit.cover,
               ),
             ),
-          ) : Text('Loading...'),
+          ) : appCardPageDarkSkeleton(),
           _buildAreaTitle(areaTitle: '广场', isSqure: true),
-          ListView.separated(
-            itemCount: 20,
+          allPosts == null ? SizedBox(width: 1.sw,height: 1.sh, child: appListDarkSkeleton(),) : ListView.separated(
+            itemCount: allPosts?.length,
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             separatorBuilder: (context, position) => Divider(),
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return  _buildOtherUsersPuslishedPost(userName: '尹哥', userAvatar: 'https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg', publishTime: '1小时前', publishText: '美女作为礼物给你🎁，你喜欢吗？', publishImage: 'https://img.zcool.cn/community/01fb0060137f3811013f79281d481f.jpg@1280w_1l_2o_100sh.jpg');
+              return _buildOtherUsersPuslishedPost(
+                userName: allPosts[index].poster.name,
+                userAvatar: allPosts[index].poster.avatar_url,
+                publishTime: allPosts[index].createdAt??'',
+                publishText: allPosts[index].description,
+                publishImage: 'https://img.zcool.cn/community/01fb0060137f3811013f79281d481f.jpg@1280w_1l_2o_100sh.jpg',
+                topics: allPosts[index].topics,
+              );
             },
           ),
         ],

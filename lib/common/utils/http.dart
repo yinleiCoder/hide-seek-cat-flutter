@@ -66,7 +66,7 @@ class AppHttps {
           switch(eInfo.code) {
             case 401: /// 我写的Koa后台程序会根据TOKEN JWT等认证来确认当前用户是否有效
               // go to login.
-              goLoginPage(context);
+              // goLoginPage(context);
               break;
             default:
           }

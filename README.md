@@ -1,12 +1,16 @@
 # 躲猫猫:cat:——Flutter 移动端
 
 > 一款适合年轻人的社交软件APP——躲猫猫
->
+> 现已支持Flutter Web 并 支持空安全
+> 启用空安全：dart migrate --apply-changes
+> 检查当前项目的依赖是否都满足空安全：对于可以空安全的版本，例如provider 5.0.0应当更新pubspec.yaml
 
 ## 开发环境
 
-- Dart SDK：2.12.0-133.7.beta
-- Flutter：1.25.0-8.3.pre 
+- Flutter 2.0.0 • channel beta • https://github.com/flutter/flutter.git
+- Framework • revision 60bd88df91 (21 hours ago) • 2021-03-03 09:13:17 -0800
+- Engine • revision 40441def69
+- Tools • Dart 2.12.0
 - AndroidStudio：4.1.2
 - Android Emulators:  Android R(Pixel 4)
 - 
@@ -70,7 +74,7 @@
 - ListTitle —— used
 - Container —— used
 - SelectableText
-- DataTable
+- DataTable —— used
 - Slider
 - AlertDialog
 - AnimatedCrossFade

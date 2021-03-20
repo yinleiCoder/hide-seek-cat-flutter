@@ -205,6 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                 Login res = await UserApi.login(context: context, params: params);
                 if(res != null){
                   AppGlobal.profile.token = res.token;
+                  params.uid = res.uid;
                   Provider.of<UserModel>(context, listen: false).user = params;
                   await appShowToast(msg: '登录成功@: ${res.token}');
                   Navigator.of(context).pushNamed(ApplicationPage.routeName);

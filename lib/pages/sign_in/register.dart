@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
+import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/login.dart';
@@ -31,6 +33,9 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
 
   bool hideIcon = false;
   GlobalKey _registerFormKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _userPasswordController = TextEditingController();
+  final TextEditingController _userConfirmPasswordController = TextEditingController();
 
   /// rive.
   final riveFileName = 'assets/rives/marine_corps_running.riv';
@@ -77,25 +82,32 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
       begin: 0.0,
       end: 210.0,
     ).animate(_positionController)
-      ..addStatusListener((status) {
+      ..addStatusListener((status) async {
         if(status == AnimationStatus.completed) {
           setState(() {
             hideIcon = true;
           });
           /// 验证表单
           if((_registerFormKey.currentState as FormState).validate()) {
-            // User params = User(
-            //   name: _userNameController.value.text.trim(),
-            //   password: _userPasswordController.value.text.trim(),
-            // );
-            // Login res = await UserApi.login(context: context, params: params);
-            // if(res != null){
-            //   AppGlobal.profile.token = res.token;
-            //   Provider.of<UserModel>(context, listen: false).user = params;
-            //   await appShowToast(msg: '登录成功@: ${res.token}');
-            // }
-            /// 后台确认注册成功再启动动画并跳转
-            _scale2Controller.forward();
+            if(_userPasswordController.value.text.trim() != _userConfirmPasswordController.value.text.trim()) {
+              await appShowToast(msg: "密码和确认密码不一致");
+              setState(() {
+                hideIcon = false;
+              });
+              _scaleController.reverse();
+              _widthController.reverse();
+              _positionController.reverse();
+            }else {
+              User params = User(
+                name: _userNameController.value.text.trim(),
+                password: _userPasswordController.value.text.trim(),
+              );
+              User res = await UserApi.register(context: context, params: params);
+              if(res != null){
+                /// 后台确认注册成功再启动动画并跳转
+                _scale2Controller.forward();
+              }
+            }
           } else { /// 表单验证失败动画重置
             setState(() {
               hideIcon = false;
@@ -177,11 +189,13 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           child: Column(
             children: [
               TextFormWidget(
+                controller: _userNameController,
                 labelText: '用户名',
                 hintText: 'Account',
                 marginTop: 0,
               ),
               TextFormWidget(
+                  controller: _userPasswordController,
                   labelText: '密码',
                   hintText: 'Password',
                   isPassword: true,
@@ -189,6 +203,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                   suffixIcon: Icon(Icons.lock_rounded)
               ),
               TextFormWidget(
+                  controller: _userConfirmPasswordController,
                   labelText: '确认密码',
                   hintText: 'Confirm password',
                   isPassword: true,
@@ -291,6 +306,11 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     _scale2Controller.dispose();
     _positionController.dispose();
     _widthController.dispose();
+
+    _userNameController.dispose();
+    _userPasswordController.dispose();
+    _userConfirmPasswordController.dispose();
+
     super.dispose();
   }
 

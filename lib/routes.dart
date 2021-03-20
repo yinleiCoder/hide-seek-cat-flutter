@@ -3,6 +3,7 @@ import 'package:flutter_hide_seek_cat/pages/application/application.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/login.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/register.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/signin_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
 
 /**
  * Flutter App Simple Route Manager Method.
@@ -13,4 +14,5 @@ final Map<String, WidgetBuilder> ylRoutes = {
   LoginPage.routeName: (context) => LoginPage(),
   RegisterPage.routeName: (context) => RegisterPage(),
   ApplicationPage.routeName: (context) => ApplicationPage(),
+  HideCatCoder.routeName: (context) => HideCatCoder(),
 };

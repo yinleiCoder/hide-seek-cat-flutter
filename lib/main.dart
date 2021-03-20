@@ -27,6 +27,7 @@ void main() => AppGlobal.init().then((e) => runApp(
   ),
 ));
 
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

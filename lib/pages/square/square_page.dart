@@ -3,6 +3,7 @@ import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
+import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/size_extension.dart';
@@ -28,6 +29,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
     "视频专区",
   ];
 
+  var _isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,88 +38,135 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   }
 
   Widget _buildDrawer() {
-    return Container(
-      color: Colors.black.withOpacity(.7),
-      child: Column(
-        children: [
-          UserAccountsDrawerHeader(
-            accountName: Text('用户名'),
-            accountEmail: Text('邮箱'),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://img.zcool.cn/community/0133995c63a554a801203d223f3f17.jpg@520w_390h_1c_1e_1o_100sh.jpg',
-              ),
-            ),
-            otherAccountsPictures: [
-              IconButton(icon: Icon(Icons.qr_code), onPressed: (){}),
-            ],
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage('https://img.zcool.cn/community/017a1f600e370b11013f7928ee1196.jpg@1280w_1l_2o_100sh.jpg',),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                  Colors.black12.withOpacity(0.3),
-                  BlendMode.srcOver,
+    return Consumer<UserModel>(
+      builder: (context, userModel, _) {
+        return Container(
+          color: Colors.black.withOpacity(.7),
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text(userModel.isLogin ? userModel.user.name : '用户名'),
+                // accountEmail: Text('uid: ${userModel.isLogin ? userModel.user.uid : ''}'),
+                accountEmail: Text('${userModel.isLogin ? userModel.user.headline : ''}'),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    userModel.isLogin ? userModel.user.avatar_url : 'https://img.zcool.cn/community/019e006054343f11013e87f440a8b8.jpg@3000w_1l_0o_100sh.jpg',
+                  ),
+                ),
+                otherAccountsPictures: [
+                  IconButton(icon: Icon(Icons.qr_code), onPressed: (){}),
+                ],
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('https://img.zcool.cn/community/01ca635a295054a801216e8d609191.jpg@2o.jpg',),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      Colors.black12.withOpacity(0.3),
+                      BlendMode.srcOver,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: ListView(
-                children: [
-                  ListTile(
-                    title: Text('Tips: 往左滑动or点击我关闭本窗口', style: TextStyle(color: AppColors.primaryColor, fontSize: 20.ssp, fontWeight: FontWeight.bold,),),
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.apps),
-                    title: Text('躲猫猫社交平台官网'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.code),
-                    title: Text('躲猫猫社交平台源码'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.verified_sharp),
-                    title: Text('关于躲貓貓'),
-                    trailing: Text('版本v1.0.0'),
-                    onTap: () {
-                      showAboutDialog(
-                          context: context,
-                          applicationName: '躲猫猫',
-                        applicationVersion: 'v1.0.0',
-                        applicationIcon: Icon(AppIconfont.square),
-                        applicationLegalese: '遵循MIT协议',
-                        children:[
-                          Text('一款专门为年轻人设计的社交APP'),
-                          Text('前端：React'),
-                          Text('后端：Koa2 RESTful API'),
+              Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView(
+                    children: [
+                      ExpansionPanelList(
+                        expansionCallback: (int index, bool isExpanded) {
+                          setState(() {
+                            _isExpanded = !isExpanded;
+                          });
+                        },
+                        children: [
+                          ExpansionPanel(
+                            isExpanded: _isExpanded,
+                            headerBuilder: (BuildContext context, bool isExpanded) {
+                              return ListTile(
+                                title: Text("关于躲猫猫平台"),
+                              );
+                            },
+                            body: Container(
+                              width: double.infinity,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: Icon(Icons.apps),
+                                    title: Text('躲猫猫社交平台官网'),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.code),
+                                    title: Text('躲猫猫社交平台源码'),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.error),
+                                    title: Text('错误上报平台Sentry'),
+                                  ),
+                                  ListTile(
+                                    leading: FlutterLogo(),
+                                    title: Text('躲猫猫APP开发者'),
+                                    onTap: () => Navigator.of(context).pushNamed(HideCatCoder.routeName),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
-                      );
-                    },
+                      ),
+                      if(userModel.isLogin) ListTile(
+                        leading: Icon(Icons.confirmation_number),
+                        title: Text('uid'),
+                        subtitle: Text(userModel.user.uid),
+                        onTap: () {
+                        },
+                      ),
+                      if(userModel.isLogin) ListTile(
+                        leading: Icon(Icons.bolt),
+                        title: Text('性别'),
+                        subtitle: Text(userModel.user.gender),
+                        onTap: () {
+                        },
+                      ),
+                      if(userModel.isLogin) ListTile(
+                        leading: Icon(Icons.cake_rounded),
+                        title: Text('破壳日'),
+                        subtitle: Text(userModel.user.createdAt),
+                        onTap: () {
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.verified_sharp),
+                        title: Text('关于躲貓貓'),
+                        trailing: Text('版本v1.0.0'),
+                        onTap: () {
+                          showAboutDialog(
+                            context: context,
+                            applicationName: '躲猫猫',
+                            applicationVersion: 'v1.0.0',
+                            applicationIcon: Icon(AppIconfont.square),
+                            applicationLegalese: '遵循MIT协议',
+                            children:[
+                              Text('一款专门为年轻人设计的社交APP'),
+                              Text('前端：React'),
+                              Text('后端：Koa2 RESTful API'),
+                            ],
+                          );
+                        },
+                      ),
+                      AppGlobal.profile.user != null ? ListTile(
+                        onTap: () => goLoginPage(context),
+                        title: Text('退出登录', style: TextStyle(color: AppColors.primaryColor, fontSize: 22.ssp, fontWeight: FontWeight.bold,letterSpacing: 1.4,),),
+                        trailing: Icon(Icons.power_settings_new, color: AppColors.primaryColor,),
+                      ) : Container(),
+                    ],
                   ),
-                  ListTile(
-                    leading: Icon(Icons.error),
-                    title: Text('错误上报平台Sentry'),
-                  ),
-                  ListTile(
-                    leading: FlutterLogo(),
-                    title: Text('躲猫猫APP开发者'),
-                  ),
-                  AppGlobal.profile.user != null ? ListTile(
-                    onTap: () => goLoginPage(context),
-                    title: Text('退出登录', style: TextStyle(color: AppColors.primaryColor, fontSize: 22.ssp, fontWeight: FontWeight.bold,letterSpacing: 1.4,),),
-                    trailing: Icon(Icons.power_settings_new, color: AppColors.primaryColor,),
-                  ) : Container(),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -190,15 +240,3 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   }
 
 }
-
-// body: Center(
-// child: Column(
-// children: [
-// Text('广场:${AppGlobal.profile.user?.name} ${AppGlobal.profile.token}'),
-// MaterialButton(
-// child: Text('注销'),
-// onPressed: () => ,
-// ),
-// ],
-// ),
-// ),

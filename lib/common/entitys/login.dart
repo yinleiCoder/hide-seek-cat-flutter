@@ -10,9 +10,10 @@ part 'login.g.dart';
 @JsonSerializable()
 
 class Login {
-  Login({this.token});
+  Login({this.token, this.uid});
 
   String token;
+  String uid;
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
