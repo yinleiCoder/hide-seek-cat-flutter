@@ -49,6 +49,17 @@ dependencies:
   webview_flutter: ^2.0.2
   # 分享
   share: ^2.0.1
+  # 设备信息
+  device_info: ^2.0.0
+  # 包信息
+  package_info: ^2.0.0
+  # 路径
+  path_provider: ^2.0.1
+  # 权限处理
+  permission_handler: ^6.1.1
+  # 安装apk
+  install_plugin: ^2.0.1
+
 
   # 序列化JSON
   json_annotation:

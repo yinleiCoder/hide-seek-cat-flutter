@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
@@ -97,11 +99,11 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.code),
-                                    title: Text('躲猫猫社交平台源码'),
+                                    title: Text('躲猫猫源码'),
                                   ),
                                   ListTile(
                                     leading: FlutterLogo(),
-                                    title: Text('躲猫猫APP开发者'),
+                                    title: Text('APP开发者'),
                                     onTap: () => Navigator.of(context).pushNamed(HideCatCoder.routeName),
                                   ),
                                   ListTile(
@@ -113,14 +115,25 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                                     title: Text('APP分享与推广'),
                                   ),
                                   ListTile(
+                                    leading: Icon(Icons.check_circle_rounded),
+                                    title: Text('版本更新'),
+                                    onTap: () async {
+                                      if(await Permission.storage.isGranted) {
+                                        AppUpdate().run(context);
+                                      } else {
+                                        appShowToast(msg: 'APP未被授存储权限，请在手机设置中手动打开！');
+                                      }
+                                    },
+                                  ),
+                                  ListTile(
                                     leading: Icon(Icons.verified_sharp),
-                                    title: Text('关于躲貓貓'),
-                                    trailing: Text('版本v1.0.0'),
+                                    title: Text('关于${AppGlobal.packageInfo.appName}'),
+                                    trailing: Text('版本${AppGlobal.packageInfo.version}'),
                                     onTap: () {
                                       showAboutDialog(
                                         context: context,
-                                        applicationName: '躲猫猫',
-                                        applicationVersion: 'v1.0.0',
+                                        applicationName: AppGlobal.packageInfo.appName,
+                                        applicationVersion: AppGlobal.packageInfo.version,
                                         applicationIcon: Icon(AppIconfont.square),
                                         applicationLegalese: '遵循MIT协议',
                                         children:[

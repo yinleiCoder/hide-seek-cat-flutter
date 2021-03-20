@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/utils/storage.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:package_info/package_info.dart';
 /**
  * App 全局数据
  * @author yinlei
@@ -29,6 +31,18 @@ class AppGlobal {
 
   /// android?
   static bool isAndroid = Platform.isAndroid;
+
+  /// app publish channel
+  static String channel = "Google";
+
+  /// app package information
+  static PackageInfo packageInfo;
+
+  /// android device information
+  static AndroidDeviceInfo androidDeviceInfo;
+
+  /// ios device information
+  static IosDeviceInfo iosDeviceInfo;
 
   static Future init() async {
     /// tell flutter framework wait AppGlobal then render.
@@ -61,6 +75,17 @@ class AppGlobal {
       );
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     }
+
+    /// read current device's information
+    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    if(AppGlobal.isIOS) {
+      AppGlobal.iosDeviceInfo = await deviceInfoPlugin.iosInfo;
+    } else if(AppGlobal.isAndroid) {
+      AppGlobal.androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+    }
+    /// read app package information
+    AppGlobal.packageInfo = await PackageInfo.fromPlatform();
+
 
   }
 
