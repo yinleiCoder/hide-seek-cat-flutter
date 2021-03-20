@@ -13,9 +13,8 @@
 - Tools • Dart 2.12.0
 - AndroidStudio：4.1.2
 - Android Emulators:  Android R(Pixel 4)
-- 
 
-### 本项目遵循的Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
+### 参考Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
 
 - SafeArea —— used
 - Expanded —— used
@@ -200,11 +199,25 @@ response = await dio.post("/info", data: formData);
 
 ```
 
-------
+## 程序图标
 
-本项目为前后端分离APP，涉及多个端的开发(Android、iOS、QT、Web、桌面端、CMS、微信小程序等)
+制作：https://www.designevo.com/logo-maker/
 
-其中，采用WebRTC、Tensorflow、Ffmpeg、Docker、CI/CD来强化APP功能。
+参考Android和iOS的最大尺寸[1024*1024]
+
+然后FlutterLaunchIcons:https://pub.dev/packages/flutter_launcher_icons
+
+## 启动图
+
+
+
+## 程序名称
+
+
+
+
+
+
 
 ”**躲猫猫“多端源码均可在我的仓库中找到：https://github.com/yinleiCoder**
 

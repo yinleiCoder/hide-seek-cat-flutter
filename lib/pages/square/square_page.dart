@@ -100,13 +100,36 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                                     title: Text('躲猫猫社交平台源码'),
                                   ),
                                   ListTile(
+                                    leading: FlutterLogo(),
+                                    title: Text('躲猫猫APP开发者'),
+                                    onTap: () => Navigator.of(context).pushNamed(HideCatCoder.routeName),
+                                  ),
+                                  ListTile(
                                     leading: Icon(Icons.error),
                                     title: Text('错误上报平台Sentry'),
                                   ),
                                   ListTile(
-                                    leading: FlutterLogo(),
-                                    title: Text('躲猫猫APP开发者'),
-                                    onTap: () => Navigator.of(context).pushNamed(HideCatCoder.routeName),
+                                    leading: Icon(Icons.share),
+                                    title: Text('APP分享与推广'),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.verified_sharp),
+                                    title: Text('关于躲貓貓'),
+                                    trailing: Text('版本v1.0.0'),
+                                    onTap: () {
+                                      showAboutDialog(
+                                        context: context,
+                                        applicationName: '躲猫猫',
+                                        applicationVersion: 'v1.0.0',
+                                        applicationIcon: Icon(AppIconfont.square),
+                                        applicationLegalese: '遵循MIT协议',
+                                        children:[
+                                          Text('一款专门为年轻人设计的社交APP'),
+                                          Text('前端：React'),
+                                          Text('后端：Koa2 RESTful API'),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -133,25 +156,6 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                         title: Text('破壳日'),
                         subtitle: Text(userModel.user.createdAt),
                         onTap: () {
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.verified_sharp),
-                        title: Text('关于躲貓貓'),
-                        trailing: Text('版本v1.0.0'),
-                        onTap: () {
-                          showAboutDialog(
-                            context: context,
-                            applicationName: '躲猫猫',
-                            applicationVersion: 'v1.0.0',
-                            applicationIcon: Icon(AppIconfont.square),
-                            applicationLegalese: '遵循MIT协议',
-                            children:[
-                              Text('一款专门为年轻人设计的社交APP'),
-                              Text('前端：React'),
-                              Text('后端：Koa2 RESTful API'),
-                            ],
-                          );
                         },
                       ),
                       AppGlobal.profile.user != null ? ListTile(
