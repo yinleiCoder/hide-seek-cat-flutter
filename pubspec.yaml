@@ -61,7 +61,8 @@ dependencies:
   install_plugin: ^2.0.1
   # 错误上报
   sentry_flutter: ^4.0.6
-
+  # allows us to easily use any of the 977 fonts from fonts.google.com
+  google_fonts: ^2.0.0
   # 序列化JSON
   json_annotation:
 
@@ -97,7 +98,7 @@ flutter:
   assets:
     - assets/images/
     - assets/rives/
-
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

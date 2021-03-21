@@ -173,8 +173,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       ),
                       AppGlobal.profile.user != null ? ListTile(
                         onTap: () => goLoginPage(context),
-                        title: Text('退出登录', style: TextStyle(color: AppColors.primaryColor, fontSize: 22.ssp, fontWeight: FontWeight.bold,letterSpacing: 1.4,),),
-                        trailing: Icon(Icons.power_settings_new, color: AppColors.primaryColor,),
+                        title: Text('退出登录', style: TextStyle(color: AppColors.ylPrimaryColor, fontSize: 22.ssp, fontWeight: FontWeight.bold,letterSpacing: 1.4,),),
+                        trailing: Icon(Icons.power_settings_new, color: AppColors.ylPrimaryColor,),
                       ) : Container(),
                     ],
                   ),
@@ -203,7 +203,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
-                      icon: Icon(Icons.storage, color: AppColors.primaryColor,),
+                      icon: Icon(Icons.storage, color: AppColors.ylPrimaryColor,),
                     );
                   },
                 ),
@@ -222,7 +222,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                     indicatorWeight: 3.0,
                     indicator: UnderlineTabIndicator(
                       borderSide: BorderSide(
-                        color: AppColors.primaryColor,
+                        color: AppColors.ylPrimaryColor,
                         width: 3.w,
                       ),
                       insets: EdgeInsets.only(bottom: 10.h),

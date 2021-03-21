@@ -6,6 +6,7 @@ import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/index/index.dart';
 import 'package:flutter_hide_seek_cat/routes.dart';
+import 'package:flutter_hide_seek_cat/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -18,7 +19,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
  */
 
 bool get isInDebugMode {
-  return false;
+  // return false;
+  return true;
 }
 /**
  * 错误收集：
@@ -74,16 +76,9 @@ class MyApp extends StatelessWidget {
       title: '躲猫猫',
       debugShowCheckedModeBanner: false,
       // onUnknownRoute: ,
-      theme: ThemeData(
-        // fontFamily: 'Yinlei'
-        brightness: Brightness.light,
-      ),
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
-        primaryColorDark: AppColors.primaryColor,
-        accentColor: AppColors.primaryColor,
-        brightness: Brightness.dark,
-      ),
+      theme: ylLightThemeData(context),
+      darkTheme: ylDarkThemeData(context),
+      themeMode: ThemeMode.system,
       routes: ylRoutes,
       home: IndexPage(),
     );

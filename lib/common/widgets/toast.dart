@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
  */
 Future<bool> appShowToast({
   @required String msg,
-  Color bgColor = AppColors.primaryColor,
+  Color bgColor = AppColors.ylPrimaryColor,
   Color textColor = Colors.white,
   double fontSize = 14.0,
 }) async {

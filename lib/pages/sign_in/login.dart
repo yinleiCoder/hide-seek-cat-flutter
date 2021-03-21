@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
-                            color: AppColors.primaryColor,
+                            color: AppColors.ylPrimaryColor,
                             fontSize: 18.ssp,
                           ),
                         ),
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                 }
               }
             } : null,
-            color: AppColors.primaryColor,
+            color: AppColors.ylPrimaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -268,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                               text: '《躲猫猫用户协议》',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
+                                color: AppColors.ylPrimaryColor,
                                 fontSize: 16.ssp,
                               ),
                             ),

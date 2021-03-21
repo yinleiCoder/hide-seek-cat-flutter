@@ -233,7 +233,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                 padding: EdgeInsets.all(10.r),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: AppColors.primaryColor.withOpacity(.4),
+                  color: AppColors.ylPrimaryColor.withOpacity(.4),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -255,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                                     height: 60.r,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppColors.primaryColor,
+                                      color: AppColors.ylPrimaryColor,
                                     ),
                                     child: hideIcon == false ? Icon(Icons.arrow_forward, color: Colors.white,) : Container(),
                                   ),

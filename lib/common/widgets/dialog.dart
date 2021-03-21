@@ -22,14 +22,11 @@ Future appShowConfirmDialog({
           children: <Widget>[
             Text(app.latestDescription),
             SizedBox(height: 15.h,),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: Transform.rotate(
-                angle: math.pi / 11.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.r),
-                    child: Image.network('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg', height: 200.h, fit: BoxFit.cover,)),
-              ),
+            Transform.rotate(
+              angle: math.pi / 22.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                  child: Image.network('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg', height: 200.h, fit: BoxFit.cover,)),
             ),
             Text('系统：${app.device}'),
             Text('渠道：${app.channel}'),
@@ -48,7 +45,9 @@ Future appShowConfirmDialog({
             onPressed: cancelPressed,
           ),
       ],
-      shape: BeveledRectangleBorder(),
+      shape: BeveledRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r),
+      ),
       elevation: 24.0,
     ),
   );

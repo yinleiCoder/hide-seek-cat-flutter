@@ -203,7 +203,7 @@ class _HideCatCoderState extends State<HideCatCoder> {
                     height: 50.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: AppColors.primaryColor.withOpacity(.9),
+                      color: AppColors.ylPrimaryColor.withOpacity(.9),
                     ),
                     child: Align(
                       child: Text(

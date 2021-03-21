@@ -134,6 +134,7 @@ class _LearnPageState extends State<LearnPage> with AutomaticKeepAliveClientMixi
     super.build(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('祝大家早日进面，早日上岸🖐'),
         centerTitle: true,
         actions: [

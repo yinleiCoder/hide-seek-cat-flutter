@@ -78,7 +78,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                       border: Border.all(color: Colors.white, width: 3.0),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primaryColor,
+                          color: AppColors.ylPrimaryColor,
                           offset: Offset(5, 10),
                           blurRadius: 16,
                         )
@@ -187,7 +187,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                     width: 25.r,
                     height: 25.r,
                     decoration: BoxDecoration(
-                      color: AppColors.secondaryColor,
+                      color: AppColors.ylSecondaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -200,7 +200,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                       width: 25.r,
                       height: 25.r,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: AppColors.ylPrimaryColor,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -253,13 +253,13 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                 Text(
                   areaTitle,
                   style: TextStyle(
-                    color: AppColors.primaryColor,
+                    color: AppColors.ylPrimaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22.ssp,
                     letterSpacing: 1.2,
                   ),
                 ),
-                isSqure ? Icon(AppIconfont.square, color: AppColors.primaryColor,) : Container(),
+                isSqure ? Icon(AppIconfont.square, color: AppColors.ylPrimaryColor,) : Container(),
               ],
             ),
             moreDetail != null ? FlatButton.icon(

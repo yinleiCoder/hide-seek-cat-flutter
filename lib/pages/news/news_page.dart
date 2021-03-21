@@ -9,16 +9,21 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<NewsPage> {
-  int a;
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Center(
-      child: IconButton(
-        icon: Icon(Icons.share),
-        onPressed: (){
-          a++;
-        },
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('时讯'),
+        centerTitle: false,
+      ),
+      body: Center(
+        child: IconButton(
+          icon: Icon(Icons.share),
+          onPressed: (){
+          },
+        ),
       ),
     );
   }

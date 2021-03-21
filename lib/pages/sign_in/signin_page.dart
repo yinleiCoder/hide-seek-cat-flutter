@@ -41,14 +41,18 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSignPageContent() {
+  Widget _buildSignPageContent(context) {
     return YlFadeIn(
       delay: 500,
       child: Container(
         height: 0.4.sh,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/cat.png')
+                image: AssetImage(
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? 'assets/icons/cat.png'
+                      : 'assets/images/cat.png',
+                )
             )
         ),
       ),
@@ -60,27 +64,6 @@ class SignInPage extends StatelessWidget {
       delay: 1000,
       child: Column(
         children: [
-          MaterialButton(
-            minWidth: double.infinity,
-            height: 48.h,
-            onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.black,
-              ),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Text(
-              'Login',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 18.ssp,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
           Container(
             padding: EdgeInsets.only(top: 3.h, left: 3.w),
             decoration: BoxDecoration(
@@ -96,17 +79,39 @@ class SignInPage extends StatelessWidget {
               minWidth: double.infinity,
               height: 48.h,
               elevation: 0,
-              onPressed: () => Navigator.pushNamed(context, RegisterPage.routeName),
-              color: AppColors.primaryColor,
+              color: Theme.of(context).colorScheme.primary,
+              onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                'Sign Up',
+                'Sign In',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 18.ssp,
                 ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          MaterialButton(
+            minWidth: double.infinity,
+            height: 48.h,
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () => Navigator.pushNamed(context, RegisterPage.routeName),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Text(
+              'Sign Up',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -127,7 +132,7 @@ class SignInPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildSignPageHeaderDescription(),
-              _buildSignPageContent(),
+              _buildSignPageContent(context),
               _buildSignChooseBtn(context),
             ],
           ),

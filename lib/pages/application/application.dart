@@ -51,15 +51,30 @@ class _ApplicationPageState extends State<ApplicationPage> {
       elevation: 22.0,
       type: BottomNavigationBarType.fixed,
       onTap: (index) => _pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.ease),
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(AppIconfont.square),
           activeIcon: Icon(AppIconfont.squareActive),
           label: '广场',
         ),
         BottomNavigationBarItem(
-          icon: Icon(AppIconfont.chat),
-          activeIcon: Icon(AppIconfont.chatActive),
+          icon: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.ylPrimaryColor,
+                  offset: Offset(5, 6),
+                  blurRadius: 16,
+                ),
+              ],
+            ),
+            child: CircleAvatar(
+              radius: 14,
+              backgroundImage: NetworkImage(
+                  AppGlobal.profile?.user?.avatar_url ?? 'https://img.zcool.cn/community/010bba5f0890a6a801215aa00c8d22.jpg@1280w_1l_0o_100sh.jpg'
+              ),
+            ),
+          ),
           label: '聊天',
         ),
         BottomNavigationBarItem(

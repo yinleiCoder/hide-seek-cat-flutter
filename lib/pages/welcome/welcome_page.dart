@@ -127,11 +127,10 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
           ) : SizedBox(),
           Text(
             title,
-            style: TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 20.h,
@@ -141,9 +140,12 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
             child: Text(
               content,
               textAlign: TextAlign.left,
-              style: ylCommonTextStyle.copyWith(
-                color: Colors.grey,
-                letterSpacing: 1.5,
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .color
+                    .withOpacity(0.7),
               ),
             ),
           ),
@@ -170,7 +172,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
       width: isActive ? 30.w : 8.w,
       margin: EdgeInsets.only(right: 5.w),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor,
+        color: AppColors.ylPrimaryColor,
         borderRadius: BorderRadius.circular(5),
       ),
     );
@@ -219,7 +221,7 @@ class ButtonTransition extends AnimatedWidget {
       onPressed: () =>  Navigator.pushReplacementNamed(context, SignInPage.routeName),
       borderSide: BorderSide(
         width: _width.value * 5,
-        color: AppColors.primaryColor,
+        color: AppColors.ylPrimaryColor,
       ),
       child: Text(
         'GET START',
