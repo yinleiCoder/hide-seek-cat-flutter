@@ -43,7 +43,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
     return Consumer<UserModel>(
       builder: (context, userModel, _) {
         return Container(
-          color: Colors.black.withOpacity(.7),
+          color: MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.white : Colors.black.withOpacity(.7),
           child: Column(
             children: [
               UserAccountsDrawerHeader(
@@ -153,21 +153,21 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       if(userModel.isLogin) ListTile(
                         leading: Icon(Icons.confirmation_number),
                         title: Text('uid'),
-                        subtitle: Text(userModel.user.uid),
+                        subtitle: Text(userModel.user.uid, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
                         onTap: () {
                         },
                       ),
                       if(userModel.isLogin) ListTile(
                         leading: Icon(Icons.bolt),
                         title: Text('性别'),
-                        subtitle: Text(userModel.user.gender),
+                        subtitle: Text(userModel.user.gender, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
                         onTap: () {
                         },
                       ),
                       if(userModel.isLogin) ListTile(
                         leading: Icon(Icons.cake_rounded),
                         title: Text('破壳日'),
-                        subtitle: Text(userModel.user.createdAt),
+                        subtitle: Text(userModel.user.createdAt, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,)),
                         onTap: () {
                         },
                       ),
@@ -211,11 +211,12 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                   child: TabBar(
                     controller: _tabController,
                     isScrollable: true,
-                    labelColor: Colors.white,
-                    labelStyle: ylCommonTextStyle.copyWith(
+                    labelColor: Theme.of(context).textTheme.bodyText1.color,
+                    labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
                     ),
-                    unselectedLabelStyle: ylCommonTextStyle.copyWith(
+                    unselectedLabelStyle: TextStyle(
                       fontWeight: FontWeight.normal,
                     ),
                     indicatorSize: TabBarIndicatorSize.label,

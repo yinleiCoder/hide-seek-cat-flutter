@@ -16,18 +16,15 @@ Future appShowConfirmDialog({
     context: context,
     barrierDismissible: false,
     builder: (_) => AlertDialog(
-      title: Text('发现新版本${app.latestVersion}'),
+      title: Text('发现新版本${app.latestVersion}',),
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
             Text(app.latestDescription),
-            SizedBox(height: 15.h,),
-            Transform.rotate(
-              angle: math.pi / 22.0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
-                  child: Image.network('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg', height: 200.h, fit: BoxFit.cover,)),
-            ),
+            SizedBox(height: 10.h,),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+                child: Image.network('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg', height: 200.h, fit: BoxFit.cover,)),
             Text('系统：${app.device}'),
             Text('渠道：${app.channel}'),
             Text('CPU架构：${app.architecture}'),

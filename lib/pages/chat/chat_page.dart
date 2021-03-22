@@ -88,12 +88,11 @@ class ChatCard extends StatelessWidget {
       title: Text(
         chat.name,
       ),
-      subtitle: (MediaQuery.of(context).platformBrightness == Brightness.light) ? Text(
-        chat.lastMessage,
-      ) : Text(
-        chat.lastMessage,
-        style: TextStyle(
-          color: Colors.white,
+      subtitle: Opacity(
+        opacity: 0.7,
+        child: Text(
+          chat.lastMessage,
+          style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color,),
         ),
       ),
       trailing: Opacity(

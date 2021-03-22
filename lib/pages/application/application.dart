@@ -118,7 +118,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
         elevation: 4.0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

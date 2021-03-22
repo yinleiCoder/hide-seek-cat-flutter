@@ -92,10 +92,11 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Text(
-                  '登录您的账号，就可以进入APP参与和陌生人聊天、分享视频等活动🎈',
-                  style: ylCommonTextStyle.copyWith(
-                    color: Colors.grey[700],
+                Opacity(
+                  opacity: 0.6,
+                  child: Text(
+                    '登录您的账号，就可以进入APP参与和陌生人聊天、分享视频等活动🎈',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, fontSize: 14.ssp),
                   ),
                 ),
               ],
@@ -149,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                   maxLines: 1,
                   text: TextSpan(
                       text: '还没有账号?',
-                      style: ylCommonTextStyle.copyWith(),
+                      style: Theme.of(context).textTheme.bodyText1,
                       children: <TextSpan>[
                         TextSpan(
                           text: '注册',
@@ -262,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                       textAlign: TextAlign.center,
                       text: TextSpan(
                           text: '阅读并同意',
-                          style: ylCommonTextStyle.copyWith(),
+                          style: Theme.of(context).textTheme.bodyText1,
                           children: <TextSpan>[
                             TextSpan(
                               text: '《躲猫猫用户协议》',
@@ -282,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
             Positioned(
               left: 0,
               top: 30.h,
-              child: Image.asset('assets/images/moon.png'),
+              child: Image.asset(MediaQuery.of(context).platformBrightness == Brightness.light ? 'assets/images/sun.png' : 'assets/images/moon.png'),
             ),
             Positioned(
               left: 25.w,

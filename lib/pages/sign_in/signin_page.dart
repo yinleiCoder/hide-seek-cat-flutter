@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/size_extension.dart';
 class SignInPage extends StatelessWidget {
   static String routeName = '/sign_in';
 
-  Widget _buildSignPageHeaderDescription() {
+  Widget _buildSignPageHeaderDescription(context) {
     return YlFadeIn(
       child: Column(
         children: [
@@ -31,9 +31,11 @@ class SignInPage extends StatelessWidget {
           Text(
             '一款专为年轻人设计的社交APP，寻找属于年轻人的快乐👦👧',
             textAlign: TextAlign.center,
-            style: ylCommonTextStyle.copyWith(
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
               letterSpacing: 1.0,
               color: Colors.grey[700],
+              height: 1.5,
+              fontFamily: 'Yinlei',
             ),
           ),
         ],
@@ -131,7 +133,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildSignPageHeaderDescription(),
+              _buildSignPageHeaderDescription(context),
               _buildSignPageContent(context),
               _buildSignChooseBtn(context),
             ],

@@ -91,7 +91,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                   ),
                   Text(
                     userName,
-                    style: ylCommonTextStyle.copyWith(
+                    style: TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -126,19 +127,22 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                          userName,
-                          style: ylCommonTextStyle.copyWith(
-                            fontSize: 16.ssp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        userName,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1.copyWith(fontWeight: FontWeight.bold, letterSpacing: 1.5,),
                       ),
                       SizedBox(
-                        height: 3.h,
+                        height: 8.h,
                       ),
                       Text(
                           publishTime,
-                          style: ylCommonTextStyle.copyWith(
-                            color: Colors.grey,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .color
+                                .withOpacity(0.7),
                           ),
                       ),
                     ],
@@ -156,7 +160,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
           ),
           Text(publishText),
           SizedBox(
-            height: 20.h,
+            height: 15.h,
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
@@ -166,7 +170,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
             ),
           ),
           SizedBox(
-            height: 20.h,
+            height: 10.h,
           ),
           Wrap(
             spacing: 5.0,
@@ -262,11 +266,11 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin{
                 isSqure ? Icon(AppIconfont.square, color: AppColors.ylPrimaryColor,) : Container(),
               ],
             ),
-            moreDetail != null ? FlatButton.icon(
+            moreDetail != null ? TextButton.icon(
               icon: Icon(Icons.more_horiz),
               onPressed: (){
               },
-              label: Text(moreDetail),
+              label: Text(moreDetail,),
             ) : Container(),
           ],
         ),

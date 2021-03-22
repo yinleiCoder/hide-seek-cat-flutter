@@ -28,18 +28,18 @@ class _HideCatCoderState extends State<HideCatCoder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: Stack(
         children: [
           CustomScrollView(
             slivers: [
               SliverAppBar(
                 expandedHeight: 400.h,
+                backgroundColor: Colors.white,
                 stretch: true,
                 pinned: true,
                 onStretchTrigger: (){print("啊");},
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text('YinLei'),
+                  title: Text('YinLei', style: TextStyle(color: AppColors.ylSecondaryColor),),
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax,
                   stretchModes: [
@@ -103,19 +103,22 @@ class _HideCatCoderState extends State<HideCatCoder> {
               SliverList(
                 delegate: SliverChildListDelegate([
                   Padding(
-                    padding: EdgeInsets.only(top: 20.h,bottom: 100.h),
+                    padding: EdgeInsets.only(top: 20.h,bottom: 90.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         YlFadeIn(
                           delay: 1500,
-                          child: Text(
-                            '实践是指人类有目的地能动地改造和探索现实世界的社会性的客观物质活动。实践的观点是辩证唯物主义认识论的首要的观点，它认为实践是认识的基础。而认识是在实践基础上主体对客体的能动反映。真理是人们对客观事物及其规律的正确反映。实践是检验真理的唯一标准，这是由真理的本性和实践的特点决定的。',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.ssp,
-                              height: 1.5,
-                              letterSpacing: 1.5,
+                          child: Opacity(
+                            opacity: 0.6,
+                            child: Text(
+                              '实践是指人类有目的地能动地改造和探索现实世界的社会性的客观物质活动。实践的观点是辩证唯物主义认识论的首要的观点，它认为实践是认识的基础。而认识是在实践基础上主体对客体的能动反映。真理是人们对客观事物及其规律的正确反映。实践是检验真理的唯一标准，这是由真理的本性和实践的特点决定的。',
+                              style: TextStyle(
+                                color: Theme.of(context).textTheme.bodyText1.color,
+                                fontSize: 14.ssp,
+                                height: 1.5,
+                                letterSpacing: 1.5,
+                              ),
                             ),
                           ),
                         ),
@@ -123,33 +126,21 @@ class _HideCatCoderState extends State<HideCatCoder> {
                         YlFadeIn(
                           delay: 1400,
                           child: Text('生日',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.ssp,
-                            ),
+                            style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold,)
                           ),
                         ),
                         SizedBox(height: 10.h,),
                         YlFadeIn(
                           delay: 1400,
                           child: Text('待做',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.ssp,
-                              height: 1.5,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
                         SizedBox(height: 20.h,),
                         YlFadeIn(
                           delay: 1400,
                           child: Text('大学4年',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.ssp,
-                            ),
+                              style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold,)
                           ),
                         ),
                         SizedBox(height: 10.h,),
@@ -192,7 +183,7 @@ class _HideCatCoderState extends State<HideCatCoder> {
             ],
           ),
           Positioned.fill(
-            bottom: 50.h,
+            bottom: 30.h,
             child: Container(
               child: Align(
                 alignment: Alignment.bottomCenter,
