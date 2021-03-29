@@ -16,5 +16,5 @@ final Map<String, WidgetBuilder> ylRoutes = {
   RegisterPage.routeName: (context) => RegisterPage(),
   ApplicationPage.routeName: (context) => ApplicationPage(),
   HideCatCoder.routeName: (context) => HideCatCoder(),
-  ChatMessagePage.routeName: (context) => ChatMessagePage(),
+  ChatMessagePage.routeName: (context) => ChatMessagePage(friend: ModalRoute.of(context).settings.arguments,),
 };

@@ -24,9 +24,9 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   TabController _tabController;
   static const tabs = [
     "广场", // 动态帖子
-    "发现", // 话题
+    "话题", // 话题
     "关注", // 粉丝
-    "自拍墙",
+    "站酷图集",
     "音乐专区",
     "视频专区",
   ];

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
+import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
+import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_message_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 /**
@@ -13,22 +17,40 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+
+  List<Message> allMessages;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAllData();
+  }
+
+  _loadAllData() async {
+    allMessages = await UserApi.allfriendLatestMessages(context: context, uid: AppGlobal.profile.user.uid);
+    setState(() {});
+
+    if(mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('躲猫猫'),
+        title: Text('消息列表'),
         centerTitle: false,
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        backgroundColor: AppColors.ylPrimaryColor,
-        child: Icon(Icons.person_add_alt_1, color: Colors.white,),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //
+      //   },
+      //   backgroundColor: AppColors.ylPrimaryColor,
+      //   child: Icon(Icons.person_add_alt_1, color: Colors.white,),
+      // ),
       body: Column(
         children: [
           Container(
@@ -36,11 +58,11 @@ class _ChatPageState extends State<ChatPage> {
             color: AppColors.ylPrimaryColor,
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: chatsData.length,
+            child: allMessages == null ? appCardPageDarkSkeleton() : ListView.builder(
+              itemCount: allMessages?.length,
               itemBuilder: (context, index) => ChatCard(
-                chat: chatsData[index],
-                onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName),
+                chat: allMessages[index],
+                onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName, arguments: allMessages[index].from),
               ),
             ),
           ),
@@ -51,7 +73,7 @@ class _ChatPageState extends State<ChatPage> {
 }
 
 class ChatCard extends StatelessWidget {
-  final Chat chat;
+  final Message chat;
   final GestureTapCallback onTap;
   const ChatCard({Key key, @required this.chat,@required this.onTap,}) : super(key: key);
 
@@ -64,10 +86,10 @@ class ChatCard extends StatelessWidget {
           CircleAvatar(
             radius: 24,
             backgroundImage: NetworkImage(
-              chat.avatar_url,
+              chat.from.avatar_url,
             ),
           ),
-          if(chat.isActive)Positioned(
+          if(true)Positioned(
             left: -2,
             top: -2,
             child: Container(
@@ -86,19 +108,19 @@ class ChatCard extends StatelessWidget {
         ],
       ),
       title: Text(
-        chat.name,
+        chat.from.name,
       ),
       subtitle: Opacity(
         opacity: 0.7,
         child: Text(
-          chat.lastMessage,
+          chat.content,
           style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color,),
         ),
       ),
       trailing: Opacity(
         opacity: 0.64,
         child: Text(
-          chat.time,
+          ylTimeFormat(DateTime.parse(chat.createdAt)),
         ),
       ),
     );

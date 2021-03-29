@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hide_seek_cat/common/entitys/chat_message.dart';
+import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
+import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
 /**
@@ -11,12 +12,62 @@ import 'package:flutter_screenutil/size_extension.dart';
  */
 class ChatMessagePage extends StatefulWidget {
   static String routeName = '/chat_with_friend';
+  final User friend;
+
+  const ChatMessagePage({Key key, @required this.friend}) : super(key: key);
 
   @override
   _ChatMessagePageState createState() => _ChatMessagePageState();
 }
 
-class _ChatMessagePageState extends State<ChatMessagePage> {
+class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderStateMixin{
+
+  List<Message> allHistoryMessages;
+  TextEditingController _chatController;
+
+  @override
+  void initState() {
+    super.initState();
+    _chatController = TextEditingController();
+    _loadAllData();
+  }
+
+  _loadAllData() async {
+    allHistoryMessages = await UserApi.historyChatMessages(context: context, uid: AppGlobal.profile.user.uid, fid: widget.friend.uid);
+    for(int i =0; i< allHistoryMessages.length;i++) {
+      allHistoryMessages[i].animationController = AnimationController(
+        duration: Duration(milliseconds: 700),
+        vsync: this,
+      );
+      allHistoryMessages[i].animationController.forward();
+    }
+    setState(() {});
+
+    if(mounted) {
+      setState(() {});
+    }
+  }
+
+  _handleSubmitted(String text){
+    _chatController.clear();
+    Message message = Message(
+      from: AppGlobal.profile.user,
+      to: widget.friend,
+      content: text,
+      type: 0,
+      state: 1,
+      messageStatus: MessageStatus.not_view,
+      animationController: AnimationController(
+        duration: Duration(milliseconds: 700),
+        vsync: this,
+      ),
+    );
+    setState(() {
+      allHistoryMessages.insert(0, message);
+    });
+    message.animationController.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +79,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
             BackButton(),
             CircleAvatar(
               backgroundImage: NetworkImage(
-                  'https://img.zcool.cn/community/0103a15d70b2b6a801202f17a508ee.jpg@1280w_1l_2o_100sh.jpg'
+                  widget.friend.avatar_url,
               ),
             ),
             SizedBox(width: 15.w,),
@@ -36,7 +87,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '陈爽(媳妇儿)',
+                  widget.friend.name,
                   style: TextStyle(
                     fontSize: 16.ssp,
                   ),
@@ -67,10 +118,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: ListView.builder(
-                itemCount: demeChatMessages.length,
-                itemBuilder: (context, index) => Message(
-                  message: demeChatMessages[index],
+              child: allHistoryMessages == null ? Text('load....') : ListView.builder(
+                itemCount: allHistoryMessages?.length,
+                reverse: true,
+                itemBuilder: (context, index) => MessageCard(
+                  message: allHistoryMessages[index],
+                  isSender: allHistoryMessages[index].from.uid == AppGlobal.profile.user.uid,
                 ),
               ),
             ),
@@ -113,9 +166,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                           Expanded(
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Type message',
+                                hintText: '',
                                 border: InputBorder.none,
                               ),
+                              controller: _chatController,
+                              textInputAction: TextInputAction.send,
+                              onSubmitted: _handleSubmitted,
                             ),
                           ),
                           Icon(Icons.attach_file, color: Theme.of(context).textTheme.bodyText1.color.withOpacity(0.8),),
@@ -133,49 +189,60 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _chatController.dispose();
+    for(Message message in allHistoryMessages) {
+      message.animationController?.dispose();
+    }
+    super.dispose();
+  }
+
 }
 
-class Message extends StatelessWidget {
-  final ChatMessage message;
+class MessageCard extends StatelessWidget {
+  final Message message;
+  final isSender;
 
-  const Message({Key key, @required this.message}) : super(key: key);
+  const MessageCard({Key key, @required this.message, @required this.isSender}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Widget messageTypeChoose(ChatMessage message) {
-      switch(message.messageType) {
-        case ChatMessageType.text:
-          return TextMessage(message: message);
+    Widget messageTypeChoose(Message message, bool isSender) {
+      switch(message.type) {
+        case 0:
+          return TextMessage(message: message, isSender: isSender);
           break;
-        case ChatMessageType.audio:
-          return AudioMessage(message: message);
+        case 1:
+          return AudioMessage(message: message, isSender: isSender);
           break;
-        case ChatMessageType.video:
-          return VideoMessage(message: message);
+        case 2:
+          return VideoMessage(message: message, isSender: isSender);
           break;
-        case ChatMessageType.image:
-          return ImageMessage(message: message);
+        case 3:
+          return ImageMessage(message: message, isSender: isSender);
           break;
         default:
           return SizedBox();
       }
     }
     return Padding(
-      padding: EdgeInsets.only(top: 10.h),
+      padding: EdgeInsets.only(top: 20.h),
       child: Row(
-        mainAxisAlignment: message.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if(!message.isSender) ...{
+          if(message.from.uid != AppGlobal.profile.user.uid) ...{
             CircleAvatar(
               backgroundImage: NetworkImage(
-                'https://img.zcool.cn/community/0103a15d70b2b6a801202f17a508ee.jpg@1280w_1l_2o_100sh.jpg'
+                message.from.avatar_url,
               ),
             ),
             SizedBox(
               width: 10.w,
             ),
           },
-          messageTypeChoose(message),
-          if(message.isSender) MessageStatusDot(status: message.messageStatus,),
+          messageTypeChoose(message, isSender),
+          if(isSender) MessageStatusDot(status: message.messageStatus,),
         ],
       ),
     );
@@ -183,25 +250,38 @@ class Message extends StatelessWidget {
 }
 
 class TextMessage extends StatelessWidget {
-  final ChatMessage message;
+  final Message message;
+  final bool isSender;
 
-  const TextMessage({Key key, @required this.message}) : super(key: key);
+  const TextMessage({Key key, @required this.message, this.isSender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15.w,
-        vertical: 10.h,
+    return SizeTransition(
+      sizeFactor: CurvedAnimation(
+        parent: message.animationController,
+        curve: Curves.easeOut,
       ),
-      decoration: BoxDecoration(
-        color: AppColors.ylPrimaryColor.withOpacity(message.isSender ? 1 : 0.1),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Text(
-        message.text,
-        style: TextStyle(
-          color: message.isSender ? Colors.white : Theme.of(context).textTheme.bodyText1.color,
+      axisAlignment: 0.0,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.r),
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: 0.65.sw,
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 15.w,
+            vertical: 10.h,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.ylPrimaryColor.withOpacity(isSender ? 1 : 0.1),
+          ),
+          child: Text(
+            message.content,
+            style: TextStyle(
+              color: isSender ? Colors.white : Theme.of(context).textTheme.bodyText1.color,
+            ),
+          ),
         ),
       ),
     );
@@ -209,13 +289,17 @@ class TextMessage extends StatelessWidget {
 }
 
 class AudioMessage extends StatelessWidget {
-  final ChatMessage message;
+  final Message message;
+  final bool isSender;
 
-  const AudioMessage({Key key, @required this.message}) : super(key: key);
+  const AudioMessage({Key key, @required this.message, this.isSender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(
+        maxWidth: 0.65.sw,
+      ),
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.symmetric(
         horizontal: 15.w,
@@ -223,11 +307,11 @@ class AudioMessage extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: AppColors.ylPrimaryColor.withOpacity(message.isSender ? 1 : 0.1),
+        color: AppColors.ylPrimaryColor.withOpacity(isSender ? 1 : 0.1),
       ),
       child: Row(
         children: [
-          Icon(Icons.play_arrow, color: message.isSender ? Colors.white : AppColors.ylPrimaryColor,),
+          Icon(Icons.play_arrow, color: isSender ? Colors.white : AppColors.ylPrimaryColor,),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -238,7 +322,7 @@ class AudioMessage extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: 2.h,
-                    color: message.isSender ? Colors.white : AppColors.ylPrimaryColor.withOpacity(0.4),
+                    color: isSender ? Colors.white : AppColors.ylPrimaryColor.withOpacity(0.4),
                   ),
                   Positioned(
                     left: 0,
@@ -246,7 +330,7 @@ class AudioMessage extends StatelessWidget {
                       width: 8.r,
                       height: 8.r,
                       decoration: BoxDecoration(
-                        color: message.isSender ? Colors.white : AppColors.ylPrimaryColor,
+                        color: isSender ? Colors.white : AppColors.ylPrimaryColor,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -259,7 +343,7 @@ class AudioMessage extends StatelessWidget {
               '0.37',
             style: TextStyle(
               fontSize: 12.ssp,
-              color: message.isSender ? Colors.white : null,
+              color: isSender ? Colors.white : null,
             ),
           ),
         ],
@@ -269,9 +353,10 @@ class AudioMessage extends StatelessWidget {
 }
 
 class VideoMessage extends StatelessWidget {
-  final ChatMessage message;
+  final Message message;
+  final bool isSender;
 
-  const VideoMessage({Key key, this.message}) : super(key: key);
+  const VideoMessage({Key key, this.message, this.isSender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -303,9 +388,10 @@ class VideoMessage extends StatelessWidget {
 }
 
 class ImageMessage extends StatelessWidget {
-  final ChatMessage message;
+  final Message message;
+  final bool isSender;
 
-  const ImageMessage({Key key, this.message}) : super(key: key);
+  const ImageMessage({Key key, this.message, this.isSender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

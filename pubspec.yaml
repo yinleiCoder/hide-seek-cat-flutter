@@ -63,6 +63,9 @@ dependencies:
   sentry_flutter: ^4.0.6
   # allows us to easily use any of the 977 fonts from fonts.google.com
   google_fonts: ^2.0.0
+  # 国际化和本地化功能，包括消息翻译，复数形式和性别，日期/数字格式和解析以及双向文本
+  intl: ^0.17.0
+
   # 序列化JSON
   json_annotation:
 

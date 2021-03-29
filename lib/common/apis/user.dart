@@ -26,6 +26,21 @@ class UserApi {
     return User.fromJson(response);
   }
 
+  /// 获取我和我朋友们的最新聊天消息
+  static Future<List<Message>> allfriendLatestMessages({@required context, @required String uid}) async {
+    var response = await AppHttps().get('/users/${uid}/allfriendsandmessages', context: context, );
+    return response
+        .map<Message>((item) => Message.fromJson(item))
+        .toList();
+  }
+
+  /// 获取我和某个朋友的全部历史聊天记录
+  static Future<List<Message>> historyChatMessages({@required context, @required String uid, @required String fid}) async {
+    var response = await AppHttps().get('/users/${uid}/allmessageswithSomeone/${fid}?page=1&per_page=20&q=', context: context, );
+    return response
+        .map<Message>((item) => Message.fromJson(item))
+        .toList();
+  }
 
 
 }
