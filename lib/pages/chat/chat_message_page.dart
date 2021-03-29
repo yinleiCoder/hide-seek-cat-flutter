@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
+import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
+import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_screenutil/size_extension.dart';
+
 
 /**
  * 和好友即时通讯页
@@ -30,6 +33,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
     super.initState();
     _chatController = TextEditingController();
     _loadAllData();
+    AppSocketIo().socket.on('chat_text', _handleReceiveMsg);
   }
 
   _loadAllData() async {
@@ -62,6 +66,29 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
         vsync: this,
       ),
     );
+    setState(() {
+      allHistoryMessages.insert(0, message);
+    });
+    message.animationController.forward();
+    AppSocketIo().socket.emit('chat_text', [text, AppGlobal.profile.user.uid, widget.friend.uid]);
+  }
+
+  _handleReceiveMsg(data) {
+    print('接收到了：${data} ');
+    print('来自：${widget.friend.uid} 接收者：${AppGlobal.profile.user.uid} ');
+    Message message = Message(
+      from: widget.friend,
+      to: AppGlobal.profile.user,
+      content: data[0],
+      type: 0,
+      state: 1,
+      messageStatus: MessageStatus.viewed,
+      animationController: AnimationController(
+        duration: Duration(milliseconds: 700),
+        vsync: this,
+      ),
+    );
+    if (!mounted) return;
     setState(() {
       allHistoryMessages.insert(0, message);
     });

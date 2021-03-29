@@ -1,3 +1,4 @@
+import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// This allows the `User` class to access private members in
@@ -86,8 +87,8 @@ class User {
 
   String gender;
   List<String> locations;
-  List<String> following;
-  List<String> followingTopics;
+  List<User> following;
+  List<Topic> followingTopics;
   List<String> likingAnswers;
   List<String> dislikingAnswers;
   List<String> collectingAnswers;

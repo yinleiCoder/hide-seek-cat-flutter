@@ -262,7 +262,13 @@ Sentry: https://sentry.io/welcome/
 
 ------
 
+## Notes to Contributors
 
+Fork hide_seek_cat
+
+if you'd like to contribute back to the core, you can fork this repository and send me a pull request, when it is ready.
+
+if you are new to Git or Github, please read the Github guide first.
 
 ## License
 MIT License

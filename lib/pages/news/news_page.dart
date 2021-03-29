@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hide_seek_cat/global.dart';
 
 /**
  * 时讯页
@@ -19,10 +20,8 @@ class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<
         centerTitle: false,
       ),
       body: Center(
-        child: IconButton(
-          icon: Icon(Icons.share),
-          onPressed: (){
-          },
+        child: Text(
+          AppGlobal.profile.user.avatar_url,
         ),
       ),
     );

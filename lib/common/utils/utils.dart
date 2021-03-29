@@ -7,3 +7,4 @@ export 'iconfont.dart';
 export 'authentication.dart';
 export 'app_update.dart';
 export 'date.dart';
+export 'socketio.dart';

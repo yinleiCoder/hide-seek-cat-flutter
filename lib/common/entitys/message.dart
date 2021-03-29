@@ -9,6 +9,9 @@ part 'message.g.dart';
 
 /// An annotation for the code generator to know that this class needs the
 /// JSON serialization logic to be generated.
+
+enum MessageStatus { not_sent, not_view, viewed }
+
 @JsonSerializable(explicitToJson: true)
 /***
     {
@@ -22,8 +25,6 @@ part 'message.g.dart';
     "updatedAt": "2021-03-28T09:54:39.312Z"
     },
  */
-enum MessageStatus { not_sent, not_view, viewed }
-
 class Message {
   Message({this.msgid ,this.from ,this.to ,this.content ,this.type ,this.state ,this.createdAt ,this.updatedAt, this.messageStatus = MessageStatus.viewed, this.animationController});
 
@@ -37,9 +38,9 @@ class Message {
   String createdAt;
   String updatedAt;
 
-  @JsonKey(required: false)
+  @JsonKey(ignore: true)
   MessageStatus messageStatus;
-  @JsonKey(required: false)
+  @JsonKey(ignore: true)
   AnimationController animationController;
 
 

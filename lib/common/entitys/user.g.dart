@@ -14,9 +14,14 @@ User _$UserFromJson(Map<String, dynamic> json) {
     password: json['password'] as String,
     gender: json['gender'] as String,
     locations: (json['locations'] as List)?.map((e) => e as String)?.toList(),
-    following: (json['following'] as List)?.map((e) => e as String)?.toList(),
-    followingTopics:
-        (json['followingTopics'] as List)?.map((e) => e as String)?.toList(),
+    following: (json['following'] as List)
+        ?.map(
+            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    followingTopics: (json['followingTopics'] as List)
+        ?.map(
+            (e) => e == null ? null : Topic.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     likingAnswers:
         (json['likingAnswers'] as List)?.map((e) => e as String)?.toList(),
     dislikingAnswers:
@@ -37,8 +42,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       '_id': instance.uid,
       'gender': instance.gender,
       'locations': instance.locations,
-      'following': instance.following,
-      'followingTopics': instance.followingTopics,
+      'following': instance.following?.map((e) => e?.toJson())?.toList(),
+      'followingTopics':
+          instance.followingTopics?.map((e) => e?.toJson())?.toList(),
       'likingAnswers': instance.likingAnswers,
       'dislikingAnswers': instance.dislikingAnswers,
       'collectingAnswers': instance.collectingAnswers,

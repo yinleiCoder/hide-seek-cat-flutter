@@ -48,11 +48,10 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
             children: [
               UserAccountsDrawerHeader(
                 accountName: Text(userModel.isLogin ? userModel.user.name : '用户名'),
-                // accountEmail: Text('uid: ${userModel.isLogin ? userModel.user.uid : ''}'),
                 accountEmail: Text('${userModel.isLogin ? userModel.user.headline : ''}'),
                 currentAccountPicture: CircleAvatar(
                   backgroundImage: NetworkImage(
-                    userModel.isLogin ? userModel.user.avatar_url : 'https://img.zcool.cn/community/019e006054343f11013e87f440a8b8.jpg@3000w_1l_0o_100sh.jpg',
+                    userModel.user.avatar_url,
                   ),
                 ),
                 otherAccountsPictures: [

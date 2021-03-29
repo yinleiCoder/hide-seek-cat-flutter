@@ -71,7 +71,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
             child: CircleAvatar(
               radius: 14,
               backgroundImage: NetworkImage(
-                  AppGlobal.profile?.user?.avatar_url ?? 'https://img.zcool.cn/community/010bba5f0890a6a801215aa00c8d22.jpg@1280w_1l_0o_100sh.jpg'
+                  AppGlobal.profile?.user?.avatar_url,
               ),
             ),
           ),
@@ -108,7 +108,6 @@ class _ApplicationPageState extends State<ApplicationPage> {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
