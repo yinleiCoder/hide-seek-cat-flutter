@@ -16,6 +16,16 @@ class PostApi {
         .toList();
   }
 
+  /// 获取前3个精选话题或全部话题
+  static Future<List<Topic>> allUsersTopics({@required context, num per_page = 20, String q=''}) async {
+    var response = await AppHttps().get('/topics?page=1&per_page=${per_page}&q=${q}', context: context, );
+    return response
+        .map<Topic>((item) => Topic.fromJson(item))
+        .toList();
+  }
+
+
+
 
 
 }

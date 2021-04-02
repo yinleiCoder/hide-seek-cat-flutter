@@ -21,6 +21,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
   /// rive.
   final riveFileName = 'assets/rives/marty_v6.riv';
   Artboard _artboard;
+  RiveAnimationController _riveController;
 
   /// animatedWidget.
   AnimationController _controller;
@@ -46,16 +47,21 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
 
   /// load rive file.
   void _loadRiveFile() async {
-    final bytes = await rootBundle.load(riveFileName);
-    final file = RiveFile();
-
-    if(file.import(bytes)) {
-      /// select an animation by its name
-      setState(() => _artboard = file.mainArtboard
-        ..addController(
-          SimpleAnimation('Animation1'),
-        ));
-    }
+    // Load the animation file from the bundle, note that you could also
+    // download this. The RiveFile just expects a list of bytes.
+    rootBundle.load(riveFileName).then(
+          (data) async {
+        // Load the RiveFile from the binary data.
+        final file = RiveFile.import(data);
+        // The artboard is the root of the animation and gets drawn in the
+        // Rive widget.
+        final artboard = file.mainArtboard;
+        // Add a controller to play back a known animation on the main/default
+        // artboard.We store a reference to it so we can toggle playback.
+        artboard.addController(_riveController = SimpleAnimation('Animation1'));
+        setState(() => _artboard = artboard);
+      },
+    );
   }
 
 
@@ -202,6 +208,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
   void dispose() {
     _controller.dispose();
     _pageController.dispose();
+    _riveController.dispose();
     super.dispose();
   }
 

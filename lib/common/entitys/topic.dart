@@ -10,10 +10,12 @@ part 'topic.g.dart';
 /// JSON serialization logic to be generated.
 /***
     {
-    "_id": "6038495765d4da0d705100bc",
-    "name": "美女话题",
-    "avatar_url": "https://img.zcool.cn/community/012030603736b111013f3745117ac8.jpg@1280w_1l_2o_100sh.jpg"
-    },
+    "_id": "6060242384a042087cc61d8c",
+    "name": "绵阳",
+    "avatar_url": "https://img.zcool.cn/community/0149205f2bc83ba801215aa05e028c.jpg@3000w_1l_0o_100sh.jpg",
+    "createdAt": "2021-03-28T06:37:23.492Z",
+    "updatedAt": "2021-03-28T06:37:23.492Z"
+    }
  */
 class Topic {
   Topic({this.tid, this.name, this.avatar_url, this.introduction, this.createdAt, this.updatedAt,});

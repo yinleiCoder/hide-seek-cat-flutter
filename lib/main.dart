@@ -49,6 +49,12 @@ Future<void> main() async {
           ChangeNotifierProvider(
             create: (_) => UserModel(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => CardProvider(),
+          ),
+          // ChangeNotifierProvider(
+          //   create: (_) => ThemeModel(ThemeType.light),
+          // ),
           // ChangeNotifierProvider.value(value: null)
         ],
         child: MyApp(),

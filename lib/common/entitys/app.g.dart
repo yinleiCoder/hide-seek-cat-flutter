@@ -17,6 +17,7 @@ App _$AppFromJson(Map<String, dynamic> json) {
     fileUrl: json['fileUrl'] as String,
     latestVersion: json['latestVersion'] as String,
     latestDescription: json['latestDescription'] as String,
+    banner: json['banner'] as String,
   );
 }
 
@@ -26,6 +27,7 @@ Map<String, dynamic> _$AppToJson(App instance) => <String, dynamic>{
       'architecture': instance.architecture,
       'model': instance.model,
       'shopUrl': instance.shopUrl,
+      'banner': instance.banner,
       'fileUrl': instance.fileUrl,
       'latestVersion': instance.latestVersion,
       'latestDescription': instance.latestDescription,

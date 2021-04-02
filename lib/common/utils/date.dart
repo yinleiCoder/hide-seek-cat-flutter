@@ -9,9 +9,16 @@ import 'package:intl/intl.dart';
 String ylTimeFormat(DateTime dt) {
   var now = DateTime.now();
   var difference = now.difference(dt);
-
+  // 60秒内
+  if (difference.inSeconds < 60) {
+    return "${difference.inSeconds}秒前";
+  }
+  // 60分钟内
+  else if (difference.inMinutes < 60) {
+    return "${difference.inMinutes}分钟前";
+  }
   // 1天内
-  if (difference.inHours < 24) {
+  else if (difference.inHours < 24) {
     return "${difference.inHours}小时前";
   }
   // 30天内

@@ -89,8 +89,6 @@ class AppGlobal {
     }
     /// read app package information
     AppGlobal.packageInfo = await PackageInfo.fromPlatform();
-
-
   }
 
   /// save user and user's profile config.

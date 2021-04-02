@@ -7,60 +7,62 @@
 
 ## 开发环境
 
-- Flutter 2.0.0 • channel beta • https://github.com/flutter/flutter.git
-- Framework • revision 60bd88df91 (21 hours ago) • 2021-03-03 09:13:17 -0800
-- Engine • revision 40441def69
-- Tools • Dart 2.12.0
-- AndroidStudio：4.1.2
-- Android Emulators:  Android R(Pixel 4)
+[√] Flutter (Channel stable, 2.0.3, on Microsoft Windows [Version 10.0.19042.867], locale zh-CN)
+    • Flutter version 2.0.3 at D:\flutter
+    • Framework revision 4d7946a68d (2 weeks ago), 2021-03-18 17:24:33 -0700
+    • Engine revision 3459eb2436
+    • Dart version 2.12.2
+    • Pub download mirror https://pub.flutter-io.cn
+    • Flutter download mirror https://storage.flutter-io.cn
+
+[√] Android toolchain - develop for Android devices (Android SDK version 29.0.3)
+    • Android SDK at D:\AndroidSDK
+    • Platform android-30, build-tools 29.0.3
+    • ANDROID_HOME = D:\AndroidSDK
+    • Java binary at: D:\Android Studio\jre\bin\java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+    • All Android licenses accepted.
+
+[√] Chrome - develop for the web
+    • Chrome at C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+
+[√] Android Studio (version 4.1.0)
+    • Android Studio at D:\Android Studio
+    • Flutter plugin can be installed from:
+       https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+       https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+
+[√] IntelliJ IDEA Ultimate Edition (version 2020.1)
+    • IntelliJ at D:\IntelliJ IDEA\IntelliJ IDEA 2018.3.5
+    • Flutter plugin can be installed from:
+       https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+       https://plugins.jetbrains.com/plugin/6351-dart
+
+[√] Connected device (3 available)
+    • sdk gphone x86 (mobile) • emulator-5554 • android-x86    • Android 11 (API 30) (emulator)
+    • Chrome (web)            • chrome        • web-javascript • Google Chrome 88.0.4324.104
+    • Edge (web)              • edge          • web-javascript • Microsoft Edge 89.0.774.63
 
 ### 参考Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
 
-- SafeArea —— used
-- Expanded —— used
-- Wrap —— used
-- AnimatedContainer —— used
-- Opacity —— used
-- FutureBuilder
-- FadeTransition —— used
-- FloatingActionButton —— used
-- PageView —— used
-- Table —— used
-- SliverAppBar
-- SliverList
-- SliverGrid
 - FadeInImage
-- StreamBuilder
 - InheritedModel
-- ClipRRect —— used
 - CustomPaint
-- Hero
 - Tooltip
 - FittedBox
-- LayoutBuilder —— used
+- LayoutBuilder
 - AbsorbPointer
-- Transform —— used
-- ImageFilter
-- BackdropFilter
-- Align —— used
-- Positioned —— used
-- AnimatedBuilder —— used
 - Dismissible
-- SizedBox —— used
 - ValueListenableBuilder
 - Draggable
 - AnimatedList
-- Stack —— used
-- Flexible —— used
-- MediaQuery —— used
-- Spacer —— used
 - InheritedWidget
-- AnimatedIcon —— used
-- AspectRatio —— used
 - Placeholder
 - LimitedBox
 - ReorderableListView
-- RichText —— used
 - AnimatedSwitcher
 - AnimatedPositioned
 - AnimatedPadding
@@ -68,45 +70,26 @@
 - Semantics
 - ConstrainedBox
 - AnimatedOpacity
-- FractionallySizedBox —— used
-- ListView —— used
-- ListTitle —— used
-- Container —— used
 - SelectableText
-- DataTable —— used
 - Slider
-- AlertDialog —— used
 - AnimatedCrossFade
 - DraggableScrollableSheet
-- ColorFiltered —— used
+- ColorFiltered
 - ToggleButtons
 - CupertinoActionSheet
 - TweenAnimationBuilder
-- Image —— used
-- TabBar —— used
-- DefaultTabController —— used
-- Drawer —— used
 - SnackBar
 - ListWheelScrollView
 - ShaderMask
 - NotificationListener
-- Builder —— used
 - ClipPath
 - CircularProgressIndicator
 - LinearProgressIndicator
-- Divider —— used
 - IgnorePointer
 - CupertinoActivityIndicator
-- ClipOval —— used
-- AnimatedWidget —— used
-- Padding —— used
 - CheckboxListTile
-- AboutDialog —— used
-- InteractiveViewer
-- GridView
 - SwitchListTile
 - Location
-- ....
 
 ------
 ## WebView

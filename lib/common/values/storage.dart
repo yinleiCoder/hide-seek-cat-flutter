@@ -6,6 +6,9 @@
 /// user: profile information
 const String STORAGE_USER_PROFILE_KEY = 'user_profile';
 
+/// 记账助手
+const String STORAGE_USER_COST_KEY = 'user_cost';
+
 /// 设备离线登录
 const String STORAGE_DEVICE_ALREADY_OPEN_KEY = 'device_already_open';
 

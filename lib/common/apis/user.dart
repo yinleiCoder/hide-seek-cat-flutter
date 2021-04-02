@@ -42,5 +42,18 @@ class UserApi {
         .toList();
   }
 
+  /// 站酷搜索
+  static Future<List<ZcoolSearch>> zcoolSearch({@required context, String keyword = ''}) async {
+    var response = await AppHttps().get('/zcool/findZcool?keyword=${keyword}', context: context, );
+    return response
+        .map<ZcoolSearch>((item) => ZcoolSearch.fromJson(item))
+        .toList();
+  }
+
+  /// 站酷详情页
+  static Future<ZcoolDetail> zcoolDetail({@required context, String objectId = ''}) async {
+    var response = await AppHttps().get('/zcool/findZcoolDetail?objectId=${objectId}', context: context, );
+    return ZcoolDetail.fromJson(response);
+  }
 
 }

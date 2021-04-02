@@ -4,6 +4,7 @@ import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_page.dart';
 import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
@@ -25,6 +26,9 @@ class _ApplicationPageState extends State<ApplicationPage> {
 
   var _currentPage = 0;
   PageController _pageController;
+
+  /// 上次点击的时间[用于1s内点击2次返回按钮是否退出]
+  DateTime _lastPressedAt;
 
   @override
   void initState() {
@@ -71,7 +75,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
             child: CircleAvatar(
               radius: 14,
               backgroundImage: NetworkImage(
-                  AppGlobal.profile?.user?.avatar_url,
+                  AppGlobal.profile?.user?.avatar_url??'https://img.zcool.cn/community/01ca635a295054a801216e8d609191.jpg@2o.jpg',
               ),
             ),
           ),
@@ -111,16 +115,27 @@ class _ApplicationPageState extends State<ApplicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildPageView(),
-      bottomNavigationBar: _buildBottomNavigationBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        },
-        child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
-        elevation: 4.0,
+    return WillPopScope(
+      onWillPop: () async {
+        if(_lastPressedAt == null || DateTime.now().difference(_lastPressedAt) > Duration(seconds: 1)) {
+          appShowToast(msg: '1秒内点击2次返回键则退出APP');
+          /// 2次点击间隔超过1s则重新⏲
+          _lastPressedAt = DateTime.now();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: _buildPageView(),
+        bottomNavigationBar: _buildBottomNavigationBar(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+          },
+          child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
+          elevation: 4.0,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

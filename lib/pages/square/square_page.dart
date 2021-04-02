@@ -4,8 +4,12 @@ import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
+import 'package:flutter_hide_seek_cat/pages/square/cost_record_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/profile_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/topic_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/zcool_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/size_extension.dart';
@@ -25,10 +29,10 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   static const tabs = [
     "广场", // 动态帖子
     "话题", // 话题
-    "关注", // 粉丝
     "站酷图集",
     "音乐专区",
     "视频专区",
+    "关注", // 粉丝
   ];
 
   var _isExpanded = false;
@@ -49,17 +53,20 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
               UserAccountsDrawerHeader(
                 accountName: Text(userModel.isLogin ? userModel.user.name : '用户名'),
                 accountEmail: Text('${userModel.isLogin ? userModel.user.headline : ''}'),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    userModel.user.avatar_url,
+                currentAccountPicture: GestureDetector(
+                  onTap: () => Navigator.of(context).pushNamed(UserProfile.routeName),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      userModel.user.avatar_url,
+                    ),
                   ),
                 ),
                 otherAccountsPictures: [
-                  IconButton(icon: Icon(Icons.qr_code), onPressed: (){}),
+                  IconButton(icon: Icon(Icons.qr_code), color: Colors.white, onPressed: (){}),
                 ],
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage('https://img.zcool.cn/community/01ca635a295054a801216e8d609191.jpg@2o.jpg',),
+                    image: AssetImage('assets/images/cat_bg.png'),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                       Colors.black12.withOpacity(0.3),
@@ -149,26 +156,32 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                           ),
                         ],
                       ),
-                      if(userModel.isLogin) ListTile(
+                      ListTile(
                         leading: Icon(Icons.confirmation_number),
                         title: Text('uid'),
                         subtitle: Text(userModel.user.uid, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
                         onTap: () {
                         },
                       ),
-                      if(userModel.isLogin) ListTile(
+                      ListTile(
                         leading: Icon(Icons.bolt),
                         title: Text('性别'),
                         subtitle: Text(userModel.user.gender, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
                         onTap: () {
                         },
                       ),
-                      if(userModel.isLogin) ListTile(
+                      ListTile(
                         leading: Icon(Icons.cake_rounded),
                         title: Text('破壳日'),
                         subtitle: Text(userModel.user.createdAt, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,)),
                         onTap: () {
                         },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.money),
+                        title: Text('开支记账助手'),
+                        subtitle: Text('恩格尔系数（反映生活水平）：食品支出总额 / 个人消费支出总额', style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,)),
+                        onTap: () => Navigator.of(context).pushNamed(CostRecordPage.routeName,),
                       ),
                       AppGlobal.profile.user != null ? ListTile(
                         onTap: () => goLoginPage(context),
@@ -190,6 +203,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: _buildDrawer(),
       body: SafeArea(
         child: Column(
@@ -237,8 +251,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                 controller: _tabController,
                 children: [
                   PostPage(),
-                  Text('广场2'),
-                  Text('广场3'),
+                  TopicPage(),
+                  ZcoolPage(),
                   Text('广场4'),
                   Text('广场5'),
                   Text('广场5'),

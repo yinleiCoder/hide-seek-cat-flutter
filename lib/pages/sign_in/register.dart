@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
   /// rive.
   final riveFileName = 'assets/rives/marine_corps_running.riv';
   Artboard _artboard;
-
+  RiveAnimationController _riveController;
 
   @override
   void initState() {
@@ -136,16 +136,21 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
 
   /// load rive file.
   void _loadRiveFile() async {
-    final bytes = await rootBundle.load(riveFileName);
-    final file = RiveFile();
-
-    if(file.import(bytes)) {
-      /// select an animation by its name
-      setState(() => _artboard = file.mainArtboard
-        ..addController(
-          SimpleAnimation('Run'),
-        ));
-    }
+    // Load the animation file from the bundle, note that you could also
+    // download this. The RiveFile just expects a list of bytes.
+    rootBundle.load(riveFileName).then(
+          (data) async {
+        // Load the RiveFile from the binary data.
+        final file = RiveFile.import(data);
+        // The artboard is the root of the animation and gets drawn in the
+        // Rive widget.
+        final artboard = file.mainArtboard;
+        // Add a controller to play back a known animation on the main/default
+        // artboard.We store a reference to it so we can toggle playback.
+        artboard.addController(_riveController = SimpleAnimation('Run'));
+        setState(() => _artboard = artboard);
+      },
+    ).catchError((e) => print(e));
   }
 
   Widget _buildRegisterHeader() {
@@ -312,6 +317,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     _userPasswordController.dispose();
     _userConfirmPasswordController.dispose();
 
+    _riveController.dispose();
     super.dispose();
   }
 

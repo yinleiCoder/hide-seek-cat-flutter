@@ -47,4 +47,14 @@ class AppStorage {
     return _prefs.remove(key);
   }
 
+  /// set string list
+  Future<bool> setStringList(String key, List<String> content) {
+    return _prefs.setStringList(key, content);
+  }
+
+  /// get string list
+  List<String> getStringList(String key) {
+    return _prefs.getStringList(key);
+  }
+
 }

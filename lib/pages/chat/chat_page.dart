@@ -18,21 +18,18 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
 
-  List<Message> allMessages;
-
+  Future _future;
   @override
   void initState() {
     super.initState();
-    _loadAllData();
+    _future = _loadAllData();
   }
 
-  _loadAllData() async {
-    allMessages = await UserApi.allfriendLatestMessages(context: context, uid: AppGlobal.profile.user.uid);
-    setState(() {});
-
-    if(mounted) {
-      setState(() {});
-    }
+  Future<List<Message>> _loadAllData() async {
+    return await UserApi.allfriendLatestMessages(context: context, uid: AppGlobal.profile.user.uid);
+    // if(mounted) {
+    //   setState(() {});
+    // }
   }
 
   @override
@@ -44,29 +41,41 @@ class _ChatPageState extends State<ChatPage> {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //
-      //   },
-      //   backgroundColor: AppColors.ylPrimaryColor,
-      //   child: Icon(Icons.person_add_alt_1, color: Colors.white,),
-      // ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-            color: AppColors.ylPrimaryColor,
-          ),
-          Expanded(
-            child: allMessages == null ? appCardPageDarkSkeleton() : ListView.builder(
-              itemCount: allMessages?.length,
+      body: FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          Widget child;
+          if(snapshot.hasData) {
+            child = ListView.builder(
+              itemCount: snapshot.data.length,
               itemBuilder: (context, index) => ChatCard(
-                chat: allMessages[index],
-                onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName, arguments: allMessages[index].from),
+                chat: snapshot.data[index],
+                onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName, arguments: snapshot.data[index].from),
               ),
-            ),
-          ),
-        ],
+            );
+          }else if(snapshot.hasError) {
+            child = Text('发生未知出错啦！');
+          }else {
+            child = Center(
+              child: SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60.r,
+                height: 60.r,
+              ),
+            );
+          }
+          return Column(
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                color: AppColors.ylPrimaryColor,
+              ),
+              Expanded(
+                child: child,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
