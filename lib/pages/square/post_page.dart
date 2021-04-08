@@ -8,6 +8,7 @@ import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_detail_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/topic_detail_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 import 'package:rive/rive.dart' hide LinearGradient;
 
@@ -34,220 +35,66 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   RiveAnimationController _riveController;
 
   List<Post> allPosts;
-  List<Topic> top3Topics;
+  List<Topic> top3Topics = [];
 
 
-  Widget _buildRecommendTopics({topicImg, topicName, publishTime}) {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Container(
-        margin: EdgeInsets.only(right: 10.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-            image: NetworkImage(
-              topicImg,
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
+  Widget _buildRecommendTopics({topicImg, topicName, publishTime, topicId}) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(TopicDetailPage.routeName, arguments: topicId),
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
         child: Container(
+          margin: EdgeInsets.only(right: 10.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              begin: Alignment.bottomRight,
-              colors: [
-                Colors.black.withOpacity(0.9),
-                Colors.black.withOpacity(0.1),
-              ],
+            image: DecorationImage(
+              image: NetworkImage(
+                topicImg,
+              ),
+              fit: BoxFit.cover,
             ),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(10.r),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                  Text(
-                    topicName,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    ylTimeFormat(DateTime.parse(publishTime)),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOtherUsersPuslishedPost({uid, userName, userAvatar, publishTime, publishText, publishImage, List<Topic> topics}) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(PostDetailPage.routeName, arguments: uid),
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Hero(
-                      tag: 'user_avatar',
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(userAvatar, width: 48.r, height: 48.r, fit: BoxFit.cover,
-                          ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          userName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1.copyWith(fontWeight: FontWeight.bold, letterSpacing: 1.5,),
-                        ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        Text(
-                            ylTimeFormat(DateTime.parse(publishTime)),
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .color
-                                  .withOpacity(0.7),
-                            ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.more_horiz, size: 30.ssp,),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Text(publishText),
-            SizedBox(
-              height: 15.h,
-            ),
-            ClipRRect(
+          child: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.network(
-                    publishImage,
-                    width: 1.sw,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null)
-                        return child;
-                      return Center(
-                        child: LinearProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                              : null,
-                        ),
-                      );
-                    },
-                  ),
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                colors: [
+                  Colors.black.withOpacity(0.9),
+                  Colors.black.withOpacity(0.1),
+                ],
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Wrap(
-              spacing: 5.0,
-              children: topics.map((tag) {
-                return Chip(
-                  avatar: ClipOval(child: Image.network(tag.avatar_url, fit: BoxFit.cover,)),
-                  label: Text(tag.name),
-                );
-              }).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 25.r,
-                      height: 25.r,
-                      decoration: BoxDecoration(
-                        color: AppColors.ylSecondaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Icon(Icons.favorite, size: 12.ssp, color: Colors.white,),
-                      ),
-                    ),
-                    Transform.translate(
-                      offset: Offset(-5,0),
-                      child: Container(
-                        width: 25.r,
-                        height: 25.r,
-                        decoration: BoxDecoration(
-                          color: AppColors.ylPrimaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Icon(Icons.thumb_up, size: 12.ssp, color: Colors.white,),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5.w,),
+            child: Padding(
+              padding: EdgeInsets.all(10.r),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
                     Text(
-                      '2.1w'
+                      topicName,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ],
-                ),
-                FlatButton.icon(onPressed: (){
-                  setState(() {
-                    isClickCommentBtning = !isClickCommentBtning;
-                    isClickCommentBtning ? _animationController.forward() : _animationController.reverse();
-                  });
-                }, icon: AnimatedIcon(
-                  icon: AnimatedIcons.view_list,
-                  progress: _animationController,
-                ), label: Text('821条评论')),
-              ],
+                    Text(
+                      ylTimeFormat(DateTime.parse(publishTime)),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Row(
-              children: [
-
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+
+
 
   Widget _buildAreaTitle({areaTitle, moreDetail, isSqure=false}) {
     return Padding(
@@ -340,8 +187,14 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Column(
+    return RefreshIndicator(
+      onRefresh: () {
+        return Future.delayed(Duration(seconds: 2), () {
+          _loadAllData();
+        });
+      },
+      child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
         children: [
           _buildAreaTitle(areaTitle: '每日话题精选', ),
           Container(
@@ -351,9 +204,9 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
               scrollDirection: Axis.horizontal,
               controller: PageController(
                 keepPage: true,
-                viewportFraction: 0.9,
+                viewportFraction: 0.95,
               ),
-              children: top3Topics.map((topic) => _buildRecommendTopics(topicImg: topic.avatar_url, topicName: topic.name, publishTime: topic.createdAt)).toList(),
+              children: top3Topics.map((topic) => _buildRecommendTopics(topicImg: topic.avatar_url, topicName: topic.name, publishTime: topic.createdAt, topicId: topic.tid)).toList(),
             ),
           ),
           Wrap(
@@ -391,20 +244,21 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
               ),
           ),
           _buildAreaTitle(areaTitle: '广场', isSqure: true),
-          allPosts == null ? SizedBox(width: 1.sw,height: 1.sh, child: appListDarkSkeleton(),) : ListView.separated(
+          allPosts == null ? SizedBox(width: 1.sw,height: 1.sh, child: appListDarkSkeleton(),) : ListView.builder(
             itemCount: allPosts?.length,
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(horizontal: 10.w),
-            separatorBuilder: (context, position) => Divider(indent: 10.w, endIndent: 10.w, thickness: 2.0,),
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return _buildOtherUsersPuslishedPost(
+              return ylPostCard(
+                context: context,
                 uid: allPosts[index].poster.uid,
                 userName: allPosts[index].poster.name,
                 userAvatar: allPosts[index].poster.avatar_url,
                 publishTime: allPosts[index].createdAt??'',
+                publishTitle: allPosts[index].title,
                 publishText: allPosts[index].description,
-                publishImage: 'https://img.zcool.cn/community/01fb0060137f3811013f79281d481f.jpg@1280w_1l_2o_100sh.jpg',
+                publishImage: allPosts[index].url,
                 topics: allPosts[index].topics,
               );
             },

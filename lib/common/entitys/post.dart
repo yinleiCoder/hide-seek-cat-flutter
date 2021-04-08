@@ -36,7 +36,7 @@ part 'post.g.dart';
     },
  */
 class Post {
-  Post({this.pid, this.poster, this.title, this.description, this.topics, this.createdAt, this.updatedAt});
+  Post({this.pid, this.poster, this.title, this.url, this.description, this.topics, this.createdAt, this.updatedAt});
 
   @JsonKey(name: '_id')
   String pid;
@@ -45,6 +45,7 @@ class Post {
 
   String title;
   String description;
+  String url;
   List<Topic> topics;
   String createdAt;
   String updatedAt;

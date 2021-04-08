@@ -1,16 +1,14 @@
-# 躲猫猫:cat:——Flutter 移动端
+# 躲猫猫:cat:——Flutter[已支持移动端、Web]
 
 > 一款适合年轻人的社交软件APP——躲猫猫
-> 现已支持Flutter Web 并 支持空安全
 > 启用空安全：dart migrate --apply-changes
 > 检查当前项目的依赖是否都满足空安全：对于可以空安全的版本，例如provider 5.0.0应当更新pubspec.yaml
 
 ## 开发环境
-
-[√] Flutter (Channel stable, 2.0.3, on Microsoft Windows [Version 10.0.19042.867], locale zh-CN)
-    • Flutter version 2.0.3 at D:\flutter
-    • Framework revision 4d7946a68d (2 weeks ago), 2021-03-18 17:24:33 -0700
-    • Engine revision 3459eb2436
+[√] Flutter (Channel stable, 2.0.4, on Microsoft Windows [Version 10.0.19042.867], locale zh-CN)
+    • Flutter version 2.0.4 at D:\flutter
+    • Framework revision b1395592de (6 days ago), 2021-04-01 14:25:01 -0700
+    • Engine revision 2dce47073a
     • Dart version 2.12.2
     • Pub download mirror https://pub.flutter-io.cn
     • Flutter download mirror https://storage.flutter-io.cn
@@ -44,8 +42,8 @@
 [√] Connected device (3 available)
     • sdk gphone x86 (mobile) • emulator-5554 • android-x86    • Android 11 (API 30) (emulator)
     • Chrome (web)            • chrome        • web-javascript • Google Chrome 88.0.4324.104
-    • Edge (web)              • edge          • web-javascript • Microsoft Edge 89.0.774.63
-
+    • Edge (web)              • edge          • web-javascript • Microsoft Edge 89.0.774.68
+    
 ### 参考Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
 
 - FadeInImage

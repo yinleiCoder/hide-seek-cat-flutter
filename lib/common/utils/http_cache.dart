@@ -33,9 +33,9 @@ class AppNetCache extends Interceptor {
   var cache = LinkedHashMap<String, CacheObject>();
 
   @override
-  onRequest(RequestOptions options) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if(!CACHE_ENABLE) {
-      return options;
+      return super.onRequest(options, handler);
     }
     bool refresh = options.extra["refresh"] == true;
     bool cacheDisk = options.extra["cacheDisk"] == true;
@@ -48,7 +48,7 @@ class AppNetCache extends Interceptor {
       if (cacheDisk) {
         await AppStorage().remove(options.uri.toString());
       }
-      return options;
+      return super.onRequest(options, handler);
     }
     // get 请求，开启缓存
     if (options.extra["noCache"] != true &&
@@ -61,7 +61,7 @@ class AppNetCache extends Interceptor {
         //若缓存未过期，则返回缓存内容
         if ((DateTime.now().millisecondsSinceEpoch - ob.timeStamp) / 1000 <
             CACHE_MAXAGE) {
-          return cache[key].response;
+          return handler.resolve(cache[key].response);
         } else {
           //若已过期则删除缓存，继续向服务器请求
           cache.remove(key);
@@ -71,25 +71,27 @@ class AppNetCache extends Interceptor {
       if (cacheDisk) {
         var cacheData = AppStorage().getJSON(key);
         if (cacheData != null) {
-          return Response(
+          return handler.resolve(Response(
             statusCode: 200,
             data: cacheData,
-          );
+            requestOptions: options,
+          ));
         }
       }
     }
   }
 
   @override
-  onResponse(Response response) async {
+  Future onResponse(Response response, ResponseInterceptorHandler handler) async {
     if(CACHE_ENABLE) {
       await _saveCache(response);
     }
+    super.onResponse(response, handler);
   }
 
   /// 编写算法缓存数据
   Future<void> _saveCache(Response object) async {
-    RequestOptions options = object.request;
+    RequestOptions options = object.requestOptions;
 
     // 只缓存 get 的请求
     if (options.extra["noCache"] != true &&
@@ -115,8 +117,8 @@ class AppNetCache extends Interceptor {
   }
 
   @override
-  Future onError(DioError err) {
-    return super.onError(err);
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    return super.onError(err, handler);
   }
 
 }

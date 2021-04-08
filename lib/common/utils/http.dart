@@ -49,30 +49,30 @@ class AppHttps {
 
     /// dio interceptors.
     dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (RequestOptions options) async {
-        return options;
-      },
-      onResponse: (Response reponse) async {
-        return reponse;
-      },
-      onError: (DioError e) async {
-        /// 错误捕获并处理
-        ErrorEntity eInfo = createErrorEntity(e);
-        /// toast error msg.
-        appShowToast(msg: eInfo.message);
-        // extra filed:  Custom field that you can retrieve it later in [Interceptor]、[Transformer] and the   [Response] object
-        var context = e.request.extra['context'];
-        if(context != null) {
-          switch(eInfo.code) {
-            case 401: /// 我写的Koa后台程序会根据TOKEN JWT等认证来确认当前用户是否有效
-              // go to login.
-              // goLoginPage(context);
-              break;
-            default:
+        onRequest: (options, handler) async {
+          return handler.next(options);
+        },
+        onResponse: (response, handler) async {
+          return handler.next(response);
+        },
+        onError: (DioError e, handler) async {
+          /// 错误捕获并处理
+          ErrorEntity eInfo = createErrorEntity(e);
+          /// toast error msg.
+          appShowToast(msg: eInfo.message);
+          // extra filed:  Custom field that you can retrieve it later in [Interceptor]、[Transformer] and the   [Response] object
+          var context = e.requestOptions.extra['context'];
+          if(context != null) {
+            switch(eInfo.code) {
+              case 401: /// 我写的Koa后台程序会根据TOKEN JWT等认证来确认当前用户是否有效
+                // go to login.
+                // goLoginPage(context);
+                break;
+              default:
+            }
           }
+          return eInfo;
         }
-        return eInfo;
-      }
     ));
 
     /// add network request Method: Get —— Cache.
@@ -135,7 +135,7 @@ class AppHttps {
     bool cacheDisk = false,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
         "refresh": refresh,
@@ -147,7 +147,7 @@ class AppHttps {
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.get(
       path,
@@ -166,14 +166,14 @@ class AppHttps {
     Options options,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
       },
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.post(
       path,
@@ -192,14 +192,14 @@ class AppHttps {
     Options options,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
       },
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.put(
       path,
@@ -218,14 +218,14 @@ class AppHttps {
     Options options,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
       },
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.patch(
       path,
@@ -244,14 +244,14 @@ class AppHttps {
     Options options,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
       },
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.delete(
       path,
@@ -270,14 +270,14 @@ class AppHttps {
         Options options,
       }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.merge(
+    requestOptions = requestOptions.copyWith(
       extra: {
         "context": context,
       },
     );
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if(_authorization != null) {
-      requestOptions = requestOptions.merge(headers: _authorization);
+      requestOptions = requestOptions.copyWith(headers: _authorization);
     }
     var response = await dio.post(
       path,
@@ -291,27 +291,27 @@ class AppHttps {
   /// 全局错误处理
   ErrorEntity createErrorEntity(DioError error) {
     switch(error.type) {
-      case DioErrorType.CANCEL:
+      case DioErrorType.cancel:
         {
           return ErrorEntity(code: -1, message: "请求取消");
         }
         break;
-      case DioErrorType.CONNECT_TIMEOUT:
+      case DioErrorType.connectTimeout:
         {
           return ErrorEntity(code: -1, message: "连接超时");
         }
         break;
-      case DioErrorType.SEND_TIMEOUT:
+      case DioErrorType.sendTimeout:
         {
           return ErrorEntity(code: -1, message: "请求超时");
         }
         break;
-      case DioErrorType.RECEIVE_TIMEOUT:
+      case DioErrorType.receiveTimeout:
         {
           return ErrorEntity(code: -1, message: "响应超时");
         }
         break;
-      case DioErrorType.RESPONSE:
+      case DioErrorType.response:
         {
           try {
             int errCode = error.response.statusCode;

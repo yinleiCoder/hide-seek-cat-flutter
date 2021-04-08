@@ -87,11 +87,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       children: [
                         Row(
                           children: [
-                            Hero(
-                              tag: 'user_avatar',
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg'),
-                              ),
+                            CircleAvatar(
+                              backgroundImage: NetworkImage('https://img.zcool.cn/community/0124445f1058a7a801206621ed7f26.jpg@3000w_1l_0o_100sh.jpg'),
                             ),
                             SizedBox(
                               width: 10.w,

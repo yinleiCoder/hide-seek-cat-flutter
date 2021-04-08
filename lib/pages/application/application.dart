@@ -9,6 +9,7 @@ import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_page.dart';
 import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
 import 'package:flutter_hide_seek_cat/pages/news/news_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/post_edit_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/square_page.dart';
 import 'package:provider/provider.dart';
 /**
@@ -129,8 +130,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         body: _buildPageView(),
         bottomNavigationBar: _buildBottomNavigationBar(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-          },
+          onPressed: () => Navigator.of(context).pushNamed(PostEditPage.routeName,),
           child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
           elevation: 4.0,
         ),

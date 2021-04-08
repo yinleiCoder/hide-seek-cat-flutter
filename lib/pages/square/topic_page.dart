@@ -6,6 +6,7 @@ import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/skeleton.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
+import 'package:flutter_hide_seek_cat/pages/square/topic_detail_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 /**
  * 话题页
@@ -102,6 +103,7 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
     return YlStreamBuilder<List<Topic>>(
       streamController: _stateManager.streamController,
       builder: (context, data) {
+        List<Topic> newData = data as List<Topic>;
         return ListView(
           children: <Widget>[
             Container(
@@ -150,16 +152,31 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
               child: Text('所有话题', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5, color: AppColors.ylPrimaryColor, fontSize: 20.ssp,),),
             ),
             Padding(
-              padding: EdgeInsets.all(8.0.r),
+              padding: EdgeInsets.symmetric(horizontal: 8.0.r),
+              child: Wrap(
+                runSpacing: 3.0,
+                spacing: 8.0,
+                children: newData.map((tag) {
+                  return Chip(
+                    label: Text(tag.name, style: TextStyle(letterSpacing: 1.2, ),),
+                  );
+                }).toList(),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r, bottom: 8.0.r),
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: data.length,
+                itemCount: newData.length,
                 itemBuilder: (context, index) {
-                  return _buildTopicCard(
-                    topicBg: data[index].avatar_url,
-                    topicName: data[index].name,
-                    topicCreatedTime: data[index].createdAt,
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).pushNamed(TopicDetailPage.routeName, arguments: data[index].tid),
+                    child: _buildTopicCard(
+                      topicBg: newData[index].avatar_url,
+                      topicName: newData[index].name,
+                      topicCreatedTime: newData[index].createdAt,
+                    ),
                   );
                 },
               ),

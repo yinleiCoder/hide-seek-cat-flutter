@@ -32,7 +32,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
     "站酷图集",
     "音乐专区",
     "视频专区",
-    "关注", // 粉丝
+    "我的粉丝",
   ];
 
   var _isExpanded = false;
@@ -51,8 +51,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
           child: Column(
             children: [
               UserAccountsDrawerHeader(
-                accountName: Text(userModel.isLogin ? userModel.user.name : '用户名'),
-                accountEmail: Text('${userModel.isLogin ? userModel.user.headline : ''}'),
+                accountName: Text(userModel.user.name),
+                accountEmail: Text('${userModel.user.headline}'),
                 currentAccountPicture: GestureDetector(
                   onTap: () => Navigator.of(context).pushNamed(UserProfile.routeName),
                   child: CircleAvatar(

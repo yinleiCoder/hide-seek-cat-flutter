@@ -13,6 +13,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
         ? null
         : User.fromJson(json['poster'] as Map<String, dynamic>),
     title: json['title'] as String,
+    url: json['url'] as String,
     description: json['description'] as String,
     topics: (json['topics'] as List)
         ?.map(
@@ -28,6 +29,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'poster': instance.poster?.toJson(),
       'title': instance.title,
       'description': instance.description,
+      'url': instance.url,
       'topics': instance.topics?.map((e) => e?.toJson())?.toList(),
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,

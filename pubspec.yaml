@@ -19,6 +19,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  # sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,9 +36,9 @@ dependencies:
   # toast
   fluttertoast: ^7.1.6
   # 网络请求
-  dio: ^3.0.10
-  dio_cookie_manager: ^1.0.0
-  cookie_jar: ^1.0.1
+  dio: ^4.0.0
+  dio_cookie_manager: ^2.0.0
+  cookie_jar: ^3.0.1
   # 本地存储
   shared_preferences: ^2.0.3
   # 状态管理
@@ -68,19 +69,25 @@ dependencies:
   socket_io_client: 2.0.0-beta.3-nullsafety.0
   # 跑马灯
   marquee: ^2.0.0
-
+  # 相册选择
+  image_picker: ^0.7.4
+  # 瀑布流布局
+  flutter_staggered_grid_view: ^0.3.4
+  
+  
   # 序列化JSON
-  json_annotation:
+  json_annotation: 3.1.1
 
 dependency_overrides:
-  http_parser : 3.1.4
+  graphs: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   # integration_test:
   #   sdk: flutter
-  build_runner:
-  json_serializable:
+  build_runner: 1.11.5
+  json_serializable: 3.5.1
   flutter_launcher_icons: ^0.9.0
 flutter_icons:
   android: "launcher_icon"

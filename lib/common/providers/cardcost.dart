@@ -33,16 +33,14 @@ class CardProvider with ChangeNotifier {
     return cards.length;
   }
 
-  Future _updateSharedPrefrences() {
+  void _updateSharedPrefrences() {
     List<String> mycards = cards.map((card) => json.encode(card.toJson())).toList();
     AppStorage().setStringList(STORAGE_USER_COST_KEY, mycards);
   }
 
   Future syncDataWithProvider() async {
     var result = AppStorage().getStringList(STORAGE_USER_COST_KEY);
-    if(result != null) {
-      cards = result.map((card) => CardModel.fromJson(json.decode(card))).toList();
-    }
+    cards = result.map((card) => CardModel.fromJson(json.decode(card))).toList();
     notifyListeners();
   }
 
