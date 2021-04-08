@@ -234,7 +234,7 @@ class _PostEditPageState extends State<PostEditPage> {
                   Text('选择下方话题获得更多曝光', style: TextStyle(color: AppColors.ylPrimaryColor, letterSpacing: 1.2,),),
                   TextButton.icon(
                     onPressed: () async {
-                      allTopics = await PostApi.allUsersTopics(context: context,page: currentPage++, per_page: 3);
+                      allTopics = await PostApi.allUsersTopics(context: context,page: ++currentPage, per_page: 3);
                       setState(() {
                         allTopics = allTopics;
                       });

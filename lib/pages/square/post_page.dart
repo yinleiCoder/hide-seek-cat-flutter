@@ -34,8 +34,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   Artboard _artboard;
   RiveAnimationController _riveController;
 
-  List<Post> allPosts;
+  List<Post> allPosts = [];
   List<Topic> top3Topics = [];
+  ScrollController _scrollController;
+  num _currentPage = 1;
 
 
   Widget _buildRecommendTopics({topicImg, topicName, publishTime, topicId}) {
@@ -95,7 +97,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   }
 
 
-
   Widget _buildAreaTitle({areaTitle, moreDetail, isSqure=false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
@@ -140,16 +141,28 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
         vsync: this,
         duration: Duration(milliseconds: 450),
     );
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      double maxScrollExtent = _scrollController.position.maxScrollExtent;
+      double currentScrollExtent = _scrollController.position.pixels;
+      print(maxScrollExtent.toString()+":"+currentScrollExtent.toString());
+      if(currentScrollExtent > (maxScrollExtent - 20)) {
+        print('start loading more');
+        _loadAllData(page: ++_currentPage);
+      }
+    });
     _loadAllData();
     _loadLatestWithDiskCache();
   }
 
-  _loadAllData() async {
-    allPosts = await PostApi.allUsersPosts(context: context);
+  _loadAllData({num page = 1, num per_page = 10}) async {
+    var temps = await PostApi.allUsersPosts(context: context, page: page, per_page: per_page);
     top3Topics = await PostApi.allUsersTopics(context: context, per_page: 3);
 
     if(mounted) {
-      setState(() {});
+      setState(() {
+        allPosts.addAll(temps);
+      });
     }
   }
 
@@ -190,10 +203,15 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(Duration(seconds: 2), () {
+          setState(() {
+            allPosts = [];
+            _currentPage = 1;
+          });
           _loadAllData();
         });
       },
       child: ListView(
+        controller: _scrollController,
         physics: AlwaysScrollableScrollPhysics(),
         children: [
           _buildAreaTitle(areaTitle: '每日话题精选', ),
@@ -282,6 +300,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   void dispose() {
     _animationController.dispose();
     _riveController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
