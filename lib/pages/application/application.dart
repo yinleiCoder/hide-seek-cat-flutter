@@ -8,7 +8,7 @@ import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/chat/chat_page.dart';
 import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
-import 'package:flutter_hide_seek_cat/pages/news/news_page.dart';
+import 'package:flutter_hide_seek_cat/pages/videos/videos_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_edit_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/square_page.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +85,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         BottomNavigationBarItem(
           icon: Icon(AppIconfont.news),
           activeIcon: Icon(AppIconfont.newsActive),
-          label: '时讯',
+          label: '视频专区',
         ),
         BottomNavigationBarItem(
           icon: Icon(AppIconfont.learn),
@@ -133,6 +133,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
           onPressed: () => Navigator.of(context).pushNamed(PostEditPage.routeName,),
           child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
           elevation: 4.0,
+          shape: _DiamondBorder(),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
@@ -143,6 +144,37 @@ class _ApplicationPageState extends State<ApplicationPage> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+}
+
+/// custom floatingactionbutton shape.
+class _DiamondBorder extends ShapeBorder {
+
+  const _DiamondBorder();
+
+  @override
+  EdgeInsetsGeometry get dimensions => const EdgeInsets.only();
+
+  @override
+  Path getInnerPath(Rect rect, {TextDirection textDirection}) => getOuterPath(rect, textDirection: textDirection);
+  @override
+  Path getOuterPath(Rect rect, {TextDirection textDirection}) {
+    return Path()
+        ..moveTo(rect.left + rect.width / 2.0, rect.top)
+        ..lineTo(rect.right, rect.top + rect.height / 2.0)
+        ..lineTo(rect.left + rect.width / 2.0, rect.bottom)
+        ..lineTo(rect.left, rect.top + rect.height / 2.0)
+        ..close();
+  }
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection textDirection}) {
+  }
+
+  @override
+  ShapeBorder scale(double t) {
+    return null;
   }
 
 }

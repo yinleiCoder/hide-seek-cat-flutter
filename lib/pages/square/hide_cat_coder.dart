@@ -31,12 +31,12 @@ class _HideCatCoderState extends State<HideCatCoder> {
       body: Stack(
         children: [
           CustomScrollView(
+            physics: BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 expandedHeight: 400.h,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.black,
                 stretch: true,
-                pinned: true,
                 onStretchTrigger: (){print("啊");},
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text('YinLei', style: TextStyle(color: AppColors.ylSecondaryColor),),
@@ -122,7 +122,7 @@ class _HideCatCoderState extends State<HideCatCoder> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 40.h,),
+                        SizedBox(height: 20.h,),
                         YlFadeIn(
                           delay: 1400,
                           child: Text('生日',
@@ -136,7 +136,7 @@ class _HideCatCoderState extends State<HideCatCoder> {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
-                        SizedBox(height: 20.h,),
+                        SizedBox(height: 10.h,),
                         YlFadeIn(
                           delay: 1400,
                           child: Text('大学4年',
@@ -175,6 +175,16 @@ class _HideCatCoderState extends State<HideCatCoder> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 10.h,),
+                        YlFadeIn(
+                          delay: 1800,
+                          child: Text('他的视频',
+                              style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold,)
+                          ),
+                        ),
+                        SizedBox(height: 10.h,),
+                        YlVideoPlayer(playUrl: 'https://oss-cn-beijing.aliyuncs.com/static-thefair-bj/eyepetizer/pgc_video/video_summary/247467.mp4', )
+
                       ],
                     ),
                   ),

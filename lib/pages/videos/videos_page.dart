@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
+import 'package:flutter_hide_seek_cat/pages/square/video_player_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 import 'package:rive/rive.dart';
 /**
@@ -24,6 +25,17 @@ class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<
   final riveFileName = 'assets/rives/space_reload.riv';
   Artboard _artboard;
   RiveAnimationController _riveController;
+
+  List<String> _tempVideoDatas = [
+    "http://static-thefair-bj.oss-cn-beijing.aliyuncs.com/eyepetizer/pgc_video/video_summary/190663.mp4",
+    "http://static-thefair-bj.oss-cn-beijing.aliyuncs.com/eyepetizer/pgc_video/video_summary/192381.mp4",
+    "http://static-thefair-bj.oss-cn-beijing.aliyuncs.com/eyepetizer/pgc_video/video_summary/192196.mp4",
+  ];
+  List<String> _tempVideoDescriptionDatas = [
+    "找个有钱人嫁了，就是中国式婚姻真相？",
+    "伪一镜到底时尚短片，1 分钟色彩搭配教科书",
+    "去他妈的工具人生活",
+  ];
 
   @override
   void initState() {
@@ -71,6 +83,9 @@ class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      // body: FractionallySizedBox(
+      //   widthFactor: 1.0,
+      //     child: Container(color: Colors.red, height: 150.h,child: YlVideoPlayer(playUrl: 'https://yinlei-hide-seek-cat.oss-cn-chengdu.aliyuncs.com/%E8%8A%8A%E8%8A%8A.mp4',))),
       body: RefreshIndicator(
         onRefresh: () {
           return Future.delayed(Duration(seconds: 2), () {
@@ -88,8 +103,8 @@ class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<
               SliverAppBar(
                 automaticallyImplyLeading: false,
                 expandedHeight: 150.h,
-                floating: true,
-                snap: true,
+                floating: false,
+                snap: false,
                 pinned: false,
                 centerTitle: true,
                 stretch: true,
@@ -110,41 +125,48 @@ class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<
             ];
           },
           body: ListView.builder(
-            itemCount: 30,
+            itemCount: _tempVideoDatas.length,
             itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.all(15.r),
-                child: Center(
-                  child: Text(index.toString()),
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(context, VideoPlayerPage.routeName, arguments: _tempVideoDatas[index]),
+                child: Card(
+                  margin: EdgeInsets.only(bottom: 22.h, left: 5.w, right: 5.w,),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  elevation: 10.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.r),
+                            topRight: Radius.circular(12.r),
+                          ),
+                          child: YlVideoPlayer(playUrl: _tempVideoDatas[index],)),
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
+                        child: FractionallySizedBox(
+                          widthFactor: 1.0,
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _tempVideoDescriptionDatas[index],
+                                style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, height: 1.5, color: Colors.grey, fontFamily: 'YinLei'),
+                              ),
+                              Icon(Icons.local_fire_department, color: Colors.redAccent,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
           )
-            // SliverFillViewport(
-            //   viewportFraction: 0.2,
-            //   delegate: SliverChildBuilderDelegate((context, index) {
-            //     return Padding(
-            //       padding: EdgeInsets.all(15.r),
-            //       child: Text('啊啊啊${index.toString()}'),
-            //     );
-            //   }),
-            // ),
-            // SliverFillRemaining(
-            //   child: Container(
-            //     color: Colors.orange,
-            //   ),
-            // ),
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate((context, index) {
-            //     return Padding(
-            //       padding: EdgeInsets.all(15.r),
-            //       child: Text('啊啊啊'),
-            //     );
-            //   }),
-            // ),
-            // SliverFixedExtentList(
-            //   itemExtent: ,// 指定item的高度
-            // ),
         ),
       ),
     );

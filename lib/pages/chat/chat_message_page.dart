@@ -6,6 +6,7 @@ import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
+import 'package:flutter_hide_seek_cat/pages/square/video_player_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
 
@@ -54,11 +55,23 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
 
   _handleSubmitted(String text){
     _chatController.clear();
+    // Message message = Message(
+    //   from: AppGlobal.profile.user,
+    //   to: widget.friend,
+    //   content: text,
+    //   type: 0,
+    //   state: 1,
+    //   messageStatus: MessageStatus.not_view,
+    //   animationController: AnimationController(
+    //     duration: Duration(milliseconds: 700),
+    //     vsync: this,
+    //   ),
+    // );
     Message message = Message(
       from: AppGlobal.profile.user,
       to: widget.friend,
       content: text,
-      type: 0,
+      type: 2,
       state: 1,
       messageStatus: MessageStatus.not_view,
       animationController: AnimationController(
@@ -203,7 +216,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
                           ),
                           Icon(Icons.attach_file, color: Theme.of(context).textTheme.bodyText1.color.withOpacity(0.8),),
                           SizedBox(width: 10.w,),
-                          Icon(Icons.camera_alt_outlined, color: Theme.of(context).textTheme.bodyText1.color.withOpacity(0.8),),
+                          IconButton(
+                            icon: Icon(Icons.camera_alt_outlined, color: Theme.of(context).textTheme.bodyText1.color.withOpacity(0.8),),
+                            onPressed: (){
+
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -392,24 +410,27 @@ class VideoMessage extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
-              child: Image.network(
-                "https://img.zcool.cn/community/01dbf75f36974ca80120a8214358d2.jpg@1280w_1l_2o_100sh.jpg",
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-                  if (loadingProgress == null)
-                    return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                },
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushNamed(VideoPlayerPage.routeName, arguments: 'https://yinlei-hide-seek-cat.oss-cn-chengdu.aliyuncs.com/%E8%8A%8A%E8%8A%8A.mp4'),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: Image.network(
+                  "https://img.zcool.cn/community/01dbf75f36974ca80120a8214358d2.jpg@1280w_1l_2o_100sh.jpg",
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null)
+                      return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                              : null,
+                        ),
+                      );
+                  },
+                ),
               ),
             ),
           ),

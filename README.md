@@ -40,17 +40,15 @@
        https://plugins.jetbrains.com/plugin/6351-dart
 
 [√] Connected device (3 available)
-    • sdk gphone x86 (mobile) • emulator-5554 • android-x86    • Android 11 (API 30) (emulator)
-    • Chrome (web)            • chrome        • web-javascript • Google Chrome 88.0.4324.104
-    • Edge (web)              • edge          • web-javascript • Microsoft Edge 89.0.774.68
+    • Android SDK built for x86 (mobile) • emulator-5556 • android-x86    • Android 10 (API 29) (emulator)
+    • Chrome (web)                       • chrome        • web-javascript • Google Chrome 88.0.4324.104
+    • Edge (web)                         • edge          • web-javascript • Microsoft Edge 89.0.774.75
     
-### 参考Material Design，APP中所有使用的Flutter 组件均可在https://flutter.cn/中找到，包括：
+### Flutter组件：https://flutter.dev/docs/reference/widgets
 
 - FadeInImage
 - InheritedModel
 - CustomPaint
-- Tooltip
-- FittedBox
 - LayoutBuilder
 - AbsorbPointer
 - Dismissible
@@ -64,12 +62,9 @@
 - AnimatedSwitcher
 - AnimatedPositioned
 - AnimatedPadding
-- IndexedStack
 - Semantics
-- ConstrainedBox
 - AnimatedOpacity
 - SelectableText
-- Slider
 - AnimatedCrossFade
 - DraggableScrollableSheet
 - ColorFiltered
@@ -81,7 +76,6 @@
 - ShaderMask
 - NotificationListener
 - ClipPath
-- CircularProgressIndicator
 - LinearProgressIndicator
 - IgnorePointer
 - CupertinoActivityIndicator

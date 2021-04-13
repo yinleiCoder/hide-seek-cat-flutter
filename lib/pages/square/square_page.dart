@@ -1,11 +1,16 @@
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
-import 'package:flutter_hide_seek_cat/pages/square/cost_record_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
+import 'package:flutter_hide_seek_cat/pages/square/music_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/profile_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/topic_page.dart';
@@ -13,7 +18,8 @@ import 'package:flutter_hide_seek_cat/pages/square/zcool_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/size_extension.dart';
-
+import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:ui' as ui;
 /***
  * 广场页
  * @author yinlei
@@ -23,38 +29,104 @@ class SquarePage extends StatefulWidget {
   _SquarePageState createState() => _SquarePageState();
 }
 
-class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin<SquarePage> {
-
+class _SquarePageState extends State<SquarePage>
+    with
+        TickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<SquarePage> {
   TabController _tabController;
   static const tabs = [
-    "广场", // 动态帖子
-    "话题", // 话题
+    "广场",
+    "话题",
     "站酷图集",
     "音乐专区",
-    "视频专区",
     "我的粉丝",
+    "未开放",
   ];
 
   var _isExpanded = false;
+  Future _future;
+
+  /// QRCode save
+  AnimationController _qrcodeAnimationCtrl;
+  AnimationController _qrcodeScaleAnimationCtrl;
+  AnimationController _qrcodeFadeAnimationCtrl;
+  Animation<double> _qrcodeAnimation;
+  Animation<double> _qrcodeScaleAnimation;
+  Animation<double> _qrcodeFadeAnimation;
+  double btnWidth = 200.w;
+  double scale = 1.0;
+  bool isAnimationComplete = false;
+  double barColorOpacity = .6;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: tabs.length, vsync: this);
+    _qrcodeAnimationCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    );
+    _qrcodeScaleAnimationCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+    _qrcodeFadeAnimationCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+    _qrcodeFadeAnimation = Tween<double>(
+      begin: 50.0,
+      end: 0.0,
+    ).animate(_qrcodeFadeAnimationCtrl);
+    _qrcodeScaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.05,
+    ).animate(_qrcodeScaleAnimationCtrl)..addStatusListener((status) {
+        if(status == AnimationStatus.completed){
+          _qrcodeScaleAnimationCtrl.reverse();
+          _qrcodeFadeAnimationCtrl.forward();
+          _qrcodeAnimationCtrl.forward();
+        }
+    });
+    _qrcodeAnimation = Tween<double>(
+      begin: 0.0,
+      end: btnWidth,
+    ).animate(_qrcodeAnimationCtrl)..addStatusListener((status) {
+      if(status == AnimationStatus.completed){
+        isAnimationComplete = true;
+        barColorOpacity = .0;
+      }
+    });
+    _future = _loadOverlayImage(AppGlobal.profile.user.avatar_url);
+  }
+
+
+  Future<ui.Image> _loadOverlayImage(String network_url) async {
+    final completer = Completer<ui.Image>();
+    // final byteData = await rootBundle.load('assets/images/4.0x/logo_yakka.png');
+    // ui.decodeImageFromList(byteData.buffer.asUint8List(), completer.complete);
+    Uint8List bytes = (await NetworkAssetBundle(Uri.parse(network_url)).load(network_url)).buffer.asUint8List();
+    ui.decodeImageFromList(bytes, completer.complete);
+    return completer.future;
   }
 
   Widget _buildDrawer() {
     return Consumer<UserModel>(
       builder: (context, userModel, _) {
         return Container(
-          color: MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.white : Colors.black.withOpacity(.7),
+          color: MediaQuery.of(context).platformBrightness == Brightness.light
+              ? Colors.white
+              : Colors.black.withOpacity(.7),
           child: Column(
             children: [
               UserAccountsDrawerHeader(
                 accountName: Text(userModel.user.name),
                 accountEmail: Text('${userModel.user.headline}'),
                 currentAccountPicture: GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed(UserProfile.routeName),
+                  onTap: () => Navigator.of(context).pushNamed(
+                    UserProfile.routeName,
+                    arguments: AppGlobal.profile.user.uid,
+                  ),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
                       userModel.user.avatar_url,
@@ -62,7 +134,135 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                   ),
                 ),
                 otherAccountsPictures: [
-                  IconButton(icon: Icon(Icons.qr_code), color: Colors.white, onPressed: (){}),
+                  IconButton(
+                      icon: Icon(Icons.qr_code),
+                      color: Colors.white,
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            elevation: 10.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            builder: (BuildContext context) {
+                              return FutureBuilder<ui.Image>(
+                                future: _future,
+                                builder: (ctx, snapshot) {
+                                  return Container(
+                                    height: 300.h,
+                                    child: snapshot.hasData ? Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: IconButton(
+                                            icon: Icon(Icons.close),
+                                            onPressed: () => Navigator.of(context).pop(),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 40.h,
+                                          child: CustomPaint(
+                                            size: Size.square(150),
+                                            painter: QrPainter(
+                                              data: AppGlobal.profile.user.uid,
+                                              version: QrVersions.auto,
+                                              eyeStyle: const QrEyeStyle(
+                                                eyeShape: QrEyeShape.square,
+                                                color: AppColors.ylPrimaryColor,
+                                              ),
+                                              dataModuleStyle: const QrDataModuleStyle(
+                                                dataModuleShape: QrDataModuleShape.circle,
+                                                color: AppColors.ylSecondaryColor,
+                                              ),
+                                              embeddedImage: snapshot.data,
+                                              embeddedImageStyle: QrEmbeddedImageStyle(
+                                                size: Size.square(40),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 80.h,
+                                          child: Text(
+                                            'Notice: 扫一扫上面的二维码图案，可添加我为好友',
+                                            style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, height: 1.5, color: Colors.grey,),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 20.h,
+                                          child: Stack(
+                                            children: [
+                                              AnimatedBuilder(
+                                                animation: _qrcodeScaleAnimationCtrl,
+                                                builder: (context, child) => Transform.scale(
+                                                  scale: _qrcodeScaleAnimation.value,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      _qrcodeScaleAnimationCtrl.forward();
+                                                    },
+                                                    child: Container(
+                                                      width: 200.w,
+                                                      height: 50.h,
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.ylPrimaryColor,
+                                                        borderRadius: BorderRadius.circular(3),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Align(
+                                                              child: isAnimationComplete == false ? Text('保存二维码到本地', style: TextStyle(color: Colors.white, letterSpacing: 1.5, fontFamily: 'YinLei'),)
+                                                                  : Icon(Icons.check_circle_rounded, color: Colors.white,),
+                                                            ),
+                                                          ),
+                                                          AnimatedBuilder(
+                                                            animation: _qrcodeFadeAnimationCtrl,
+                                                            builder: (context, childe) => Container(
+                                                              width: _qrcodeFadeAnimation.value,
+                                                              height: 50.r,
+                                                              decoration: BoxDecoration(
+                                                                color: AppColors.ylSecondaryColor,
+                                                                borderRadius: BorderRadius.circular(3.r),
+                                                              ),
+                                                              child: Icon(Icons.cloud_download_sharp, color: Colors.white,),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              AnimatedBuilder(
+                                                animation: _qrcodeAnimationCtrl,
+                                                builder: (context, child) => Positioned(
+                                                  left: 0,
+                                                  top: 0,
+                                                  width: _qrcodeAnimation.value,
+                                                  height: 50.h,
+                                                  child: AnimatedOpacity(
+                                                    duration: Duration(milliseconds: 200),
+                                                    opacity: barColorOpacity,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ) : CircularProgressIndicator(),
+                                  );
+                                },
+                              );
+                            });
+                      }),
                 ],
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -90,7 +290,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                         children: [
                           ExpansionPanel(
                             isExpanded: _isExpanded,
-                            headerBuilder: (BuildContext context, bool isExpanded) {
+                            headerBuilder:
+                                (BuildContext context, bool isExpanded) {
                               return ListTile(
                                 title: Text("关于躲猫猫平台"),
                               );
@@ -110,7 +311,8 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                                   ListTile(
                                     leading: FlutterLogo(),
                                     title: Text('APP开发者'),
-                                    onTap: () => Navigator.of(context).pushNamed(HideCatCoder.routeName),
+                                    onTap: () => Navigator.of(context)
+                                        .pushNamed(HideCatCoder.routeName),
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.error),
@@ -124,25 +326,31 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                                     leading: Icon(Icons.check_circle_rounded),
                                     title: Text('版本更新'),
                                     onTap: () async {
-                                      if(await Permission.storage.isGranted) {
+                                      if (await Permission.storage.isGranted) {
                                         AppUpdate().run(context);
                                       } else {
-                                        appShowToast(msg: 'APP未被授存储权限，请在手机设置中手动打开！');
+                                        appShowToast(
+                                            msg: 'APP未被授存储权限，请在手机设置中手动打开！');
                                       }
                                     },
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.verified_sharp),
-                                    title: Text('关于${AppGlobal.packageInfo.appName}'),
-                                    trailing: Text('版本${AppGlobal.packageInfo.version}'),
+                                    title: Text(
+                                        '关于${AppGlobal.packageInfo.appName}'),
+                                    trailing: Text(
+                                        '版本${AppGlobal.packageInfo.version}'),
                                     onTap: () {
                                       showAboutDialog(
                                         context: context,
-                                        applicationName: AppGlobal.packageInfo.appName,
-                                        applicationVersion: AppGlobal.packageInfo.version,
-                                        applicationIcon: Icon(AppIconfont.square),
+                                        applicationName:
+                                            AppGlobal.packageInfo.appName,
+                                        applicationVersion:
+                                            AppGlobal.packageInfo.version,
+                                        applicationIcon:
+                                            Icon(AppIconfont.square),
                                         applicationLegalese: '遵循MIT协议',
-                                        children:[
+                                        children: [
                                           Text('一款专门为年轻人设计的社交APP'),
                                           Text('前端：React'),
                                           Text('后端：Koa2 RESTful API'),
@@ -159,35 +367,53 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       ListTile(
                         leading: Icon(Icons.confirmation_number),
                         title: Text('uid'),
-                        subtitle: Text(userModel.user.uid, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
-                        onTap: () {
-                        },
+                        subtitle: Text(
+                          userModel.user.uid,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
+                        ),
+                        onTap: () {},
                       ),
                       ListTile(
                         leading: Icon(Icons.bolt),
                         title: Text('性别'),
-                        subtitle: Text(userModel.user.gender, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,),),
-                        onTap: () {
-                        },
+                        subtitle: Text(
+                          userModel.user.gender,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
+                        ),
+                        onTap: () {},
                       ),
                       ListTile(
                         leading: Icon(Icons.cake_rounded),
                         title: Text('破壳日'),
-                        subtitle: Text(userModel.user.createdAt, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,)),
-                        onTap: () {
-                        },
+                        subtitle: Text(userModel.user.createdAt,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                            )),
+                        onTap: () {},
                       ),
-                      ListTile(
-                        leading: Icon(Icons.money),
-                        title: Text('开支记账助手'),
-                        subtitle: Text('恩格尔系数（反映生活水平）：食品支出总额 / 个人消费支出总额', style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color,)),
-                        onTap: () => Navigator.of(context).pushNamed(CostRecordPage.routeName,),
-                      ),
-                      AppGlobal.profile.user != null ? ListTile(
-                        onTap: () => goLoginPage(context),
-                        title: Text('退出登录', style: TextStyle(color: AppColors.ylPrimaryColor, fontSize: 22.ssp, fontWeight: FontWeight.bold,letterSpacing: 1.4,),),
-                        trailing: Icon(Icons.power_settings_new, color: AppColors.ylPrimaryColor,),
-                      ) : Container(),
+                      AppGlobal.profile.user != null
+                          ? ListTile(
+                              onTap: () => goLoginPage(context),
+                              title: Text(
+                                '退出登录',
+                                style: TextStyle(
+                                  color: AppColors.ylPrimaryColor,
+                                  fontSize: 22.ssp,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.4,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.power_settings_new,
+                                color: AppColors.ylPrimaryColor,
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
@@ -216,7 +442,10 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
-                      icon: Icon(Icons.storage, color: AppColors.ylPrimaryColor,),
+                      icon: Icon(
+                        Icons.storage,
+                        color: AppColors.ylPrimaryColor,
+                      ),
                     );
                   },
                 ),
@@ -241,7 +470,11 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                       ),
                       insets: EdgeInsets.only(bottom: 10.h),
                     ),
-                    tabs: tabs.map((tab) => Tab(text: tab,)).toList(),
+                    tabs: tabs
+                        .map((tab) => Tab(
+                              text: tab,
+                            ))
+                        .toList(),
                   ),
                 ),
               ],
@@ -253,7 +486,7 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
                   PostPage(),
                   TopicPage(),
                   ZcoolPage(),
-                  Text('广场4'),
+                  MusicPage(),
                   Text('广场5'),
                   Text('广场5'),
                 ],
@@ -268,10 +501,12 @@ class _SquarePageState extends State<SquarePage> with SingleTickerProviderStateM
   @override
   void dispose() {
     _tabController.dispose();
+    _qrcodeAnimationCtrl.dispose();
+    _qrcodeScaleAnimationCtrl.dispose();
+    _qrcodeFadeAnimationCtrl.dispose();
     super.dispose();
   }
 
   @override
   bool get wantKeepAlive => true;
-
 }

@@ -13,3 +13,5 @@ export 'zcooldetail.dart';
 export 'zcoolsearch.dart';
 export 'card_model.dart';
 export 'transaction_model.dart';
+export 'education.dart';
+export 'employment.dart';

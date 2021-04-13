@@ -80,20 +80,21 @@ part 'user.g.dart';
     }
  */
 class User {
-  User({this.uid, this.name, this.password,this.gender = 'male', this.locations, this.following, this.followingTopics, this.likingAnswers, this.dislikingAnswers, this.collectingAnswers, this.employments, this.educations, this.headline, this.avatar_url, this.createdAt, this.updatedAt,});
+  User({this.uid, this.name, this.password,this.gender = 'male', this.locations, this.business, this.following, this.followingTopics, this.likingAnswers, this.dislikingAnswers, this.collectingAnswers, this.employments, this.educations, this.headline, this.avatar_url, this.createdAt, this.updatedAt,});
 
   @JsonKey(name: '_id')
   String uid;
 
   String gender;
-  List<String> locations;
+  List<Topic> locations;
+  Topic business;
   List<User> following;
   List<Topic> followingTopics;
   List<String> likingAnswers;
   List<String> dislikingAnswers;
   List<String> collectingAnswers;
-  List<String> employments;
-  List<String> educations;
+  List<Employment> employments;
+  List<Education> educations;
   String headline;
   String avatar_url;
   String createdAt;

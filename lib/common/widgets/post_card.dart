@@ -3,6 +3,7 @@ import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_detail_page.dart';
+import 'package:flutter_hide_seek_cat/pages/square/profile_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 /**
  * 帖子卡片
@@ -92,21 +93,24 @@ Widget ylPostCard({context, uid, userName, userAvatar, publishTime, publishTitle
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        userAvatar,
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pushNamed(UserProfile.routeName, arguments: uid,),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          userAvatar,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10.w,),
-                    Text(
-                      userName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1.copyWith(fontWeight: FontWeight.bold, letterSpacing: 1.5, color: AppColors.ylPrimaryColor, fontSize: 20.ssp, fontFamily: 'YinLei'),
-                    ),
-                  ],
+                      SizedBox(width: 10.w,),
+                      Text(
+                        userName,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1.copyWith(fontWeight: FontWeight.bold, letterSpacing: 1.5, color: AppColors.ylPrimaryColor, fontSize: 20.ssp, fontFamily: 'YinLei'),
+                      ),
+                    ],
+                  ),
                 ),
                 Opacity(
                   opacity: 0.65,

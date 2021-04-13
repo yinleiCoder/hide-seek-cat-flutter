@@ -52,6 +52,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
     return Scaffold(
       body: _showOfTopic == null ? appCardProfileLightSkeleton() :
       CustomScrollView(
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             expandedHeight: 250.h,
@@ -60,6 +61,10 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
             pinned: false,
             centerTitle: true,
             stretch: true,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_drop_down_circle_rounded),
+              onPressed: () => Navigator.pop(context),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               stretchModes: [
                 StretchMode.zoomBackground,

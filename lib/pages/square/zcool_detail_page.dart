@@ -29,7 +29,6 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
     return await UserApi.zcoolDetail(context: context, objectId: widget.objectId);
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -57,6 +56,7 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
             )];
           }
           return CustomScrollView(
+            physics: BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 automaticallyImplyLeading: false,
@@ -72,7 +72,6 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                 flexibleSpace: FlexibleSpaceBar(
                   stretchModes: [
                     StretchMode.zoomBackground,
-                    StretchMode.blurBackground,
                   ],
                   background: Container(
                     decoration: BoxDecoration(
