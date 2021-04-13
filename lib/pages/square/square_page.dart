@@ -61,6 +61,8 @@ class _SquarePageState extends State<SquarePage>
   @override
   void initState() {
     super.initState();
+    print('啊啊用户头像${AppGlobal.profile.user.avatar_url}');
+    _future = _loadOverlayImage(AppGlobal.profile.user.avatar_url);
     _tabController = TabController(length: tabs.length, vsync: this);
     _qrcodeAnimationCtrl = AnimationController(
       vsync: this,
@@ -97,7 +99,6 @@ class _SquarePageState extends State<SquarePage>
         barColorOpacity = .0;
       }
     });
-    _future = _loadOverlayImage(AppGlobal.profile.user.avatar_url);
   }
 
 
@@ -148,9 +149,9 @@ class _SquarePageState extends State<SquarePage>
                               return FutureBuilder<ui.Image>(
                                 future: _future,
                                 builder: (ctx, snapshot) {
-                                  return Container(
-                                    height: 300.h,
-                                    child: snapshot.hasData ? Stack(
+                                  Widget child;
+                                  if(snapshot.hasData) {
+                                    child = Stack(
                                       alignment: Alignment.center,
                                       children: [
                                         Positioned(
@@ -257,7 +258,19 @@ class _SquarePageState extends State<SquarePage>
                                           ),
                                         ),
                                       ],
-                                    ) : CircularProgressIndicator(),
+                                    );
+                                  } else if(snapshot.hasError) {
+                                    child = Center(
+                                      child: Text('发生未知错误，请重新加载'),
+                                    );
+                                  } else {
+                                    child = Center(
+                                      child: Text('发生未知错误，请稍等...'),
+                                    );
+                                  }
+                                  return Container(
+                                    height: 300.h,
+                                    child: child,
                                   );
                                 },
                               );

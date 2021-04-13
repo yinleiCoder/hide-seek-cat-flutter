@@ -183,56 +183,60 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildLoginButton(){
-    return YlFadeIn(
-      delay: 800,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w,),
-        child:  Container(
-          padding: EdgeInsets.only(top: 3.h, left: 3.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            border: Border(
-              bottom: BorderSide(color: Colors.black),
-              top: BorderSide(color: Colors.black),
-              left: BorderSide(color: Colors.black),
-              right: BorderSide(color: Colors.black),
-            ),
-          ),
-          child: MaterialButton(
-            minWidth: double.infinity,
-            height: 48.h,
-            elevation: 0,
-            onPressed: isReaded ? () async {
-              /// 登录
-              if((_formKey.currentState as FormState).validate()) {
-                User params = User(
-                  name: _userNameController.value.text.trim(),
-                  password: _userPasswordController.value.text.trim(),
-                );
-                Login res = await UserApi.login(context: context, params: params);
-                if(res != null){
-                  AppGlobal.profile.token = res.token;
-                  params.uid = res.uid;
-                  Provider.of<UserModel>(context, listen: false).user = params;
-                  await appShowToast(msg: '登录成功@: ${res.token}');
-                  Navigator.of(context).pushNamed(ApplicationPage.routeName);
-                }
-              }
-            } : null,
-            color: AppColors.ylPrimaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Text(
-              '登陆',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 18.ssp,
+    return Consumer<UserModel>(
+      builder: (context, userModel, child) {
+        return YlFadeIn(
+          delay: 800,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.w,),
+            child:  Container(
+              padding: EdgeInsets.only(top: 3.h, left: 3.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border(
+                  bottom: BorderSide(color: Colors.black),
+                  top: BorderSide(color: Colors.black),
+                  left: BorderSide(color: Colors.black),
+                  right: BorderSide(color: Colors.black),
+                ),
+              ),
+              child: MaterialButton(
+                minWidth: double.infinity,
+                height: 48.h,
+                elevation: 0,
+                onPressed: isReaded ? () async {
+                  /// 登录
+                  if((_formKey.currentState as FormState).validate()) {
+                    User params = User(
+                      name: _userNameController.value.text.trim(),
+                      password: _userPasswordController.value.text.trim(),
+                    );
+                    Login res = await UserApi.login(context: context, params: params);
+                    if(res != null){
+                      AppGlobal.profile.token = res.token;
+                      params.uid = res.uid;
+                      userModel.user = params;
+                      await appShowToast(msg: '登录成功@: ${res.token}');
+                      Navigator.of(context).pushNamed(ApplicationPage.routeName);
+                    }
+                  }
+                } : null,
+                color: AppColors.ylPrimaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Text(
+                  '登陆',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.ssp,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

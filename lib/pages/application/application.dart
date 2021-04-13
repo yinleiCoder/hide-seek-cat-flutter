@@ -30,6 +30,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
 
   /// 上次点击的时间[用于1s内点击2次返回按钮是否退出]
   DateTime _lastPressedAt;
+  User appUser;
 
   @override
   void initState() {
@@ -38,15 +39,16 @@ class _ApplicationPageState extends State<ApplicationPage> {
       initialPage: this._currentPage,
       keepPage: true,
     );
-
     _loadCurrentAppUserInfo();
   }
 
   /// 获取当前APP用户的个人信息并全局化响应到Provider树上
   _loadCurrentAppUserInfo() async {
-    User appUser = await UserApi.somebodyUserInfo(context: context, uid: AppGlobal.profile.user.uid);
-    if(appUser != null) {
-      Provider.of<UserModel>(context, listen: false).user = appUser;
+   appUser = await UserApi.somebodyUserInfo(context: context, uid: AppGlobal.profile.user.uid);
+    if(appUser != null && mounted) {
+      AppGlobal.profile.user = appUser;
+      AppGlobal.saveProfile();
+      setState(() {});
     }
   }
 
@@ -76,7 +78,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
             child: CircleAvatar(
               radius: 14,
               backgroundImage: NetworkImage(
-                  AppGlobal.profile?.user?.avatar_url??'https://img.zcool.cn/community/01ca635a295054a801216e8d609191.jpg@2o.jpg',
+                appUser.avatar_url,
               ),
             ),
           ),
