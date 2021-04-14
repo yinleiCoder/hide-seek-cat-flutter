@@ -9,6 +9,7 @@ import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
+import 'package:flutter_hide_seek_cat/pages/square/graffiti_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
 import 'package:flutter_hide_seek_cat/pages/square/music_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
@@ -38,9 +39,9 @@ class _SquarePageState extends State<SquarePage>
     "广场",
     "话题",
     "站酷图集",
+    "躲猫猫涂鸦",
     "音乐专区",
     "我的粉丝",
-    "未开放",
   ];
 
   var _isExpanded = false;
@@ -61,7 +62,6 @@ class _SquarePageState extends State<SquarePage>
   @override
   void initState() {
     super.initState();
-    print('啊啊用户头像${AppGlobal.profile.user.avatar_url}');
     _future = _loadOverlayImage(AppGlobal.profile.user.avatar_url);
     _tabController = TabController(length: tabs.length, vsync: this);
     _qrcodeAnimationCtrl = AnimationController(
@@ -495,13 +495,14 @@ class _SquarePageState extends State<SquarePage>
             Flexible(
               child: TabBarView(
                 controller: _tabController,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   PostPage(),
                   TopicPage(),
                   ZcoolPage(),
+                  GraffitiPage(),
                   MusicPage(),
-                  Text('广场5'),
-                  Text('广场5'),
+                  Text('我的粉丝'),
                 ],
               ),
             ),

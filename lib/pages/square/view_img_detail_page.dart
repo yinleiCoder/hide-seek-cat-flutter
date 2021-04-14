@@ -70,8 +70,7 @@ class ViewDetailPage extends StatelessWidget {
                   ///下载图片
                   var response = await Dio().get(imgUrl, options: Options(responseType: ResponseType.bytes));
                   final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 60, name: imgUrl.substring(imgUrl.lastIndexOf("/") + 1));
-                  print(result);
-                  appShowToast(msg: '已保存，请到相册查看');
+                  appShowToast(msg: "保存成功，请到相册查看");
                 },
               ),
               decoration: BoxDecoration(

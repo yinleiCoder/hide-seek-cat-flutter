@@ -28,7 +28,7 @@ class _PostEditPageState extends State<PostEditPage> {
   TextEditingController _titleController;
   TextEditingController _descriptionController;
 
-  File _image; /// 单选，用于以后的头像上传
+  File _image;
   final picker = ImagePicker();
 
   Future getImage() async {

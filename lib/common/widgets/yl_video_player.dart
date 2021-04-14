@@ -301,7 +301,7 @@ class _YlVideoPlayerState extends State<YlVideoPlayer>
                                 // print(widget.playUrl.substring(widget.playUrl.lastIndexOf("/")));
                                 await Dio().download(widget.playUrl, savePath);
                                 final result = await ImageGallerySaver.saveFile(savePath);
-                                appShowToast(msg: '已保存，请查看手机相册');
+                                appShowToast(msg: "保存成功，请到相册查看");
                               },
                             ),
                             decoration: BoxDecoration(
