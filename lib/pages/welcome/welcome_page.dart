@@ -6,10 +6,10 @@ import 'package:rive/rive.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
 /**
- * 引导页
+ * 引导页、欢迎页
  * Rive Animation:
  * https://rive.app/community/
- * @author yinlei.
+ * @author yinlei
  */
 class WelcomePage extends StatefulWidget {
   @override
@@ -29,8 +29,6 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
   /// pageview
   PageController _pageController;
   int currentIndex = 0;
-
-
 
   @override
   void initState() {
@@ -78,21 +76,21 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
               });
             },
             children: [
-              _buildEachPage(
+              _buildBootChildPage(
                 image: 'assets/images/step-one.png',
-                title: '独处',
-                content: '互联网时代下的新青年们，越来越依赖手机进行沟通。可是望着通讯录的寥寥几个好友……渐渐的，在现实生活中，陌生人带着耳机、玩着手机，连轻易打扰想认识对方的勇气都没有了😪。',
+                title: '躲猫猫社交平台',
+                content: '一个主打私聊的平台，遵循马哲的联系是普遍性、条件性的观点，为陌生人之间架起沟通心灵的“桥梁”。私聊就完事了？No!拒绝商业化，一切为了用户考虑，娱乐为辅，短视频流行的5G浪口，采用最系统的音视频学习知识，利用Ffmpeg、WebRTC助力音视频娱乐，同时Tensorflow机器学习助力推荐系统！悄悄告诉你，躲猫猫开发者热爱考编，特意为各位考公朋友们开通了“刷题”模块。',
               ),
-              _buildEachPage(
+              _buildBootChildPage(
                 image: 'assets/images/step-two.png',
-                title: '诱惑',
-                content: '👧姐姐的腿不是腿，塞纳河畔的春水。姐姐的背不是背，保加利亚的玫瑰。姐姐的腰不是腰，夺命三郎的弯刀。姐姐的嘴不是嘴，安河桥下的清水。',
+                title: '码力全开，躲猫猫持续更新！',
+                content: '我1人正独立构建网站、后端、微信小程序、Windows客户端软件。采用最流行的编码架构和性能优化，打造最优质的应用。涉及C、C++、Kotlin、Flutter、Go、Ffmpeg、WebRTC、Docker、RabbitMQ、Sentry错误上报、数据埋点、大数据分析、分布式、微服务，代码全部开源供学习交流使用！！！\n详情请关注微信公众号：尹哥',
                 reverse: true,
               ),
-              _buildEachPage(
+              _buildBootChildPage(
                 image: 'assets/images/step-three.png',
-                title: '寻找or妥协',
-                content: '时间不会等你，慢慢的你就会不知不觉的从18岁到19、20、21、22、23、24、25、26、27、28、29岁……面对家人的催婚，你眼里他人恋爱的快乐画面，你会选择等待属于你的幸福❤or妥协去相亲💔。无论你是想寻找SoulMate还是想认识新朋友，我相信，躲猫猫APP都会帮助您逃离孤单的生活圈😀',
+                title: 'Dark Theme适配',
+                content: '采纳Google I/O大会的建议与标准，遵循Material Design设计风格,并自学新型设计理念，持续美化UI，完善用户体验。现已全面适配Android Q系统的暗黑主题。请用户打开手机Settings->Display->Dark theme按钮以开启暗黑主题。',
               ),
               Stack(
                 alignment: Alignment.center,
@@ -118,7 +116,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildEachPage({image, title, content, reverse = false}) {
+  Widget _buildBootChildPage({image, title, content, reverse = false}) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -220,10 +218,10 @@ class ButtonTransition extends AnimatedWidget {
   const ButtonTransition({Key key, AnimationController controller}) : super(key: key, listenable: controller);
 
   Animation<double> get _width => listenable;
-  
+
   @override
   Widget build(BuildContext context) {
-    print(_width.value);
+    // print(_width.value);
     return OutlineButton(
       onPressed: () =>  Navigator.pushReplacementNamed(context, SignInPage.routeName),
       borderSide: BorderSide(
@@ -238,7 +236,7 @@ class ButtonTransition extends AnimatedWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );  
+    );
   }
 }
 

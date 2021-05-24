@@ -11,7 +11,6 @@ import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/square/graffiti_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
-import 'package:flutter_hide_seek_cat/pages/square/music_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/profile_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/topic_page.dart';
@@ -40,7 +39,6 @@ class _SquarePageState extends State<SquarePage>
     "话题",
     "站酷图集",
     "躲猫猫涂鸦",
-    "音乐专区",
     "我的粉丝",
   ];
 
@@ -306,7 +304,8 @@ class _SquarePageState extends State<SquarePage>
                             headerBuilder:
                                 (BuildContext context, bool isExpanded) {
                               return ListTile(
-                                title: Text("关于躲猫猫平台"),
+                                title: Text("躲猫猫社交全平台"),
+                                subtitle: Text('现已将Web、APP、微信小程序、Windows桌面软件开发提上日程！'),
                               );
                             },
                             body: Container(
@@ -319,7 +318,7 @@ class _SquarePageState extends State<SquarePage>
                                   ),
                                   ListTile(
                                     leading: Icon(Icons.code),
-                                    title: Text('躲猫猫源码'),
+                                    title: Text('躲猫猫全平台Github源码'),
                                   ),
                                   ListTile(
                                     leading: FlutterLogo(),
@@ -386,27 +385,6 @@ class _SquarePageState extends State<SquarePage>
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                         ),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.bolt),
-                        title: Text('性别'),
-                        subtitle: Text(
-                          userModel.user.gender,
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.cake_rounded),
-                        title: Text('破壳日'),
-                        subtitle: Text(userModel.user.createdAt,
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
-                            )),
                         onTap: () {},
                       ),
                       AppGlobal.profile.user != null
@@ -501,7 +479,6 @@ class _SquarePageState extends State<SquarePage>
                   TopicPage(),
                   ZcoolPage(),
                   GraffitiPage(),
-                  MusicPage(),
                   Text('我的粉丝'),
                 ],
               ),

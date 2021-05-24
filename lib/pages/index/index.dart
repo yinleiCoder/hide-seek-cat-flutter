@@ -7,6 +7,11 @@ import 'package:flutter_hide_seek_cat/pages/welcome/welcome_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+/**
+ * APP入口管理页面
+ * 这里会做一些APP的初始操作，如检查更新、申请权限、屏幕适配等。
+ * @author yinlei
+ */
 class IndexPage extends StatefulWidget {
   @override
   _IndexPageState createState() => _IndexPageState();

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
-import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
@@ -72,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.of(context).pushNamed(RegisterPage.routeName);
   }
 
-  Widget _buildLoginHeaderDescription() {
+  Widget _buildLoginHeader() {
     return YlFadeIn(
       child: Column(
         children: [
@@ -101,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 Opacity(
                   opacity: 0.6,
                   child: Text(
-                    '登录您的账号，就可以进入APP参与和陌生人聊天、分享视频等活动🎈',
+                    '登录您的账号，就可以进入APP和陌生人参与聊天、分享视频等活动🎈',
                     style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, fontSize: 14.ssp),
                   ),
                 ),
@@ -226,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Text(
-                  '登陆',
+                  '登    陆',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18.ssp,
@@ -340,7 +339,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildLoginHeaderDescription(),
+            _buildLoginHeader(),
             _buildLoginInputField(),
             _buildLoginButton(),
             SizedBox(

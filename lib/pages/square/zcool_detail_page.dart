@@ -69,6 +69,10 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                 onStretchTrigger: () {
                   /// 刷新内容
                 },
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_drop_down_circle_rounded, color: Colors.white,),
+                  onPressed: () => Navigator.pop(context),
+                ),
                 flexibleSpace: FlexibleSpaceBar(
                   stretchModes: [
                     StretchMode.zoomBackground,
@@ -99,7 +103,7 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                 ),
               ),
               SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 20.r),
+                padding: EdgeInsets.symmetric(horizontal: 10.r),
                 sliver: SliverToBoxAdapter(
                   child: Card(
                     shape: RoundedRectangleBorder(

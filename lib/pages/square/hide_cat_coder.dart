@@ -208,7 +208,7 @@ class _HideCatCoderState extends State<HideCatCoder> {
                     ),
                     child: Align(
                       child: Text(
-                          "Follow",
+                          "微信支付请他喝杯奶茶",
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.0,

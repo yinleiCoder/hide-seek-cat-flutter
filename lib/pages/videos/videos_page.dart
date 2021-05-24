@@ -11,12 +11,12 @@ import 'package:rive/rive.dart';
  * NestedScrollView解决customscrollview嵌套listview的滑动问题
  * 【注意是sliver,也可以用sliverlist】
  */
-class NewsPage extends StatefulWidget {
+class VideosPage extends StatefulWidget {
   @override
-  _NewsPageState createState() => _NewsPageState();
+  _VideosPageState createState() => _VideosPageState();
 }
 
-class _NewsPageState extends State<NewsPage> with AutomaticKeepAliveClientMixin<NewsPage> {
+class _VideosPageState extends State<VideosPage> with AutomaticKeepAliveClientMixin<VideosPage> {
   ScrollController _scrollController;
 
   /// rive.

@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/size_extension.dart';
 class SignInPage extends StatelessWidget {
   static String routeName = '/sign_in';
 
-  Widget _buildSignPageHeaderDescription(context) {
+  Widget _buildSignPageHeader(context) {
     return YlFadeIn(
       child: Column(
         children: [
@@ -54,8 +54,8 @@ class SignInPage extends StatelessWidget {
                   MediaQuery.of(context).platformBrightness == Brightness.light
                       ? 'assets/icons/cat.png'
                       : 'assets/images/cat.png',
-                )
-            )
+                ),
+            ),
         ),
       ),
     );
@@ -87,7 +87,7 @@ class SignInPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                'Sign In',
+                '登   录',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 18.ssp,
@@ -110,7 +110,7 @@ class SignInPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             child: Text(
-              'Sign Up',
+              '注    册',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 18.ssp,
@@ -133,7 +133,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildSignPageHeaderDescription(context),
+              _buildSignPageHeader(context),
               _buildSignPageContent(context),
               _buildSignChooseBtn(context),
             ],

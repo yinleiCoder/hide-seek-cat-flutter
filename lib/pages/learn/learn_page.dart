@@ -54,7 +54,7 @@ class _LearnPageState extends State<LearnPage> with AutomaticKeepAliveClientMixi
           return NavigationDecision.navigate;
         },
         onPageStarted: (String url) {
-          Timer(Duration(seconds: 1), () => removeSomeInNeedDOM());
+          Timer(Duration(milliseconds: 500), () => removeSomeInNeedDOM());
         },
         onPageFinished: (String url) {
           // getWebViewDevicePixelRatio();
@@ -135,7 +135,7 @@ class _LearnPageState extends State<LearnPage> with AutomaticKeepAliveClientMixi
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('祝大家早日进面，早日上岸🖐'),
+        title: Text('早日进面，早日上岸🖐'),
         centerTitle: true,
         actions: [
           IconButton(icon: Icon(Icons.share), onPressed: () => appShareText(text: 'https://m.bilibili.com/space/300722822')),

@@ -136,28 +136,29 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
                       ),
                     ),
                     SizedBox(height: 15.h,),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: newData.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () =>Navigator.of(context).pushNamed(ZcoolDetailPage.routeName, arguments: '${newData[index].id}'),
-                          child: _buildZcoolSearchResultCard(
-                            cover: newData[index].cover,
-                            title: newData[index].title,
-                            cateStr: newData[index].cateStr,
-                            subCateStr: newData[index].subCateStr,
-                            publishTimeDiffStr: newData[index].publishTimeDiffStr,
-                            viewCountStr: newData[index].viewCountStr,
-                            recommendCountStr: newData[index].recommendCountStr,
-                            creatorObj: newData[index].creatorObj,
-                          ),
-                        );
-                      },
-                    ),
                   ],
                 ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                itemCount: newData.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () =>Navigator.of(context).pushNamed(ZcoolDetailPage.routeName, arguments: '${newData[index].id}'),
+                    child: _buildZcoolSearchResultCard(
+                      cover: newData[index].cover,
+                      title: newData[index].title,
+                      cateStr: newData[index].cateStr,
+                      subCateStr: newData[index].subCateStr,
+                      publishTimeDiffStr: newData[index].publishTimeDiffStr,
+                      viewCountStr: newData[index].viewCountStr,
+                      recommendCountStr: newData[index].recommendCountStr,
+                      creatorObj: newData[index].creatorObj,
+                    ),
+                  );
+                },
               ),
             ],
           ),

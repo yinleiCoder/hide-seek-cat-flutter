@@ -110,7 +110,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
       children: [
         SquarePage(),
         ChatPage(),
-        NewsPage(),
+        VideosPage(),
         LearnPage(),
       ],
     );
@@ -129,6 +129,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: _buildPageView(),
         bottomNavigationBar: _buildBottomNavigationBar(),
         floatingActionButton: FloatingActionButton(

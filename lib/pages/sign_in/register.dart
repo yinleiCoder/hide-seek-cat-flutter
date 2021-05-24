@@ -167,16 +167,12 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           ) : Text('Loading...'),
           Padding(
             padding: EdgeInsets.only(top: 40.h, left: 30.w, right: 30.w),
-            child: Column(
-              children: [
-                Opacity(
-                  opacity: 0.6,
-                  child: Text(
-                    '注册一个账号，加入躲猫猫社区🎃，和其他小哥哥、小姐姐们一起嗨翻天吧！',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, fontSize: 14.ssp),
-                  ),
-                ),
-              ],
+            child: Opacity(
+              opacity: 0.6,
+              child: Text(
+                '还在等什么？长得好看的人已经在注册账号了！加入躲猫猫社区🎃，和其他小哥哥、小姐姐们一起嗨翻天吧！🤭',
+                style: Theme.of(context).textTheme.bodyText1.copyWith(letterSpacing: 1.5, fontSize: 14.ssp),
+              ),
             ),
           ),
         ],
@@ -290,16 +286,13 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           children: [
             _buildRegisterHeader(),
             SizedBox(
-              height: 60.h,
+              height: 40.h,
             ),
             _buildRegisterForm(),
             SizedBox(
-              height: 60.h,
+              height: 40.h,
             ),
             _buildRegisterFooter(),
-            SizedBox(
-              height: 22.h,
-            ),
           ],
         ),
       ),

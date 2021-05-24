@@ -55,23 +55,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
 
   _handleSubmitted(String text){
     _chatController.clear();
-    // Message message = Message(
-    //   from: AppGlobal.profile.user,
-    //   to: widget.friend,
-    //   content: text,
-    //   type: 0,
-    //   state: 1,
-    //   messageStatus: MessageStatus.not_view,
-    //   animationController: AnimationController(
-    //     duration: Duration(milliseconds: 700),
-    //     vsync: this,
-    //   ),
-    // );
     Message message = Message(
       from: AppGlobal.profile.user,
       to: widget.friend,
       content: text,
-      type: 2,
+      type: 0,
       state: 1,
       messageStatus: MessageStatus.not_view,
       animationController: AnimationController(
@@ -79,6 +67,18 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
         vsync: this,
       ),
     );
+    // Message message = Message(
+    //   from: AppGlobal.profile.user,
+    //   to: widget.friend,
+    //   content: text,
+    //   type: 2,
+    //   state: 1,
+    //   messageStatus: MessageStatus.not_view,
+    //   animationController: AnimationController(
+    //     duration: Duration(milliseconds: 700),
+    //     vsync: this,
+    //   ),
+    // );
     setState(() {
       allHistoryMessages.insert(0, message);
     });

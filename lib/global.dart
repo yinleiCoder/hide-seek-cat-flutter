@@ -51,13 +51,11 @@ class AppGlobal {
     /// init storage util.
     await AppStorage.init();
 
-
     /// init AppHttps util.
     AppHttps();
 
     /// init AppSocketIo util.
     AppSocketIo();
-
 
     /// device is first time opened?
     isFirstOpen = !AppStorage().getBool(STORAGE_DEVICE_ALREADY_OPEN_KEY);
