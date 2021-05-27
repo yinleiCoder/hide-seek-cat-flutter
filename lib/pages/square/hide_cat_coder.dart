@@ -111,8 +111,11 @@ class _HideCatCoderState extends State<HideCatCoder> {
                           delay: 1500,
                           child: Opacity(
                             opacity: 0.6,
-                            child: Text(
+                            child: SelectableText(
                               '实践是指人类有目的地能动地改造和探索现实世界的社会性的客观物质活动。实践的观点是辩证唯物主义认识论的首要的观点，它认为实践是认识的基础。而认识是在实践基础上主体对客体的能动反映。真理是人们对客观事物及其规律的正确反映。实践是检验真理的唯一标准，这是由真理的本性和实践的特点决定的。',
+                              showCursor: true,
+                              maxLines: 5,
+                              scrollPhysics: ClampingScrollPhysics(),
                               style: TextStyle(
                                 color: Theme.of(context).textTheme.bodyText1.color,
                                 fontSize: 14.ssp,

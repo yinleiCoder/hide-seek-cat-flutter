@@ -93,13 +93,6 @@ class _YlVideoPlayerState extends State<YlVideoPlayer>
   }
 
   @override
-  void dispose() {
-    _videoController.dispose();
-    _playOrPauseController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return _videoController.value.isInitialized
         ? AspectRatio(
@@ -146,6 +139,7 @@ class _YlVideoPlayerState extends State<YlVideoPlayer>
                                 shape: BoxShape.circle,
                               ),
                               child: AnimatedIcon(
+                                color: Colors.black,
                                 icon: _videoController.value.isPlaying
                                     ? AnimatedIcons.pause_play
                                     : AnimatedIcons.play_pause,
@@ -173,32 +167,6 @@ class _YlVideoPlayerState extends State<YlVideoPlayer>
                                 playedColor: AppColors.ylPrimaryColor,
                               ),
                             ),
-                            // child: SliderTheme(
-                            //   data: SliderTheme.of(context).copyWith(
-                            //     activeTrackColor: Colors.grey[200],
-                            //     inactiveTrackColor: Colors.grey[700],
-                            //     thumbColor: Colors.grey[100],
-                            //     trackHeight: 2.h,
-                            //     thumbShape: RoundSliderThumbShape(
-                            //       enabledThumbRadius: 10.r,
-                            //     ),
-                            //     overlayColor: Colors.white.withAlpha(32),
-                            //     overlayShape: RoundSliderOverlayShape(
-                            //       overlayRadius: 20.r,
-                            //     ),
-                            //   ),
-                            //   child: Slider(
-                            //     min: 0,
-                            //     max: _videoController.value.duration.inMilliseconds.toDouble(),
-                            //     value: _curSlideVal.toDouble(),
-                            //     label: "啊啊",
-                            //     activeColor: Colors.white,
-                            //     divisions: _videoController.value.duration.inMilliseconds,
-                            //     onChanged: (value) async {
-                            //       await _videoController.seekTo(Duration(milliseconds: value.ceil()));
-                            //     },
-                            //   ),
-                            // ),
                           ),
                           Padding(
                             padding:
@@ -320,4 +288,12 @@ class _YlVideoPlayerState extends State<YlVideoPlayer>
         )
         : Text('waiting for video to load');
   }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    _playOrPauseController.dispose();
+    super.dispose();
+  }
+
 }

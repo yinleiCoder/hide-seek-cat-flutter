@@ -5,8 +5,11 @@ import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
-import 'package:flutter_hide_seek_cat/pages/square/video_player_page.dart';
+import 'package:flutter_hide_seek_cat/pages/chat/chat_audio_call_page.dart';
+import 'package:flutter_hide_seek_cat/pages/chat/chat_video_call_page.dart';
+import 'package:flutter_hide_seek_cat/pages/videos/video_player_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
 
@@ -46,6 +49,28 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
       );
       allHistoryMessages[i].animationController.forward();
     }
+    allHistoryMessages.add(Message(
+      from: AppGlobal.profile.user,
+      to: widget.friend,
+      type: 1,
+      state: 1,
+      messageStatus: MessageStatus.not_view,
+      animationController: AnimationController(
+        duration: Duration(milliseconds: 700),
+        vsync: this,
+      ),
+    ));
+    allHistoryMessages.add(Message(
+      from: AppGlobal.profile.user,
+      to: widget.friend,
+      type: 2,
+      state: 1,
+      messageStatus: MessageStatus.not_view,
+      animationController: AnimationController(
+        duration: Duration(milliseconds: 700),
+        vsync: this,
+      ),
+    ));
     setState(() {});
 
     if(mounted) {
@@ -67,18 +92,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
         vsync: this,
       ),
     );
-    // Message message = Message(
-    //   from: AppGlobal.profile.user,
-    //   to: widget.friend,
-    //   content: text,
-    //   type: 2,
-    //   state: 1,
-    //   messageStatus: MessageStatus.not_view,
-    //   animationController: AnimationController(
-    //     duration: Duration(milliseconds: 700),
-    //     vsync: this,
-    //   ),
-    // );
     setState(() {
       allHistoryMessages.insert(0, message);
     });
@@ -144,11 +157,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, ChatAudioCallPage.routeName, arguments: widget.friend),
             icon: Icon(Icons.local_phone),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, ChatVideoCallPage.routeName, arguments: widget.friend),
             icon: Icon(Icons.videocam),
           ),
         ],
@@ -156,9 +169,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: allHistoryMessages == null ? Text('load....') : ListView.builder(
+            child: allHistoryMessages == null ? Text('load....') : Scrollbar(
+              isAlwaysShown: true,
+              showTrackOnHover: true,
+              child: ListView.builder(
                 itemCount: allHistoryMessages?.length,
                 reverse: true,
                 itemBuilder: (context, index) => MessageCard(
@@ -178,7 +192,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
                   BoxShadow(
                     offset: Offset(0, 4),
                     blurRadius: 32,
-                    color: Color(0xFF087949).withOpacity(0.3),
+                    color: Color(0xFFFF59B2).withOpacity(0.3),
                   ),
               ],
               color: Theme.of(context).scaffoldBackgroundColor,
@@ -246,6 +260,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> with TickerProviderSt
 
 }
 
+/**
+ * 聊天消息卡片
+ */
 class MessageCard extends StatelessWidget {
   final Message message;
   final isSender;
@@ -272,11 +289,12 @@ class MessageCard extends StatelessWidget {
       }
     }
     return Padding(
-      padding: EdgeInsets.only(top: 20.h),
+      padding: EdgeInsets.only(top: 10.h),
       child: Row(
         mainAxisAlignment: isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if(message.from.uid != AppGlobal.profile.user.uid) ...{
+            SizedBox(width: 10.w,),
             CircleAvatar(
               backgroundImage: NetworkImage(
                 message.from.avatar_url,
@@ -288,12 +306,14 @@ class MessageCard extends StatelessWidget {
           },
           messageTypeChoose(message, isSender),
           if(isSender) MessageStatusDot(status: message.messageStatus,),
+          SizedBox(width: 10.w,),
         ],
       ),
     );
   }
 }
 
+/// 普通文本消息
 class TextMessage extends StatelessWidget {
   final Message message;
   final bool isSender;
@@ -321,8 +341,10 @@ class TextMessage extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.ylPrimaryColor.withOpacity(isSender ? 1 : 0.1),
           ),
-          child: Text(
+          child: SelectableText(
             message.content,
+            showCursor: true,
+            onTap: () => appShowToast(msg: '您拍了拍"${message.content}"'),
             style: TextStyle(
               color: isSender ? Colors.white : Theme.of(context).textTheme.bodyText1.color,
             ),
@@ -333,6 +355,7 @@ class TextMessage extends StatelessWidget {
   }
 }
 
+/// 语音消息
 class AudioMessage extends StatelessWidget {
   final Message message;
   final bool isSender;
@@ -397,6 +420,7 @@ class AudioMessage extends StatelessWidget {
   }
 }
 
+/// 视频消息
 class VideoMessage extends StatelessWidget {
   final Message message;
   final bool isSender;
@@ -411,13 +435,13 @@ class VideoMessage extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(VideoPlayerPage.routeName, arguments: 'https://yinlei-hide-seek-cat.oss-cn-chengdu.aliyuncs.com/%E8%8A%8A%E8%8A%8A.mp4'),
+            onTap: () => Navigator.of(context).pushNamed(VideoPlayerPage.routeName, arguments: 'http://oss-cn-beijing.aliyuncs.com/static-thefair-bj/eyepetizer/pgc_video/video_summary/213190.mp4'),
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: Image.network(
-                  "https://img.zcool.cn/community/01dbf75f36974ca80120a8214358d2.jpg@1280w_1l_2o_100sh.jpg",
+                  "https://img.zcool.cn/community/0116bd60ad246211013f4720455937.jpg@1280w_1l_2o_100sh.jpg",
                   fit: BoxFit.cover,
                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
                     if (loadingProgress == null)
@@ -449,6 +473,7 @@ class VideoMessage extends StatelessWidget {
   }
 }
 
+/// 图片消息
 class ImageMessage extends StatelessWidget {
   final Message message;
   final bool isSender;

@@ -16,9 +16,14 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
 
   Future _future;
+  String dropdownValue = '添加朋友';
+  List<String> avaiableMenuItems = ['添加朋友', '扫一扫',];
+  List<Message> allMessages = [];
+
+
   @override
   void initState() {
     super.initState();
@@ -34,24 +39,78 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('消息列表'),
+        title: Text('叮叮叮,恋爱铃为您敲响🔔'),
         centerTitle: false,
         automaticallyImplyLeading: false,
         elevation: 0,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: DropdownButton(
+              value: dropdownValue,
+              icon: const Icon(Icons.arrow_drop_down, color: Colors.black,),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              underline: null,
+              onChanged: (String newValue) {
+                switch(avaiableMenuItems.indexOf(newValue)){
+                  case 0:
+                    appShowToast(msg: '添加好友');
+                    break;
+                  case 1:
+                    appShowToast(msg: '扫一扫');
+                    break;
+                }
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              items: avaiableMenuItems
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                })
+                .toList(),
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {
           Widget child;
           if(snapshot.hasData) {
-            child = ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => ChatCard(
-                chat: snapshot.data[index],
-                onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName, arguments: snapshot.data[index].from),
-              ),
+            allMessages = snapshot.data;
+            child = ReorderableListView(
+              header: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.r, vertical: 5.r),
+                child: Text('好友消息', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.ssp,),),),
+              onReorder: (int oldIndex, int newIndex) {
+                setState(() {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  final Message item = allMessages.removeAt(oldIndex);
+                  allMessages.insert(newIndex, item);
+                });
+              },
+              children: [
+                for(final item in allMessages)
+                    ChatCard(
+                      key: ValueKey(item),
+                      chat: item,
+                      onTap: () => Navigator.pushNamed(context, ChatMessagePage.routeName, arguments: item.from),
+                    ),
+              ],
             );
           }else if(snapshot.hasError) {
             child = Text('发生未知出错啦！');
@@ -59,17 +118,13 @@ class _ChatPageState extends State<ChatPage> {
             child = Center(
               child: SizedBox(
                 child: CircularProgressIndicator(),
-                width: 60.r,
-                height: 60.r,
+                width: 40.r,
+                height: 40.r,
               ),
             );
           }
           return Column(
             children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                color: AppColors.ylPrimaryColor,
-              ),
               Expanded(
                 child: child,
               ),
@@ -79,8 +134,12 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
+/// 聊天人卡片
 class ChatCard extends StatelessWidget {
   final Message chat;
   final GestureTapCallback onTap;

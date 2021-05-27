@@ -4,8 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
+import 'package:flutter_hide_seek_cat/common/values/colors.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,18 +33,6 @@ class _PostEditPageState extends State<PostEditPage> {
   File _image;
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedFile!=null) {
-        _image = File(pickedFile.path);
-      }else {
-        appShowToast(msg: "No image selected");
-      }
-    });
-  }
-
-
   @override
   void initState() {
     super.initState();
@@ -59,11 +49,31 @@ class _PostEditPageState extends State<PostEditPage> {
     }
   }
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
+  Future _handleSelectImg() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if(pickedFile!=null) {
+        _image = File(pickedFile.path);
+      }else {
+        appShowToast(msg: "躲猫猫官方：您未选择任何图片哦~");
+      }
+    });
+  }
+
+  _handlePublishPost() async {
+    if(_titleController.value.text.trim().isNotEmpty && _descriptionController.value.text.trim().isNotEmpty && _image != null) {
+      /// 发布
+      await PostApi.publishPost(context: context, params: {
+        'title': _titleController.value.text.trim(),
+        'description': _descriptionController.value.text.trim(),
+        'topics': allTopics.map((topic) => topic.tid).toList(),
+        'file': await MultipartFile.fromFile(_image.path, filename: _image.path.split('/').last),
+      });
+      appShowToast(msg: '躲猫猫官方：投稿成功啦！');
+      Navigator.pop(context);
+    } else {
+      appShowToast(msg: '躲猫猫官方：稿件必须填写完整后才能公开发布分享给朋友们哦~');
+    }
   }
 
   @override
@@ -74,29 +84,15 @@ class _PostEditPageState extends State<PostEditPage> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            snap: true,
-            floating: true,
-            expandedHeight: 80.h,
+            centerTitle: true,
+            stretch: true,
+            expandedHeight: 200.h,
             actions: [
               UnconstrainedBox(
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.w),
                   child: GestureDetector(
-                    onTap: () async {
-                      if(_titleController.value.text.trim().isNotEmpty && _descriptionController.value.text.trim().isNotEmpty && _image != null) {
-                        /// 发布
-                        await PostApi.publishPost(context: context, params: {
-                          'title': _titleController.value.text.trim(),
-                          'description': _descriptionController.value.text.trim(),
-                          'topics': allTopics.map((topic) => topic.tid).toList(),
-                          'file': await MultipartFile.fromFile(_image.path, filename: _image.path.split('/').last),
-                        });
-                        appShowToast(msg: '投稿成功！');
-                        Navigator.pop(context);
-                      } else {
-                        appShowToast(msg: '将稿件填写完整后才能发布哦！');
-                      }
-                    },
+                    onTap: _handlePublishPost,
                     child: ClipOval(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
@@ -104,7 +100,9 @@ class _PostEditPageState extends State<PostEditPage> {
                         child: Text(
                           '发布',
                           style: TextStyle(
-                            letterSpacing: 1.2,
+                            letterSpacing: 1.5,
+                            wordSpacing: 2,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold
                           ),
                         ),
@@ -114,13 +112,14 @@ class _PostEditPageState extends State<PostEditPage> {
                 ),
               ),
             ],
+            leading: YlBackButton(context),
             flexibleSpace: FlexibleSpaceBar(
               stretchModes: [
                 StretchMode.zoomBackground,
                 StretchMode.blurBackground,
               ],
               background: Image.asset(
-                'assets/images/cat_bg.png',
+                'assets/images/post_edit_bg.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -130,35 +129,40 @@ class _PostEditPageState extends State<PostEditPage> {
             sliver: SliverToBoxAdapter(
               child: Column(
                 children: [
+                  YlTips(tipContent: '躲猫猫官方：让我看看是哪个少女/美男在投稿❤'),
                   TextField(
-                    style: TextStyle(letterSpacing: 1.2, fontFamily: 'YinLei'),
+                    style: TextStyle(letterSpacing: 1.2,),
                     maxLines: 1,
+                    maxLength: 40,
                     controller: _titleController,
                     decoration: InputDecoration(
                       hintText: '标题',
-                      counterText: "20/20字",
+                      icon: Icon(Icons.color_lens),
                     ),
                   ),
+                  SizedBox(height: 10.h,),
                   TextField(
-                    maxLines: 5,
+                    maxLines: 10,
                     controller: _descriptionController,
-                    style: TextStyle(letterSpacing: 1.2, fontFamily: 'YinLei'),
+                    style: TextStyle(letterSpacing: 1.2),
+                    maxLength: 500,
                     decoration: InputDecoration(
-                      hintText: '记录这一刻，晒给懂你的人',
-                      counterText: "100/100字",
-                      border: InputBorder.none,
-                    ),
+                      hintText: '写点什么内容好呢？',
+                      labelText: '记录这一刻，晒给懂你的人',
+                      border: OutlineInputBorder(),
+                  ),
                   ),
                 ],
               ),
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.all(10.r),
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
             sliver: SliverGrid.count(
               crossAxisCount: 1,
               mainAxisSpacing: 3.0,
               crossAxisSpacing: 3.0,
+              childAspectRatio: 16 / 9,
               children: [
                 if(_image != null)Container(
                   decoration: BoxDecoration(
@@ -180,7 +184,7 @@ class _PostEditPageState extends State<PostEditPage> {
                         child: Container(
                           width: 20.r,
                           height: 20.r,
-                          color: Colors.black45,
+                          color: AppColors.ylPrimaryColor,
                           child: Icon(Icons.close, color: Colors.white, size: 16.ssp,),
                         ),
                       ),
@@ -188,14 +192,17 @@ class _PostEditPageState extends State<PostEditPage> {
                   ),
                 ),
                 if(_image == null)GestureDetector(
-                  onTap: getImage,
+                  onTap: _handleSelectImg,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.r),
-                      color: AppColors.ylSecondaryBgColor,
+                      border: Border.all(
+                        color: AppColors.ylPrimaryColor,
+                        width: 2,
+                      ),
                     ),
                     child: Center(
-                      child: Icon(Icons.add, size: 35.ssp,),
+                      child: Icon(Icons.add, size: 50.ssp, color: AppColors.ylPrimaryColor,),
                     ),
                   ),
                 ),
@@ -210,7 +217,7 @@ class _PostEditPageState extends State<PostEditPage> {
                 child: Chip(
                   backgroundColor: AppColors.ylSecondaryBgColor,
                   label: Text(
-                      '绵阳市',
+                      '暂未支持定位功能',
                       style: TextStyle(
                         letterSpacing: 1.2,
                         color: AppColors.ylPrimaryColor,
@@ -269,4 +276,12 @@ class _PostEditPageState extends State<PostEditPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
 }

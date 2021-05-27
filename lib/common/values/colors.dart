@@ -9,6 +9,7 @@ class AppColors {
   /// APP Important Color.
   static const Color ylPrimaryColor = Color(0xFFFF58B2);
   static const Color ylSecondaryColor = Color(0xCCFF58B2);
+  static const Color ylProfileBgColor = Color(0xFF09031D);
   static const Color ylContentColorLightTheme = Color(0xFF1D1D35);
   static const Color ylContentColorDarkTheme = Color(0xFFF5FCF9);
   static const Color ylWarninngColor = Color(0xFFF3BB1C);

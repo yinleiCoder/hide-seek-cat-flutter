@@ -29,13 +29,6 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
     _loadData();
   }
 
-  @override
-  void dispose() {
-    _stateManager.dispose();
-    _searchController.dispose();
-    super.dispose();
-  }
-
   _loadData() {
     _stateManager.loading();
     _loadAllData().then((val) {
@@ -67,8 +60,8 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 20.h,),
-                    Text('Find awesome photos\nplease visit zcool.com.cn', style: TextStyle(
-                      fontSize: 18,
+                    Text('找优质图片？\n快去访问 zcool.com.cn', style: TextStyle(
+                      fontSize: 18.ssp,
                       fontWeight: FontWeight.bold,
                     ),),
                     SizedBox(height: 20.h,),
@@ -91,7 +84,7 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
                               },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: '搜索想要找的图片关键词',
+                                hintText: '想要找的图片关键词',
                                 contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
                               ),
                             ),
@@ -113,7 +106,6 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
                   ],
                 ),
               ),
-              SizedBox(height: 20.h,),
               Padding(
                 padding: EdgeInsets.all(20.r),
                 child: Column(
@@ -135,7 +127,6 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
                         ],
                       ),
                     ),
-                    SizedBox(height: 15.h,),
                   ],
                 ),
               ),
@@ -316,4 +307,12 @@ class _ZcoolPageState extends State<ZcoolPage> with AutomaticKeepAliveClientMixi
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _stateManager.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
 }

@@ -24,7 +24,7 @@ class AppSocketIo {
     );
     _socket.onConnect((data) {
       print('socket.io connect: ${_socket.id}');
-      _socket.emit('login', AppGlobal.profile.user.uid);
+      _socket.emit('login', AppGlobal.profile.user?.uid??'');
     });
 
     _socket.onConnectError((err) {

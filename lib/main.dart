@@ -18,8 +18,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
  */
 
 bool get isInDebugMode {
-  // return false;
-  return true;
+  return false;
+  // return true;
 }
 /**
  * 错误收集：
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorObservers: [
+      navigatorObservers: [/// tracking navigation events
         SentryNavigatorObserver(),
       ],
       title: '躲猫猫',

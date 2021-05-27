@@ -148,17 +148,17 @@ class _TopicPageState extends State<TopicPage> with AutomaticKeepAliveClientMixi
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8.0.r, top: 8.0.r),
+              padding: EdgeInsets.only(left: 10.0.r, top: 10.0.r),
               child: Text('所有话题', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5, color: AppColors.ylPrimaryColor, fontSize: 20.ssp,),),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0.r),
+              padding: EdgeInsets.symmetric(horizontal: 10.0.r),
               child: Wrap(
-                runSpacing: 3.0,
+                runSpacing: 2.0,
                 spacing: 8.0,
                 children: newData.map((tag) {
                   return Chip(
-                    label: Text(tag.name, style: TextStyle(letterSpacing: 1.2, ),),
+                    label: Text(tag.name, style: TextStyle(letterSpacing: 1.2,),),
                   );
                 }).toList(),
               ),

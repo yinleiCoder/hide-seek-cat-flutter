@@ -43,7 +43,7 @@ ThemeData ylLightThemeData(BuildContext context) {
 ThemeData ylDarkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
     primaryColor: AppColors.ylPrimaryColor,
-    scaffoldBackgroundColor: AppColors.ylContentColorLightTheme,
+    // scaffoldBackgroundColor: AppColors.ylContentColorLightTheme,
     appBarTheme: AppBarTheme(
       centerTitle: true,
     ),
@@ -56,7 +56,7 @@ ThemeData ylDarkThemeData(BuildContext context) {
       error: AppColors.ylErrorColor,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: AppColors.ylContentColorLightTheme,
+      // backgroundColor: AppColors.ylContentColorLightTheme,
       selectedItemColor: Colors.white70,
       unselectedItemColor: AppColors.ylContentColorDarkTheme.withOpacity(0.32),
       selectedIconTheme: IconThemeData(color: AppColors.ylPrimaryColor),

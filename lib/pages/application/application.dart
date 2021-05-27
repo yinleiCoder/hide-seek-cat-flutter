@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
-import 'package:flutter_hide_seek_cat/common/providers/provider.dart';
 import 'package:flutter_hide_seek_cat/common/utils/utils.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_hide_seek_cat/pages/learn/learn_page.dart';
 import 'package:flutter_hide_seek_cat/pages/videos/videos_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_edit_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/square_page.dart';
-import 'package:provider/provider.dart';
 /**
  * APP 主界面
  * @auhor yinlei
@@ -78,7 +76,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
             child: CircleAvatar(
               radius: 14,
               backgroundImage: NetworkImage(
-                appUser.avatar_url,
+                appUser?.avatar_url??'https://img.zcool.cn/community/01a87b60ad245c11013f47205d90a7.jpg@1280w_1l_0o_100sh.jpg',
               ),
             ),
           ),
@@ -87,12 +85,12 @@ class _ApplicationPageState extends State<ApplicationPage> {
         BottomNavigationBarItem(
           icon: Icon(AppIconfont.news),
           activeIcon: Icon(AppIconfont.newsActive),
-          label: '视频专区',
+          label: '开眼视频',
         ),
         BottomNavigationBarItem(
           icon: Icon(AppIconfont.learn),
           activeIcon: Icon(AppIconfont.learnActive),
-          label: '考编专区',
+          label: '助力考编',
         ),
       ],
     );
@@ -133,6 +131,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         body: _buildPageView(),
         bottomNavigationBar: _buildBottomNavigationBar(),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'Publish_Post',
           onPressed: () => Navigator.of(context).pushNamed(PostEditPage.routeName,),
           child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor,),
           elevation: 4.0,

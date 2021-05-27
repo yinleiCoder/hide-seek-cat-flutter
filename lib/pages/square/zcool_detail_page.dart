@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_hide_seek_cat/common/apis/apis.dart';
 import 'package:flutter_hide_seek_cat/common/entitys/entitys.dart';
 import 'package:flutter_hide_seek_cat/common/values/colors.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_hide_seek_cat/pages/square/view_img_detail_page.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 /**
@@ -25,14 +26,15 @@ class ZcoolDetailPage extends StatefulWidget {
 class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
 
   Future _future;
-  Future<ZcoolDetail> _loadAllData() async {
-    return await UserApi.zcoolDetail(context: context, objectId: widget.objectId);
-  }
 
   @override
   void initState() {
     super.initState();
     _future = _loadAllData();
+  }
+
+  Future<ZcoolDetail> _loadAllData() async {
+    return await UserApi.zcoolDetail(context: context, objectId: widget.objectId);
   }
 
   @override
@@ -41,9 +43,8 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
       body: FutureBuilder<ZcoolDetail>(
         future: _future,
         builder: (context, snapshot) {
-          List<Widget> children;
+          List<Widget> children = [Text('正在为您全力加载....')];
           if(snapshot.hasData) {
-
           }else if(snapshot.hasError) {
             children = [Text('发生未知出错啦！')];
           }else {
@@ -69,10 +70,7 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                 onStretchTrigger: () {
                   /// 刷新内容
                 },
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_drop_down_circle_rounded, color: Colors.white,),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                leading: YlBackButton(context),
                 flexibleSpace: FlexibleSpaceBar(
                   stretchModes: [
                     StretchMode.zoomBackground,
@@ -81,13 +79,13 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(snapshot.data.cover,),
+                        image: NetworkImage(snapshot.data?.cover??'https://img.zcool.cn/community/0112f36012d7db11013f7928298b01.jpg@1280w_1l_2o_100sh.jpg',),
                       ),
                     ),
                   ),
                 ),
               ),
-              SliverPadding(
+              if(snapshot.data!=null)SliverPadding(
                 padding: EdgeInsets.all(20.r),
                 sliver: SliverToBoxAdapter(
                   child: Container(
@@ -102,8 +100,8 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                   ),
                 ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 10.r),
+              if(snapshot.data!=null)SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
                 sliver: SliverToBoxAdapter(
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -111,7 +109,7 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                     ),
                     elevation: 10.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15.r, horizontal: 5.w),
+                      padding: EdgeInsets.symmetric(vertical: 20.r, horizontal: 5.w),
                       child: Stack(
                         clipBehavior: Clip.none,
                         alignment: Alignment.center,
@@ -183,7 +181,7 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                   ),
                 ),
               ),
-              SliverPadding(
+              if(snapshot.data!=null)SliverPadding(
                 padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 20.h),
                 sliver: SliverGrid.count(
                   crossAxisCount: 2,
@@ -215,8 +213,8 @@ class _ZcoolDetailPageState extends State<ZcoolDetailPage> {
                   }).toList(),
                 ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.all(20.r),
+              if(snapshot.data!=null)SliverPadding(
+                padding: EdgeInsets.all(10.r),
                 sliver: SliverToBoxAdapter(
                   child: Container(
                     child: Wrap(

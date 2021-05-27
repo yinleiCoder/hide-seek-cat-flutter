@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 /**
@@ -17,6 +18,14 @@ class ViewDetailPage extends StatelessWidget {
   final String imgUrl;
 
   const ViewDetailPage({Key key, this.imgUrl}) : super(key: key);
+
+  _handleDownloadAndSaveNetWorkImg() async {
+    ///下载图片
+    var response = await Dio().get(imgUrl, options: Options(responseType: ResponseType.bytes));
+    final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 60, name: imgUrl.substring(imgUrl.lastIndexOf("/") + 1));
+    appShowToast(msg: "保存成功，请到相册查看");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,12 +75,7 @@ class ViewDetailPage extends StatelessWidget {
                   size: 20.ssp,
                 ),
                 color: Colors.white,
-                onPressed: () async {
-                  ///下载图片
-                  var response = await Dio().get(imgUrl, options: Options(responseType: ResponseType.bytes));
-                  final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 60, name: imgUrl.substring(imgUrl.lastIndexOf("/") + 1));
-                  appShowToast(msg: "保存成功，请到相册查看");
-                },
+                onPressed: () => _handleDownloadAndSaveNetWorkImg(),
               ),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -82,14 +86,12 @@ class ViewDetailPage extends StatelessWidget {
           Positioned(
             left: 10.w,
             top: 22.h,
-            child: IconButton(
-              icon: Icon(Icons.arrow_drop_down_circle_rounded, color: Colors.white,),
-              onPressed: () => Navigator.pop(context),
-            ),
+            child: YlBackButton(context),
           ),
         ],
       ),
     );
   }
+
 }
 

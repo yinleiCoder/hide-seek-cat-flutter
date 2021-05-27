@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hide_seek_cat/common/widgets/widgets.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 /**
- * 视频播放
+ * 视频详情播放页
  * @author yinlei
  */
 class VideoPlayerPage extends StatefulWidget {
@@ -33,10 +33,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             centerTitle: true,
             stretch: true,
             title: Text('躲猫猫视频'),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_drop_down_circle_sharp),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            leading: YlBackButton(context),
             actions: [
               IconButton(icon: Icon(Icons.share), onPressed: () => appShareText(text: widget.playUrl)),
             ],

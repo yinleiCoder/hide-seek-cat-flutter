@@ -5,20 +5,20 @@
 > 检查当前项目的依赖是否都满足空安全：对于可以空安全的版本，例如provider 5.0.0应当更新pubspec.yaml
 
 ## 开发环境
-[√] Flutter (Channel stable, 2.0.4, on Microsoft Windows [Version 10.0.19042.867], locale zh-CN)
-    • Flutter version 2.0.4 at D:\flutter
-    • Framework revision b1395592de (6 days ago), 2021-04-01 14:25:01 -0700
-    • Engine revision 2dce47073a
-    • Dart version 2.12.2
+[√] Flutter (Channel stable, 2.2.0, on Microsoft Windows [Version 10.0.19042.985], locale zh-CN)
+    • Flutter version 2.2.0 at D:\flutter
+    • Framework revision b22742018b (11 days ago), 2021-05-14 19:12:57 -0700
+    • Engine revision a9d88a4d18
+    • Dart version 2.13.0
     • Pub download mirror https://pub.flutter-io.cn
     • Flutter download mirror https://storage.flutter-io.cn
 
-[√] Android toolchain - develop for Android devices (Android SDK version 29.0.3)
+[√] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
     • Android SDK at D:\AndroidSDK
-    • Platform android-30, build-tools 29.0.3
+    • Platform android-30, build-tools 30.0.3
     • ANDROID_HOME = D:\AndroidSDK
     • Java binary at: D:\Android Studio\jre\bin\java
-    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+    • Java version OpenJDK Runtime Environment (build 11.0.8+10-b944.6842174)
     • All Android licenses accepted.
 
 [√] Chrome - develop for the web
@@ -30,7 +30,7 @@
        https://plugins.jetbrains.com/plugin/9212-flutter
     • Dart plugin can be installed from:
        https://plugins.jetbrains.com/plugin/6351-dart
-    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+    • Java version OpenJDK Runtime Environment (build 11.0.8+10-b944.6842174)
 
 [√] IntelliJ IDEA Ultimate Edition (version 2020.1)
     • IntelliJ at D:\IntelliJ IDEA\IntelliJ IDEA 2018.3.5
@@ -40,15 +40,14 @@
        https://plugins.jetbrains.com/plugin/6351-dart
 
 [√] Connected device (3 available)
-    • Android SDK built for x86 (mobile) • emulator-5556 • android-x86    • Android 10 (API 29) (emulator)
-    • Chrome (web)                       • chrome        • web-javascript • Google Chrome 88.0.4324.104
-    • Edge (web)                         • edge          • web-javascript • Microsoft Edge 89.0.774.75
+    • Android SDK built for x86 (mobile) • emulator-5554 • android-x86    • Android 10 (API 29) (emulator)
+    • Chrome (web)                       • chrome        • web-javascript • Google Chrome 90.0.4430.72
+    • Edge (web)                         • edge          • web-javascript • Microsoft Edge 90.0.818.66
     
 ### Flutter组件：https://flutter.dev/docs/reference/widgets
 
 - FadeInImage
 - InheritedModel
-- CustomPaint
 - LayoutBuilder
 - AbsorbPointer
 - Dismissible
@@ -58,15 +57,12 @@
 - InheritedWidget
 - Placeholder
 - LimitedBox
-- ReorderableListView
 - AnimatedSwitcher
 - AnimatedPositioned
 - AnimatedPadding
 - Semantics
 - AnimatedOpacity
-- SelectableText
 - AnimatedCrossFade
-- DraggableScrollableSheet
 - ColorFiltered
 - ToggleButtons
 - CupertinoActionSheet
@@ -76,12 +72,17 @@
 - ShaderMask
 - NotificationListener
 - ClipPath
-- LinearProgressIndicator
 - IgnorePointer
 - CupertinoActivityIndicator
 - CheckboxListTile
 - SwitchListTile
 - Location
+- ImageFiltered
+- PhysicalModel
+- animation
+- flutter_slidable
+- RotatedBox
+- connectivity
 
 ------
 ## WebView
@@ -230,10 +231,10 @@ flutter build apk --split-per-abi
 
 打出的v8兼容v7,对外发布一般用v7包，x86是模拟器
 
-**如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
-
 ## 错误上报
 Sentry: https://sentry.io/welcome/
+
+**如果可以，请动动手指，为我点个Star吧！感谢！:basketball_man:**
 
 ------
 

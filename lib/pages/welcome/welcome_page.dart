@@ -77,20 +77,20 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
             },
             children: [
               _buildBootChildPage(
-                image: 'assets/images/step-one.png',
+                image: 'assets/images/flutter_dash.png',
                 title: '躲猫猫社交平台',
                 content: '一个主打私聊的平台，遵循马哲的联系是普遍性、条件性的观点，为陌生人之间架起沟通心灵的“桥梁”。私聊就完事了？No!拒绝商业化，一切为了用户考虑，娱乐为辅，短视频流行的5G浪口，采用最系统的音视频学习知识，利用Ffmpeg、WebRTC助力音视频娱乐，同时Tensorflow机器学习助力推荐系统！悄悄告诉你，躲猫猫开发者热爱考编，特意为各位考公朋友们开通了“刷题”模块。',
               ),
               _buildBootChildPage(
-                image: 'assets/images/step-two.png',
+                image: 'assets/images/flutter_web.png',
                 title: '码力全开，躲猫猫持续更新！',
                 content: '我1人正独立构建网站、后端、微信小程序、Windows客户端软件。采用最流行的编码架构和性能优化，打造最优质的应用。涉及C、C++、Kotlin、Flutter、Go、Ffmpeg、WebRTC、Docker、RabbitMQ、Sentry错误上报、数据埋点、大数据分析、分布式、微服务，代码全部开源供学习交流使用！！！\n详情请关注微信公众号：尹哥',
                 reverse: true,
               ),
               _buildBootChildPage(
-                image: 'assets/images/step-three.png',
+                image: 'assets/images/dash.png',
                 title: 'Dark Theme适配',
-                content: '采纳Google I/O大会的建议与标准，遵循Material Design设计风格,并自学新型设计理念，持续美化UI，完善用户体验。现已全面适配Android Q系统的暗黑主题。请用户打开手机Settings->Display->Dark theme按钮以开启暗黑主题。',
+                content: '采纳Google I/O大会的建议与标准，遵循Material Design设计风格,并自学新型设计理念，持续美化UI，完善用户体验。现已全面适配Android Q系统的深色模式。请用户打开手机Settings->Display->Dark theme按钮以开启深色模式。',
               ),
               Stack(
                 alignment: Alignment.center,
@@ -113,6 +113,22 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
           ),
         ],
       ),
+      bottomSheet: currentIndex == 3 ? Container(
+        height: 60.h,
+        width: 1.sw,
+        color: Colors.white,
+        child: Center(
+          child: GestureDetector(
+            onTap: () =>  Navigator.pushReplacementNamed(context, SignInPage.routeName),
+            child: Text('Get Started'.toUpperCase(), style: TextStyle(
+              color: AppColors.ylPrimaryColor,
+              fontWeight: FontWeight.bold,
+              wordSpacing: 2,
+              letterSpacing: 1.5,
+            ),),
+          ),
+        ),
+      ) : Text(''),
     );
   }
 
@@ -229,7 +245,7 @@ class ButtonTransition extends AnimatedWidget {
         color: AppColors.ylPrimaryColor,
       ),
       child: Text(
-        'GET START',
+        '躲猫猫',
         style: TextStyle(
           color: Colors.white,
           fontSize: 22.ssp,

@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/size_extension.dart';
 import 'package:rive/rive.dart' hide LinearGradient;
 
 /**
- * 广场中的动态tab页
+ * 帖子页
  * @author yinlei
 */
 class PostPage extends StatefulWidget {
@@ -23,9 +23,6 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<PostPage>{
 
-  /// animated Icon.
-  AnimationController _animationController;
-  bool isClickCommentBtning = false;
 
   /// rive.
   /// space_reload.riv: Loading Idle Pull Trigger
@@ -96,7 +93,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
     );
   }
 
-
   Widget _buildAreaTitle({areaTitle, moreDetail, isSqure=false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
@@ -137,10 +133,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
   void initState() {
     _loadRiveFile();
     super.initState();
-    _animationController = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 450),
-    );
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       double maxScrollExtent = _scrollController.position.maxScrollExtent;
@@ -253,7 +245,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
               padding: EdgeInsets.symmetric(vertical: 5.h),
               height: 30.h,
               child: appMarquee(
-                  text: '网络不是法外之地，请发表正当的言论，规范自身的言行。对于用户违反中华人民共和国法律的言论和行为，本平台将保留解释权并配合相关部门检举取证工作。——2021年3月30日 躲猫猫社交平台.',
+                  text: '根据《中华人民共和国网络安全法》规定，保障网络安全，维护网络空间主权和国家安全、社会公共利益，保护公民、法人和其他组织的合法权益，促进经济社会信息化健康发展。若有用户违反相关条例，本平台将密切配合司法机关提起公诉⚠',
                   customStyle: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -298,7 +290,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin, Auto
 
   @override
   void dispose() {
-    _animationController.dispose();
     _riveController.dispose();
     _scrollController.dispose();
     super.dispose();

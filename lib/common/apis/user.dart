@@ -26,6 +26,14 @@ class UserApi {
     return User.fromJson(response);
   }
 
+  /// 获取特定的用户关注的人列表
+  static Future<List<User>> allattentionUsers({@required context, @required String uid}) async {
+    var response = await AppHttps().get('/users/${uid}/followers', context: context, );
+    return response
+        .map<User>((item) => User.fromJson(item))
+        .toList();
+  }
+
   /// 获取我和我朋友们的最新聊天消息
   static Future<List<Message>> allfriendLatestMessages({@required context, @required String uid}) async {
     var response = await AppHttps().get('/users/${uid}/allfriendsandmessages', context: context, );
