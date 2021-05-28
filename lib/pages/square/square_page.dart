@@ -10,6 +10,7 @@ import 'package:flutter_hide_seek_cat/common/widgets/toast.dart';
 import 'package:flutter_hide_seek_cat/global.dart';
 import 'package:flutter_hide_seek_cat/pages/square/graffiti_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/hide_cat_coder.dart';
+import 'package:flutter_hide_seek_cat/pages/square/pdf_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/post_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/profile_page.dart';
 import 'package:flutter_hide_seek_cat/pages/square/topic_page.dart';
@@ -493,7 +494,7 @@ class _SquarePageState extends State<SquarePage> with TickerProviderStateMixin, 
                   TopicPage(),
                   ZcoolPage(),
                   GraffitiPage(),
-                  Text('PDF预览'),
+                  PdfPage(),
                 ],
               ),
             ),

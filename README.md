@@ -46,6 +46,7 @@
     
 ### Flutter组件：https://flutter.dev/docs/reference/widgets
 
+pdf打印：For the web, a javascript library and a small script has to be added to your web/index.html file, just before <script src="main.dart.js" type="application/javascript"></script>:
 - FadeInImage
 - InheritedModel
 - LayoutBuilder
@@ -80,7 +81,6 @@
 - ImageFiltered
 - PhysicalModel
 - animation
-- flutter_slidable
 - RotatedBox
 - connectivity
 

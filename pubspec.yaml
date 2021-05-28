@@ -81,6 +81,16 @@ dependencies:
   qr_flutter: ^4.0.0
   # 扫描二维码
   qr_code_scanner: ^0.4.0
+  # 列表的directional slide actions
+  flutter_slidable: ^0.6.0
+  # 启动外部链接/APP
+  url_launcher: ^6.0.4
+  # PDF
+  pdf: ^3.3.0
+  # PDF打印
+  printing: ^5.2.1
+  # call native APP to open files with string result in flutter,
+  open_file: ^3.2.1
 
   # 音频播放
   # audioplayers: ^0.18.3

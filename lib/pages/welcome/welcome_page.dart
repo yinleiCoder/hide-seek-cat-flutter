@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hide_seek_cat/common/values/values.dart';
+import 'package:flutter_hide_seek_cat/common/widgets/launch_url.dart';
 import 'package:flutter_hide_seek_cat/pages/sign_in/signin_page.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_screenutil/size_extension.dart';
@@ -239,13 +240,13 @@ class ButtonTransition extends AnimatedWidget {
   Widget build(BuildContext context) {
     // print(_width.value);
     return OutlineButton(
-      onPressed: () =>  Navigator.pushReplacementNamed(context, SignInPage.routeName),
+      onPressed: () =>  appLaunchUrl('https://rive.app/'),
       borderSide: BorderSide(
         width: _width.value * 5,
         color: AppColors.ylPrimaryColor,
       ),
       child: Text(
-        '躲猫猫',
+        'Rive for Flutter',
         style: TextStyle(
           color: Colors.white,
           fontSize: 22.ssp,
